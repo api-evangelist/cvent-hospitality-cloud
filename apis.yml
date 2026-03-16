@@ -4,8 +4,8 @@ description: 'Cvent Hospitality Cloud provides a comprehensive suite of APIs for
   '
 image: https://www.cvent.com/sites/default/files/cvent-logo.png
 url: https://www.cvent.com
-created: '2024'
-modified: '2024'
+created: '2024-01-01'
+modified: '2026-03-16'
 apis:
 - name: Cvent Supplier Network API
   description: 'API for managing venue profiles, RFPs (Request for Proposals), and connecting  with event planners through the Cvent Supplier Network.
@@ -125,9 +125,8 @@ common:
 - type: Privacy Policy
   url: https://www.cvent.com/en/privacy-policy
 maintainers:
-- FN: Cvent API Team
-  email: api-support@cvent.com
-  url: https://developers.cvent.com
+  - FN: Kin Lane
+    email: kin@apievangelist.com
 tags:
 - hospitality
 - events
