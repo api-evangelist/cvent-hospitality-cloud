@@ -1,136 +1,137 @@
 name: Cvent Hospitality Cloud
-description: 'Cvent Hospitality Cloud provides a comprehensive suite of APIs for hotel and  hospitality management, including event management, venue sourcing, attendee  management, and hospitality solutions.
-
-  '
+description: >-
+  Cvent Hospitality Cloud provides a comprehensive suite of APIs for hotel and hospitality
+  management, including event management, venue sourcing, attendee management, and
+  hospitality solutions.
 image: https://www.cvent.com/sites/default/files/cvent-logo.png
 url: https://www.cvent.com
 created: '2024-01-01'
 modified: '2026-03-16'
 apis:
-- name: Cvent Supplier Network API
-  description: 'API for managing venue profiles, RFPs (Request for Proposals), and connecting  with event planners through the Cvent Supplier Network.
-
-    '
-  image: https://www.cvent.com/sites/default/files/cvent-logo.png
-  humanURL: https://www.cvent.com/en/hospitality-cloud
-  baseURL: https://api.cvent.com/suppliers
-  tags:
-  - venues
-  - rfp
-  - proposals
-  - hotels
-  - supplier network
-  properties:
-  - type: Documentation
-    url: https://developers.cvent.com/documentation/supplier-network-api
-  - type: OpenAPI
-    url: https://api.cvent.com/suppliers/openapi.json
-  - type: Authentication
-    url: https://developers.cvent.com/authentication
-- name: Cvent Event Management API
-  description: 'API for creating and managing events, including registration, attendee management,  and event marketing capabilities.
-
-    '
-  image: https://www.cvent.com/sites/default/files/cvent-logo.png
-  humanURL: https://www.cvent.com/en/hospitality-cloud
-  baseURL: https://api.cvent.com/events
-  tags:
-  - events
-  - registration
-  - attendees
-  - event management
-  properties:
-  - type: Documentation
-    url: https://developers.cvent.com/documentation/event-management-api
-  - type: OpenAPI
-    url: https://api.cvent.com/events/openapi.json
-  - type: Authentication
-    url: https://developers.cvent.com/authentication
-- name: Cvent Passkey API
-  description: 'API for hotel room block management, allowing hotels to manage group bookings,  room allocations, and housing for events.
-
-    '
-  image: https://www.cvent.com/sites/default/files/cvent-logo.png
-  humanURL: https://www.cvent.com/en/hospitality-cloud/passkey
-  baseURL: https://api.cvent.com/passkey
-  tags:
-  - hotel
-  - room blocks
-  - housing
-  - reservations
-  - group bookings
-  properties:
-  - type: Documentation
-    url: https://developers.cvent.com/documentation/passkey-api
-  - type: OpenAPI
-    url: https://api.cvent.com/passkey/openapi.json
-  - type: Authentication
-    url: https://developers.cvent.com/authentication
-- name: Cvent Venue Sourcing API
-  description: 'API for venue search and sourcing capabilities, enabling integration with  venue databases and search functionality.
-
-    '
-  image: https://www.cvent.com/sites/default/files/cvent-logo.png
-  humanURL: https://www.cvent.com/en/hospitality-cloud
-  baseURL: https://api.cvent.com/sourcing
-  tags:
-  - venue sourcing
-  - search
-  - venues
-  - hotels
-  properties:
-  - type: Documentation
-    url: https://developers.cvent.com/documentation/sourcing-api
-  - type: OpenAPI
-    url: https://api.cvent.com/sourcing/openapi.json
-  - type: Authentication
-    url: https://developers.cvent.com/authentication
-- name: Cvent Sales & Catering API
-  description: 'API for managing sales and catering operations for venues, including booking  management, contracts, and catering arrangements.
-
-    '
-  image: https://www.cvent.com/sites/default/files/cvent-logo.png
-  humanURL: https://www.cvent.com/en/hospitality-cloud
-  baseURL: https://api.cvent.com/sales-catering
-  tags:
-  - sales
-  - catering
-  - bookings
-  - contracts
-  - venue management
-  properties:
-  - type: Documentation
-    url: https://developers.cvent.com/documentation/sales-catering-api
-  - type: OpenAPI
-    url: https://api.cvent.com/sales-catering/openapi.json
-  - type: Authentication
-    url: https://developers.cvent.com/authentication
+  - name: Cvent Supplier Network API
+    description: >-
+      API for managing venue profiles, RFPs (Request for Proposals), and connecting
+      with event planners through the Cvent Supplier Network.
+    image: https://www.cvent.com/sites/default/files/cvent-logo.png
+    humanURL: https://www.cvent.com/en/hospitality-cloud
+    baseURL: https://api.cvent.com/suppliers
+    tags:
+      - venues
+      - rfp
+      - proposals
+      - hotels
+      - supplier network
+    properties:
+      - type: Documentation
+        url: https://developers.cvent.com/documentation/supplier-network-api
+      - type: OpenAPI
+        url: https://api.cvent.com/suppliers/openapi.json
+      - type: Authentication
+        url: https://developers.cvent.com/authentication
+  - name: Cvent Event Management API
+    description: >-
+      API for creating and managing events, including registration, attendee management,
+      and event marketing capabilities.
+    image: https://www.cvent.com/sites/default/files/cvent-logo.png
+    humanURL: https://www.cvent.com/en/hospitality-cloud
+    baseURL: https://api.cvent.com/events
+    tags:
+      - events
+      - registration
+      - attendees
+      - event management
+    properties:
+      - type: Documentation
+        url: https://developers.cvent.com/documentation/event-management-api
+      - type: OpenAPI
+        url: https://api.cvent.com/events/openapi.json
+      - type: Authentication
+        url: https://developers.cvent.com/authentication
+  - name: Cvent Passkey API
+    description: >-
+      API for hotel room block management, allowing hotels to manage group bookings,
+      room allocations, and housing for events.
+    image: https://www.cvent.com/sites/default/files/cvent-logo.png
+    humanURL: https://www.cvent.com/en/hospitality-cloud/passkey
+    baseURL: https://api.cvent.com/passkey
+    tags:
+      - hotel
+      - room blocks
+      - housing
+      - reservations
+      - group bookings
+    properties:
+      - type: Documentation
+        url: https://developers.cvent.com/documentation/passkey-api
+      - type: OpenAPI
+        url: https://api.cvent.com/passkey/openapi.json
+      - type: Authentication
+        url: https://developers.cvent.com/authentication
+  - name: Cvent Venue Sourcing API
+    description: >-
+      API for venue search and sourcing capabilities, enabling integration with venue
+      databases and search functionality.
+    image: https://www.cvent.com/sites/default/files/cvent-logo.png
+    humanURL: https://www.cvent.com/en/hospitality-cloud
+    baseURL: https://api.cvent.com/sourcing
+    tags:
+      - venue sourcing
+      - search
+      - venues
+      - hotels
+    properties:
+      - type: Documentation
+        url: https://developers.cvent.com/documentation/sourcing-api
+      - type: OpenAPI
+        url: https://api.cvent.com/sourcing/openapi.json
+      - type: Authentication
+        url: https://developers.cvent.com/authentication
+  - name: Cvent Sales & Catering API
+    description: >-
+      API for managing sales and catering operations for venues, including booking
+      management, contracts, and catering arrangements.
+    image: https://www.cvent.com/sites/default/files/cvent-logo.png
+    humanURL: https://www.cvent.com/en/hospitality-cloud
+    baseURL: https://api.cvent.com/sales-catering
+    tags:
+      - sales
+      - catering
+      - bookings
+      - contracts
+      - venue management
+    properties:
+      - type: Documentation
+        url: https://developers.cvent.com/documentation/sales-catering-api
+      - type: OpenAPI
+        url: https://api.cvent.com/sales-catering/openapi.json
+      - type: Authentication
+        url: https://developers.cvent.com/authentication
 common:
-- type: Developer Portal
-  url: https://developers.cvent.com
-- type: Getting Started
-  url: https://developers.cvent.com/getting-started
-- type: Authentication
-  url: https://developers.cvent.com/authentication
-- type: OAuth 2.0
-  url: https://developers.cvent.com/oauth
-- type: Rate Limits
-  url: https://developers.cvent.com/rate-limits
-- type: Status Page
-  url: https://status.cvent.com
-- type: Support
-  url: https://www.cvent.com/en/support
-- type: Terms of Service
-  url: https://www.cvent.com/en/terms-of-service
-- type: Privacy Policy
-  url: https://www.cvent.com/en/privacy-policy
+  - type: Developer Portal
+    url: https://developers.cvent.com
+  - type: Getting Started
+    url: https://developers.cvent.com/getting-started
+  - type: Authentication
+    url: https://developers.cvent.com/authentication
+  - type: OAuth 2.0
+    url: https://developers.cvent.com/oauth
+  - type: Rate Limits
+    url: https://developers.cvent.com/rate-limits
+  - type: Status Page
+    url: https://status.cvent.com
+  - type: Support
+    url: https://www.cvent.com/en/support
+  - type: Terms of Service
+    url: https://www.cvent.com/en/terms-of-service
+  - type: Privacy Policy
+    url: https://www.cvent.com/en/privacy-policy
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
 tags:
-- hospitality
-- events
-- venues
-- hotels
-- event management
-- hospitality cloud
+  - hospitality
+  - events
+  - venues
+  - hotels
+  - event management
+  - hospitality cloud
