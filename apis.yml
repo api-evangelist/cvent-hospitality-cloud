@@ -16,11 +16,11 @@ apis:
     humanURL: https://www.cvent.com/en/hospitality-cloud
     baseURL: https://api.cvent.com/suppliers
     tags:
-      - venues
-      - rfp
-      - proposals
-      - hotels
-      - supplier network
+      - Hotels
+      - Proposals
+      - Rfp
+      - Supplier Network
+      - Venues
     properties:
       - type: Documentation
         url: https://developers.cvent.com/documentation/supplier-network-api
@@ -36,10 +36,10 @@ apis:
     humanURL: https://www.cvent.com/en/hospitality-cloud
     baseURL: https://api.cvent.com/events
     tags:
-      - events
-      - registration
-      - attendees
-      - event management
+      - Attendees
+      - Event Management
+      - Events
+      - Registration
     properties:
       - type: Documentation
         url: https://developers.cvent.com/documentation/event-management-api
@@ -55,11 +55,11 @@ apis:
     humanURL: https://www.cvent.com/en/hospitality-cloud/passkey
     baseURL: https://api.cvent.com/passkey
     tags:
-      - hotel
-      - room blocks
-      - housing
-      - reservations
-      - group bookings
+      - Group Bookings
+      - Hotel
+      - Housing
+      - Reservations
+      - Room Blocks
     properties:
       - type: Documentation
         url: https://developers.cvent.com/documentation/passkey-api
@@ -75,10 +75,10 @@ apis:
     humanURL: https://www.cvent.com/en/hospitality-cloud
     baseURL: https://api.cvent.com/sourcing
     tags:
-      - venue sourcing
-      - search
-      - venues
-      - hotels
+      - Hotels
+      - Search
+      - Venue Sourcing
+      - Venues
     properties:
       - type: Documentation
         url: https://developers.cvent.com/documentation/sourcing-api
@@ -94,11 +94,11 @@ apis:
     humanURL: https://www.cvent.com/en/hospitality-cloud
     baseURL: https://api.cvent.com/sales-catering
     tags:
-      - sales
-      - catering
-      - bookings
-      - contracts
-      - venue management
+      - Bookings
+      - Catering
+      - Contracts
+      - Sales
+      - Venue Management
     properties:
       - type: Documentation
         url: https://developers.cvent.com/documentation/sales-catering-api
@@ -129,9 +129,9 @@ maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
 tags:
-  - hospitality
-  - events
-  - venues
-  - hotels
-  - event management
-  - hospitality cloud
+  - Event Management
+  - Events
+  - Hospitality
+  - Hospitality Cloud
+  - Hotels
+  - Venues
