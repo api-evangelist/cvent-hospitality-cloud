@@ -1,6 +1,6 @@
 aid: cvent-hospitality-cloud
 name: Cvent Hospitality Cloud
-x-type: company
+kind: company
 description: >-
   Cvent Hospitality Cloud is the hotel and venue product line of the
   Cvent Platform. It includes the Cvent Supplier Network (the marketplace
@@ -100,7 +100,7 @@ common:
     url: https://developers.cvent.com/
   - type: Support
     url: https://support.cvent.com/
-  - type: Status
+  - type: StatusPage
     url: https://status.cvent.com/
   - type: TermsOfService
     url: https://www.cvent.com/en/terms-of-service
