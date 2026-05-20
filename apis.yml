@@ -90,6 +90,8 @@ apis:
       - type: OAuthTokenEndpoint
         url: https://api-platform.cvent.com/ea/oauth2/token
 common:
+  - type: GitHubOrganization
+    url: https://github.com/cvent
   - type: Website
     url: https://www.cvent.com/en/hospitality-cloud
   - type: SupplierNetwork
