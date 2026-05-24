@@ -108,6 +108,8 @@ common:
     url: https://www.cvent.com/en/terms-of-service
   - type: PrivacyPolicy
     url: https://www.cvent.com/en/privacy-policy
+  - type: LLMsTxt
+    url: https://www.cvent.com/llms.txt
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
