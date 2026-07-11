@@ -1,0 +1,22 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/cvent-hospitality-cloud-openapi.yml
+schemes:
+- name: OAuth2ClientCredentials
+  source: openapi/cvent-hospitality-cloud-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-platform.cvent.com/reglink/v1/authentication/token
+scopes:
+- scope: passkey:read
+  description: Read Passkey events, hotels, room types, reservations
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/cvent-hospitality-cloud-openapi.yml
+- scope: passkey:write
+  description: Create and modify reservation requests
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/cvent-hospitality-cloud-openapi.yml

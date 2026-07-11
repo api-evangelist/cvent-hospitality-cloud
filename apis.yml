@@ -90,6 +90,8 @@ apis:
       - type: OAuthTokenEndpoint
         url: https://api-platform.cvent.com/ea/oauth2/token
 common:
+  - type: OAuthScopes
+    url: scopes/cvent-hospitality-cloud-scopes.yml
   - type: GitHubOrganization
     url: https://github.com/cvent
   - type: Website
@@ -110,6 +112,8 @@ common:
     url: https://www.cvent.com/en/privacy-policy
   - type: LlmsText
     url: https://www.cvent.com/llms.txt
+  - url: https://www.cvent.com/en/blog/feed.xml
+    type: Blog
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
