@@ -1,0 +1,23 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/cvent-hospitality-cloud-openapi.yml
+summary:
+  types:
+  - http
+  - oauth2
+  oauth2_flows:
+  - clientCredentials
+schemes:
+- name: OAuth2ClientCredentials
+  type: oauth2
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-platform.cvent.com/reglink/v1/authentication/token
+    scopes: 2
+  sources:
+  - openapi/cvent-hospitality-cloud-openapi.yml
+- name: BasicAuth
+  type: http
+  scheme: basic
+  sources:
+  - openapi/cvent-hospitality-cloud-openapi.yml

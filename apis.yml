@@ -90,6 +90,12 @@ apis:
       - type: OAuthTokenEndpoint
         url: https://api-platform.cvent.com/ea/oauth2/token
 common:
+  - type: TrustCenter
+    url: security/cvent-hospitality-cloud-trust-center.yml
+  - type: DomainSecurity
+    url: security/cvent-hospitality-cloud-domain-security.yml
+  - type: Authentication
+    url: authentication/cvent-hospitality-cloud-authentication.yml
   - type: OAuthScopes
     url: scopes/cvent-hospitality-cloud-scopes.yml
   - type: GitHubOrganization
