@@ -90,6 +90,8 @@ apis:
       - type: OAuthTokenEndpoint
         url: https://api-platform.cvent.com/ea/oauth2/token
 common:
+  - type: AgenticAccess
+    url: agentic-access/cvent-hospitality-cloud-agentic-access.yml
   - type: TrustCenter
     url: security/cvent-hospitality-cloud-trust-center.yml
   - type: DomainSecurity
