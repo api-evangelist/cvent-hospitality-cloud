@@ -1,0 +1,85 @@
+openapi: 3.1.0
+info:
+  title: Cvent Passkey RegLink REST Authentication Connections API
+  version: v1
+  description: 'Cvent Hospitality Cloud / Passkey RegLink REST API. Connects external
+
+    systems to Passkey events and hotel reservation data so that
+
+    registration platforms can pass attendee information to Passkey,
+
+    look up event and hotel availability, and create, modify, or cancel
+
+    individual reservation requests.
+
+
+    Best-effort spec derived from the Cvent developer portal
+
+    (https://developers.cvent.com/docs/passkey/REST/overview and
+
+    /docs/passkey/REST/getting-started). Refer to the developer portal
+
+    for the authoritative reference.
+
+    '
+  contact:
+    name: Cvent Developer Portal
+    url: https://developers.cvent.com/docs/passkey/REST/overview
+  license:
+    name: Proprietary
+servers:
+- url: https://api-platform.cvent.com/reglink/v1
+  description: Cvent Passkey RegLink (US/global)
+- url: https://api-platform-eur.cvent.com/reglink/v1
+  description: Cvent Passkey RegLink (EMEA)
+security:
+- OAuth2ClientCredentials: []
+tags:
+- name: Connections
+paths:
+  /connections:
+    post:
+      tags:
+      - Connections
+      summary: Create a RegLink connection between Cvent Registration and Passkey
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Connection'
+      responses:
+        '201':
+          description: Connection created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Connection'
+components:
+  schemas:
+    Connection:
+      type: object
+      properties:
+        id:
+          type: string
+        passkeyEventId:
+          type: string
+        cventEventId:
+          type: string
+        status:
+          type: string
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-platform.cvent.com/reglink/v1/authentication/token
+          scopes:
+            passkey:read: Read Passkey events, hotels, room types, reservations
+            passkey:write: Create and modify reservation requests
+    BasicAuth:
+      type: http
+      scheme: basic
+externalDocs:
+  description: Cvent Passkey RegLink documentation
+  url: https://developers.cvent.com/docs/passkey/REST/overview

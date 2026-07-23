@@ -1,0 +1,125 @@
+openapi: 3.1.0
+info:
+  title: Cvent Passkey RegLink REST Authentication Events API
+  version: v1
+  description: 'Cvent Hospitality Cloud / Passkey RegLink REST API. Connects external
+
+    systems to Passkey events and hotel reservation data so that
+
+    registration platforms can pass attendee information to Passkey,
+
+    look up event and hotel availability, and create, modify, or cancel
+
+    individual reservation requests.
+
+
+    Best-effort spec derived from the Cvent developer portal
+
+    (https://developers.cvent.com/docs/passkey/REST/overview and
+
+    /docs/passkey/REST/getting-started). Refer to the developer portal
+
+    for the authoritative reference.
+
+    '
+  contact:
+    name: Cvent Developer Portal
+    url: https://developers.cvent.com/docs/passkey/REST/overview
+  license:
+    name: Proprietary
+servers:
+- url: https://api-platform.cvent.com/reglink/v1
+  description: Cvent Passkey RegLink (US/global)
+- url: https://api-platform-eur.cvent.com/reglink/v1
+  description: Cvent Passkey RegLink (EMEA)
+security:
+- OAuth2ClientCredentials: []
+tags:
+- name: Events
+paths:
+  /events:
+    get:
+      tags:
+      - Events
+      summary: List Passkey events
+      parameters:
+      - $ref: '#/components/parameters/Limit'
+      - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: Events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PassEvent'
+  /events/{eventId}:
+    parameters:
+    - in: path
+      name: eventId
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Events
+      summary: Get Passkey event detail
+      responses:
+        '200':
+          description: Event detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PassEvent'
+components:
+  parameters:
+    Limit:
+      in: query
+      name: limit
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 200
+        default: 50
+    Offset:
+      in: query
+      name: offset
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+  schemas:
+    PassEvent:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        cutoffDate:
+          type: string
+          format: date
+        status:
+          type: string
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-platform.cvent.com/reglink/v1/authentication/token
+          scopes:
+            passkey:read: Read Passkey events, hotels, room types, reservations
+            passkey:write: Create and modify reservation requests
+    BasicAuth:
+      type: http
+      scheme: basic
+externalDocs:
+  description: Cvent Passkey RegLink documentation
+  url: https://developers.cvent.com/docs/passkey/REST/overview
