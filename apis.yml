@@ -14,7 +14,20 @@ description: >-
   api-platform.cvent.com/ea/oauth2/token.
 url: >-
   https://raw.githubusercontent.com/api-evangelist/cvent-hospitality-cloud/refs/heads/main/apis.yml
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cvent-hospitality-cloud.png
 type: Index
 access: 3rd-Party
 position: Consuming
@@ -38,57 +51,113 @@ tags:
   - Supplier Network
   - Venues
 apis:
-  - aid: cvent-hospitality-cloud:passkey-reglink
-    name: Cvent Passkey RegLink API
-    description: >-
-      Passkey RegLink APIs are RESTful JSON APIs (with legacy URL-based
-      and SOAP options) that connect Cvent registration with Passkey
-      hotel reservations. Primary functions include sending registrant
-      information to Passkey to streamline hotel reservations, fetching
-      Passkey event and hotel availability, retrieving reservation
-      information, and creating, updating, and cancelling registrant
-      reservations.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://developers.cvent.com/docs/passkey/REST/overview
-    baseURL: https://api-platform.cvent.com
-    tags:
-      - Group Bookings
-      - Hotel
-      - Passkey
-      - Reservations
-      - Room Blocks
-    properties:
-      - type: Documentation
-        url: https://developers.cvent.com/docs/passkey/REST/overview
-      - type: GettingStarted
-        url: https://developers.cvent.com/docs/passkey/REST/getting-started
-      - type: PasskeyDocs
-        url: https://developers.cvent.com/doc/passkey/
-      - type: Product
-        url: https://www.cvent.com/en/hospitality-cloud/passkey
-  - aid: cvent-hospitality-cloud:rest-api
-    name: Cvent Platform REST API (Hospitality)
-    description: >-
-      The unified Cvent Platform REST API also covers hospitality
-      use cases including event-driven integrations, contact and
-      attendee data exchange, and webhook-based notifications that
-      can be wired into hotel and venue workflows. OAuth 2.0 client
-      credentials.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://developers.cvent.com/docs/rest-api/overview
-    baseURL: https://api-platform.cvent.com
-    tags:
-      - Events
-      - OAuth 2.0
-      - REST
-      - Webhooks
-    properties:
-      - type: Documentation
-        url: https://developers.cvent.com/docs/rest-api/overview
-      - type: Concepts
-        url: https://developers.cvent.com/docs/rest-api
-      - type: OAuthTokenEndpoint
-        url: https://api-platform.cvent.com/ea/oauth2/token
+- aid: cvent-hospitality-cloud:passkey-reglink
+  name: Cvent Passkey RegLink API
+  description: >-
+    Passkey RegLink APIs are RESTful JSON APIs (with legacy URL-based and SOAP options) that connect Cvent
+    registration with Passkey hotel reservations. Primary functions include sending registrant information
+    to Passkey to streamline hotel reservations, fetching Passkey event and hotel availability, retrieving
+    reservation information, and creating, updating, and cancelling registrant reservations.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.cvent.com/docs/passkey/REST/overview
+  baseURL: https://api-platform.cvent.com
+  tags:
+  - Group Bookings
+  - Hotel
+  - Passkey
+  - Reservations
+  - Room Blocks
+  properties:
+  - type: Documentation
+    url: https://developers.cvent.com/docs/passkey/REST/overview
+  - type: GettingStarted
+    url: https://developers.cvent.com/docs/passkey/REST/getting-started
+  - type: PasskeyDocs
+    url: https://developers.cvent.com/doc/passkey/
+  - type: Product
+    url: https://www.cvent.com/en/hospitality-cloud/passkey
+- aid: cvent-hospitality-cloud:rest-api
+  name: Cvent Platform REST API (Hospitality)
+  description: >-
+    The unified Cvent Platform REST API also covers hospitality use cases including event-driven integrations,
+    contact and attendee data exchange, and webhook-based notifications that can be wired into hotel and
+    venue workflows. OAuth 2.0 client credentials.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.cvent.com/docs/rest-api/overview
+  baseURL: https://api-platform.cvent.com
+  tags:
+  - Events
+  - OAuth 2.0
+  - REST
+  - Webhooks
+  properties:
+  - type: Documentation
+    url: https://developers.cvent.com/docs/rest-api/overview
+  - type: Concepts
+    url: https://developers.cvent.com/docs/rest-api
+  - type: OAuthTokenEndpoint
+    url: https://api-platform.cvent.com/ea/oauth2/token
+- aid: cvent-hospitality-cloud:cvent-hospitality-cloud-authentication-api
+  name: Cvent Hospitality Cloud Authentication API
+  description: The Authentication API from Cvent Hospitality Cloud — 1 operation(s) for authentication.
+  humanURL: https://developers.cvent.com/docs/passkey/REST/overview
+  baseURL: https://api-platform.cvent.com
+  tags:
+  - Authentication
+  properties:
+  - type: OpenAPI
+    url: openapi/cvent-hospitality-cloud-authentication-api-openapi.yml
+- aid: cvent-hospitality-cloud:cvent-hospitality-cloud-connections-api
+  name: Cvent Hospitality Cloud Connections API
+  description: The Connections API from Cvent Hospitality Cloud — 1 operation(s) for connections.
+  humanURL: https://developers.cvent.com/docs/passkey/REST/overview
+  baseURL: https://api-platform.cvent.com
+  tags:
+  - Connections
+  properties:
+  - type: OpenAPI
+    url: openapi/cvent-hospitality-cloud-connections-api-openapi.yml
+- aid: cvent-hospitality-cloud:cvent-hospitality-cloud-events-api
+  name: Cvent Hospitality Cloud Events API
+  description: The Events API from Cvent Hospitality Cloud — 2 operation(s) for events.
+  humanURL: https://developers.cvent.com/docs/passkey/REST/overview
+  baseURL: https://api-platform.cvent.com
+  tags:
+  - Events
+  properties:
+  - type: OpenAPI
+    url: openapi/cvent-hospitality-cloud-events-api-openapi.yml
+- aid: cvent-hospitality-cloud:cvent-hospitality-cloud-hotels-api
+  name: Cvent Hospitality Cloud Hotels API
+  description: The Hotels API from Cvent Hospitality Cloud — 1 operation(s) for hotels.
+  humanURL: https://developers.cvent.com/docs/passkey/REST/overview
+  baseURL: https://api-platform.cvent.com
+  tags:
+  - Hotels
+  properties:
+  - type: OpenAPI
+    url: openapi/cvent-hospitality-cloud-hotels-api-openapi.yml
+- aid: cvent-hospitality-cloud:cvent-hospitality-cloud-reservationrequests-api
+  name: Cvent Hospitality Cloud ReservationRequests API
+  description: >-
+    The ReservationRequests API from Cvent Hospitality Cloud — 2 operation(s) for reservationrequests.
+  humanURL: https://developers.cvent.com/docs/passkey/REST/overview
+  baseURL: https://api-platform.cvent.com
+  tags:
+  - ReservationRequests
+  properties:
+  - type: OpenAPI
+    url: openapi/cvent-hospitality-cloud-reservationrequests-api-openapi.yml
+- aid: cvent-hospitality-cloud:cvent-hospitality-cloud-roomtypes-api
+  name: Cvent Hospitality Cloud RoomTypes API
+  description: The RoomTypes API from Cvent Hospitality Cloud — 1 operation(s) for roomtypes.
+  humanURL: https://developers.cvent.com/docs/passkey/REST/overview
+  baseURL: https://api-platform.cvent.com
+  tags:
+  - RoomTypes
+  properties:
+  - type: OpenAPI
+    url: openapi/cvent-hospitality-cloud-roomtypes-api-openapi.yml
 common:
   - type: AgenticAccess
     url: agentic-access/cvent-hospitality-cloud-agentic-access.yml
