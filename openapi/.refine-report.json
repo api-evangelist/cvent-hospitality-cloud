@@ -1,0 +1,24 @@
+{
+  "provider": "cvent-hospitality-cloud",
+  "sources": [
+    "cvent-hospitality-cloud-authentication-api-openapi.yml",
+    "cvent-hospitality-cloud-connections-api-openapi.yml",
+    "cvent-hospitality-cloud-events-api-openapi.yml",
+    "cvent-hospitality-cloud-hotels-api-openapi.yml",
+    "cvent-hospitality-cloud-reservationrequests-api-openapi.yml",
+    "cvent-hospitality-cloud-roomtypes-api-openapi.yml"
+  ],
+  "outputs": [
+    "cvent-hospitality-cloud-authentication-api-openapi.yml",
+    "cvent-hospitality-cloud-connections-api-openapi.yml",
+    "cvent-hospitality-cloud-events-api-openapi.yml",
+    "cvent-hospitality-cloud-hotels-api-openapi.yml",
+    "cvent-hospitality-cloud-reservationrequests-api-openapi.yml",
+    "cvent-hospitality-cloud-roomtypes-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
