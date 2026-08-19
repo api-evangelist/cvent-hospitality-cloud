@@ -1,0 +1,435 @@
+{
+  "item": [
+    {
+      "id": "43f2c4c9-c806-4507-80e7-51a158d44858",
+      "name": "ReservationRequests",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f630f0b9-946a-4673-9853-9067ed84688a",
+          "name": "Create a reservation request",
+          "request": {
+            "name": "Create a reservation request",
+            "description": {},
+            "url": {
+              "path": [
+                "reservationRequests"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"passkeyEventId\": \"<string>\",\n  \"hotelId\": \"<string>\",\n  \"roomTypeId\": \"<string>\",\n  \"checkInDate\": \"<date>\",\n  \"checkOutDate\": \"<date>\",\n  \"guest\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"email\": \"<email>\",\n    \"phone\": \"<string>\"\n  },\n  \"status\": \"<string>\",\n  \"confirmationNumber\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d535ad82-5234-4607-a9a9-09c26e443d22",
+              "name": "Reservation request created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "reservationRequests"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"passkeyEventId\": \"<string>\",\n  \"hotelId\": \"<string>\",\n  \"roomTypeId\": \"<string>\",\n  \"checkInDate\": \"<date>\",\n  \"checkOutDate\": \"<date>\",\n  \"guest\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"email\": \"<email>\",\n    \"phone\": \"<string>\"\n  },\n  \"status\": \"<string>\",\n  \"confirmationNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"passkeyEventId\": \"string\",\n  \"hotelId\": \"string\",\n  \"roomTypeId\": \"string\",\n  \"checkInDate\": \"2001-06-03\",\n  \"checkOutDate\": \"2015-01-16\",\n  \"guest\": {\n    \"firstName\": \"string\",\n    \"lastName\": \"string\",\n    \"email\": \"M6vwGA1yNzMn4o@oYDNkWZLVMLqmXWrMnZz.ap\",\n    \"phone\": \"string\"\n  },\n  \"status\": \"CONFIRMED\",\n  \"confirmationNumber\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f2e69960-8e38-459e-8a30-7b6b84a15743",
+          "name": "Retrieve a reservation request",
+          "request": {
+            "name": "Retrieve a reservation request",
+            "description": {},
+            "url": {
+              "path": [
+                "reservationRequests",
+                ":reservationRequestId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "reservationRequestId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1ef1e98c-70e3-47ab-b9e4-5f0e51f8b296",
+              "name": "Reservation request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "reservationRequests",
+                    ":reservationRequestId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "reservationRequestId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"passkeyEventId\": \"string\",\n  \"hotelId\": \"string\",\n  \"roomTypeId\": \"string\",\n  \"checkInDate\": \"2001-06-03\",\n  \"checkOutDate\": \"2015-01-16\",\n  \"guest\": {\n    \"firstName\": \"string\",\n    \"lastName\": \"string\",\n    \"email\": \"M6vwGA1yNzMn4o@oYDNkWZLVMLqmXWrMnZz.ap\",\n    \"phone\": \"string\"\n  },\n  \"status\": \"CONFIRMED\",\n  \"confirmationNumber\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "07674137-857a-4a2b-937f-0bc574c42488",
+          "name": "Modify a reservation request",
+          "request": {
+            "name": "Modify a reservation request",
+            "description": {},
+            "url": {
+              "path": [
+                "reservationRequests",
+                ":reservationRequestId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "reservationRequestId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"passkeyEventId\": \"<string>\",\n  \"hotelId\": \"<string>\",\n  \"roomTypeId\": \"<string>\",\n  \"checkInDate\": \"<date>\",\n  \"checkOutDate\": \"<date>\",\n  \"guest\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"email\": \"<email>\",\n    \"phone\": \"<string>\"\n  },\n  \"status\": \"<string>\",\n  \"confirmationNumber\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9530694b-2a8c-4c75-bd7a-9503d9cfe747",
+              "name": "Modified reservation request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "reservationRequests",
+                    ":reservationRequestId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "reservationRequestId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"passkeyEventId\": \"<string>\",\n  \"hotelId\": \"<string>\",\n  \"roomTypeId\": \"<string>\",\n  \"checkInDate\": \"<date>\",\n  \"checkOutDate\": \"<date>\",\n  \"guest\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"email\": \"<email>\",\n    \"phone\": \"<string>\"\n  },\n  \"status\": \"<string>\",\n  \"confirmationNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"passkeyEventId\": \"string\",\n  \"hotelId\": \"string\",\n  \"roomTypeId\": \"string\",\n  \"checkInDate\": \"2001-06-03\",\n  \"checkOutDate\": \"2015-01-16\",\n  \"guest\": {\n    \"firstName\": \"string\",\n    \"lastName\": \"string\",\n    \"email\": \"M6vwGA1yNzMn4o@oYDNkWZLVMLqmXWrMnZz.ap\",\n    \"phone\": \"string\"\n  },\n  \"status\": \"CONFIRMED\",\n  \"confirmationNumber\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "08769c19-a18e-4204-91da-66e316bdbd0a",
+          "name": "Cancel a reservation request",
+          "request": {
+            "name": "Cancel a reservation request",
+            "description": {},
+            "url": {
+              "path": [
+                "reservationRequests",
+                ":reservationRequestId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "reservationRequestId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5682353c-692f-469f-aba6-61a150fcdeda",
+              "name": "Reservation request cancelled",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "reservationRequests",
+                    ":reservationRequestId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "reservationRequestId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-platform.cvent.com/reglink/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "passkey:read passkey:write"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://api-platform.cvent.com/reglink/v1/authentication/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "74ec6be4-1755-4192-89af-192c839c6c4a",
+    "name": "Cvent Passkey RegLink REST Authentication ReservationRequests API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Cvent Hospitality Cloud / Passkey RegLink REST API. Connects external\nsystems to Passkey events and hotel reservation data so that\nregistration platforms can pass attendee information to Passkey,\nlook up event and hotel availability, and create, modify, or cancel\nindividual reservation requests.\n\nBest-effort spec derived from the Cvent developer portal\n(https://developers.cvent.com/docs/passkey/REST/overview and\n/docs/passkey/REST/getting-started). Refer to the developer portal\nfor the authoritative reference.\n\n\nContact Support:\n Name: Cvent Developer Portal",
+      "type": "text/plain"
+    }
+  }
+}

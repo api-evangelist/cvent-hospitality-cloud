@@ -1,0 +1,144 @@
+{
+  "item": [
+    {
+      "id": "eb08068c-c402-4dd6-8f9f-02572879fcd2",
+      "name": "RoomTypes",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ac138a0b-4ac5-4088-8208-18a13c129c6f",
+          "name": "List room types for a hotel",
+          "request": {
+            "name": "List room types for a hotel",
+            "description": {},
+            "url": {
+              "path": [
+                "hotels",
+                ":hotelId",
+                "roomTypes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "hotelId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c0a7ba8a-d4dd-4373-a545-a0d20241fc47",
+              "name": "Room types",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hotels",
+                    ":hotelId",
+                    "roomTypes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "hotelId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"description\": \"string\",\n    \"bedType\": \"string\",\n    \"maxOccupancy\": 6208,\n    \"rate\": {\n      \"amount\": 5963.020493515204,\n      \"currency\": \"string\"\n    }\n  },\n  {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"description\": \"string\",\n    \"bedType\": \"string\",\n    \"maxOccupancy\": 5685,\n    \"rate\": {\n      \"amount\": 3481.02327620893,\n      \"currency\": \"string\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-platform.cvent.com/reglink/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "passkey:read passkey:write"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://api-platform.cvent.com/reglink/v1/authentication/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "61e1c2dd-985e-4499-a506-717f3cd2ee75",
+    "name": "Cvent Passkey RegLink REST Authentication RoomTypes API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Cvent Hospitality Cloud / Passkey RegLink REST API. Connects external\nsystems to Passkey events and hotel reservation data so that\nregistration platforms can pass attendee information to Passkey,\nlook up event and hotel availability, and create, modify, or cancel\nindividual reservation requests.\n\nBest-effort spec derived from the Cvent developer portal\n(https://developers.cvent.com/docs/passkey/REST/overview and\n/docs/passkey/REST/getting-started). Refer to the developer portal\nfor the authoritative reference.\n\n\nContact Support:\n Name: Cvent Developer Portal",
+      "type": "text/plain"
+    }
+  }
+}

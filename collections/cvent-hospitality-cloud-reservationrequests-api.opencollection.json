@@ -1,0 +1,102 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cvent Passkey RegLink REST Authentication ReservationRequests API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api-platform.cvent.com/reglink/v1/authentication/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ReservationRequests",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a reservation request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-platform.cvent.com/reglink/v1/reservationRequests",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a reservation request"
+        },
+        {
+          "info": {
+            "name": "Retrieve a reservation request",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-platform.cvent.com/reglink/v1/reservationRequests/:reservationRequestId",
+            "params": [
+              {
+                "name": "reservationRequestId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a reservation request"
+        },
+        {
+          "info": {
+            "name": "Modify a reservation request",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-platform.cvent.com/reglink/v1/reservationRequests/:reservationRequestId",
+            "params": [
+              {
+                "name": "reservationRequestId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Modify a reservation request"
+        },
+        {
+          "info": {
+            "name": "Cancel a reservation request",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-platform.cvent.com/reglink/v1/reservationRequests/:reservationRequestId",
+            "params": [
+              {
+                "name": "reservationRequestId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Cancel a reservation request"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
