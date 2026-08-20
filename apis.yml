@@ -41,6 +41,22 @@ tags:
   - Hospitality Cloud
   - Hotels
   - Housing
+  - Authentication
+  - Passkey
+  - Reservations
+  - RFP
+  - Room Blocks
+  - Sales
+  - Sourcing
+  - Supplier Network
+  - Venues
+tags_raw:
+  - Catering
+  - Group Bookings
+  - Hospitality
+  - Hospitality Cloud
+  - Hotels
+  - Housing
   - OAuth 2.0
   - Passkey
   - Reservations
@@ -86,6 +102,11 @@ apis:
   humanURL: https://developers.cvent.com/docs/rest-api/overview
   baseURL: https://api-platform.cvent.com
   tags:
+  - Event
+  - Authentication
+  - REST
+  - Webhook
+  tags_raw:
   - Events
   - OAuth 2.0
   - REST
@@ -123,6 +144,8 @@ apis:
   humanURL: https://developers.cvent.com/docs/passkey/REST/overview
   baseURL: https://api-platform.cvent.com
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
@@ -154,6 +177,8 @@ apis:
   humanURL: https://developers.cvent.com/docs/passkey/REST/overview
   baseURL: https://api-platform.cvent.com
   tags:
+  - Room Types
+  tags_raw:
   - RoomTypes
   properties:
   - type: OpenAPI
