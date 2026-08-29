@@ -196,6 +196,9 @@ apis:
   - type: OpenAPI
     url: openapi/cvent-hospitality-cloud-roomtypes-api-openapi.yml
 common:
+  - type: CapabilityMap
+    url: capabilities/cvent-hospitality-cloud-capability-edges.yml
+    name: Cvent Hospitality Cloud Business Capability Map
   - type: AgenticAccess
     url: agentic-access/cvent-hospitality-cloud-agentic-access.yml
   - type: TrustCenter

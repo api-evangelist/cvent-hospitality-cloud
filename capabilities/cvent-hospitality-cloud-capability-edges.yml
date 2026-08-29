@@ -1,0 +1,25 @@
+slug: cvent-hospitality-cloud
+provider: Cvent Hospitality Cloud
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Travel & Hospitality
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: ReservationRequests
+  spec_file: cvent-hospitality-cloud-reservationrequests-api-openapi.yml
+  capability_id: BC-4020
+  capability_id_l1: BC-4020
+  capability_name: Reservation & Booking Management
+  confidence: 0.85
+  evidence: POST /reservationRequests "Create a reservation request"; PUT "Modify a reservation request";
+    DELETE "Cancel a reservation request"
+  reason: Full create/modify/cancel lifecycle over individual hotel reservation requests; spans both capture
+    and modification so the L1 reservation capability is the honest level.
