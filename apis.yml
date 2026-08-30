@@ -189,7 +189,7 @@ apis:
   humanURL: https://developers.cvent.com/docs/passkey/REST/overview
   baseURL: https://api-platform.cvent.com
   tags:
-  - Room Types
+  - RoomTypes
   tags_raw:
   - RoomTypes
   properties:
