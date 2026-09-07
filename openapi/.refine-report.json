@@ -19,6 +19,14 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
+  "notes": [
+    "cvent-hospitality-cloud-authentication-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "cvent-hospitality-cloud-connections-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "cvent-hospitality-cloud-events-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "cvent-hospitality-cloud-hotels-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "cvent-hospitality-cloud-reservationrequests-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "cvent-hospitality-cloud-roomtypes-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
   "skipped": []
 }
