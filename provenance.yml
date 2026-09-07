@@ -6,61 +6,31 @@ artifacts:
   agentic-access/cvent-hospitality-cloud-agentic-access.yml:
     method: generated
     evidence: declared in the artifact
+  asyncapi/cvent-hospitality-cloud-webhooks.yml:
+    method: searched
+    evidence: declared in the artifact
   authentication/cvent-hospitality-cloud-authentication.yml:
+    method: searched
+    evidence: declared in the artifact
+  changelog/cvent-hospitality-cloud-changelog.yml:
+    method: searched
+    evidence: declared in the artifact
+  conformance/cvent-hospitality-cloud-conformance.yml:
+    method: searched
+    evidence: declared in the artifact
+  conventions/cvent-hospitality-cloud-conventions.yml:
+    method: searched
+    evidence: declared in the artifact
+  data-model/cvent-hospitality-cloud-data-model.yml:
     method: derived
     evidence: declared in the artifact
-  capabilities/cvent-hospitality-cloud-capability-edges.yml:
-    method: unknown
-    evidence: no authorship recorded
-  collections/cvent-hospitality-cloud-authentication-api.opencollection.json:
+  errors/cvent-hospitality-cloud-problem-types.yml:
     method: derived
-    evidence: openapi/cvent-hospitality-cloud-authentication-api
-  collections/cvent-hospitality-cloud-authentication-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cvent-hospitality-cloud-authentication-api
-  collections/cvent-hospitality-cloud-connections-api.opencollection.json:
-    method: derived
-    evidence: openapi/cvent-hospitality-cloud-connections-api
-  collections/cvent-hospitality-cloud-connections-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cvent-hospitality-cloud-connections-api
-  collections/cvent-hospitality-cloud-events-api.opencollection.json:
-    method: derived
-    evidence: openapi/cvent-hospitality-cloud-events-api
-  collections/cvent-hospitality-cloud-events-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cvent-hospitality-cloud-events-api
-  collections/cvent-hospitality-cloud-hotels-api.opencollection.json:
-    method: derived
-    evidence: openapi/cvent-hospitality-cloud-hotels-api
-  collections/cvent-hospitality-cloud-hotels-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cvent-hospitality-cloud-hotels-api
-  collections/cvent-hospitality-cloud-reservationrequests-api.opencollection.json:
-    method: derived
-    evidence: openapi/cvent-hospitality-cloud-reservationrequests-api
-  collections/cvent-hospitality-cloud-reservationrequests-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cvent-hospitality-cloud-reservationrequests-api
-  collections/cvent-hospitality-cloud-roomtypes-api.opencollection.json:
-    method: derived
-    evidence: openapi/cvent-hospitality-cloud-roomtypes-api
-  collections/cvent-hospitality-cloud-roomtypes-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cvent-hospitality-cloud-roomtypes-api
-  collections/cvent-hospitality-cloud.opencollection.json:
-    method: derived
-    evidence: openapi/cvent-hospitality-cloud
-  collections/cvent-hospitality-cloud.postman_collection.json:
-    method: derived
-    evidence: openapi/cvent-hospitality-cloud
+    evidence: declared in the artifact
   finops/cvent-hospitality-cloud-finops.yml:
     method: generated
     evidence: declared in the artifact
-  kin/checks-2026-09-05T072335.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-06T210741.yml:
+  kin/checks-2026-09-06T224210.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-08-07T135032.yml:
@@ -192,42 +162,189 @@ artifacts:
   kin/score-2026-09-05T072335.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T144739.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T195450.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T211839.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-06T011047.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-06T211804.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-06T224210.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  lifecycle/cvent-hospitality-cloud-lifecycle.yml:
+    method: searched
+    evidence: declared in the artifact
   llms/cvent-hospitality-cloud-llms.txt:
     method: searched
     evidence: 'derive-llms-provenance.py: harvested'
-  openapi/_original/cvent-hospitality-cloud-openapi.yml:
+  mcp/cvent-hospitality-cloud-mcp.yml:
+    method: unknown
+    evidence: no authorship recorded
+  mcp/cvent-hospitality-cloud-tool-crosswalk.yml:
+    method: derived
+    evidence: declared in the artifact
+  openapi/_original/cvent-hospitality-cloud-rest-apis-openapi.json:
     method: harvested
     evidence: fetched from the provider as-is; byte-identical to the source
-  openapi/cvent-hospitality-cloud-authentication-api-openapi.yml:
+  openapi/cvent-hospitality-cloud-authentication-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/cvent-hospitality-cloud-connections-api-openapi.yml:
+  openapi/cvent-hospitality-cloud-event-travel-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/cvent-hospitality-cloud-events-api-openapi.yml:
+  openapi/cvent-hospitality-cloud-housing-hotels-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/cvent-hospitality-cloud-hotels-api-openapi.yml:
+  openapi/cvent-hospitality-cloud-housing-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/cvent-hospitality-cloud-reservationrequests-api-openapi.yml:
+  openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/cvent-hospitality-cloud-roomtypes-api-openapi.yml:
+  openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cvent-hospitality-cloud-rfp-additional-details-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cvent-hospitality-cloud-rfp-management-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cvent-hospitality-cloud-signatures-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cvent-hospitality-cloud-travel-accounts-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cvent-hospitality-cloud-travel-suppliers-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  overlays/cvent-hospitality-cloud-authentication-overlay.yaml:
+    method: unknown
+    evidence: no authorship recorded
+  overlays/cvent-hospitality-cloud-event-travel-overlay.yaml:
+    method: unknown
+    evidence: no authorship recorded
+  overlays/cvent-hospitality-cloud-housing-hotels-overlay.yaml:
+    method: unknown
+    evidence: no authorship recorded
+  overlays/cvent-hospitality-cloud-housing-overlay.yaml:
+    method: unknown
+    evidence: no authorship recorded
+  overlays/cvent-hospitality-cloud-meeting-requests-overlay.yaml:
+    method: unknown
+    evidence: no authorship recorded
+  overlays/cvent-hospitality-cloud-proposal-drafts-overlay.yaml:
+    method: unknown
+    evidence: no authorship recorded
+  overlays/cvent-hospitality-cloud-rfp-additional-details-overlay.yaml:
+    method: unknown
+    evidence: no authorship recorded
+  overlays/cvent-hospitality-cloud-rfp-management-overlay.yaml:
+    method: unknown
+    evidence: no authorship recorded
+  overlays/cvent-hospitality-cloud-rfp-requirements-overlay.yaml:
+    method: unknown
+    evidence: no authorship recorded
+  overlays/cvent-hospitality-cloud-rfp-suppliers-overlay.yaml:
+    method: unknown
+    evidence: no authorship recorded
+  overlays/cvent-hospitality-cloud-signatures-overlay.yaml:
+    method: unknown
+    evidence: no authorship recorded
+  overlays/cvent-hospitality-cloud-travel-accounts-overlay.yaml:
+    method: unknown
+    evidence: no authorship recorded
+  overlays/cvent-hospitality-cloud-travel-rfps-overlay.yaml:
+    method: unknown
+    evidence: no authorship recorded
+  overlays/cvent-hospitality-cloud-travel-suppliers-overlay.yaml:
+    method: unknown
+    evidence: no authorship recorded
+  overlays/cvent-hospitality-cloud-venue-meeting-rooms-overlay.yaml:
+    method: unknown
+    evidence: no authorship recorded
+  overlays/cvent-hospitality-cloud-venue-profiles-overlay.yaml:
+    method: unknown
+    evidence: no authorship recorded
+  packages/cvent-hospitality-cloud-packages.yml:
+    method: searched
+    evidence: declared in the artifact
   plans/cvent-hospitality-cloud-plans-pricing.yml:
-    method: generated
+    method: searched
     evidence: declared in the artifact
   rate-limits/cvent-hospitality-cloud-rate-limits.yml:
-    method: generated
+    method: searched
+    evidence: declared in the artifact
+  sandbox/cvent-hospitality-cloud-sandbox.yml:
+    method: searched
     evidence: declared in the artifact
   scopes/cvent-hospitality-cloud-scopes.yml:
-    method: derived
+    method: searched
     evidence: declared in the artifact
   security/cvent-hospitality-cloud-domain-security.yml:
     method: unknown
     evidence: no authorship recorded
   security/cvent-hospitality-cloud-trust-center.yml:
+    method: searched
+    evidence: declared in the artifact
+  skills/_index.yml:
+    method: generated
+    evidence: declared in the artifact
+  skills/cvent-hospitality-cloud-authentication-and-quota.md:
+    method: generated
+    evidence: declared in the artifact
+  skills/cvent-hospitality-cloud-housing-reservation-management.md:
+    method: generated
+    evidence: declared in the artifact
+  skills/cvent-hospitality-cloud-reglink-room-block-booking.md:
+    method: generated
+    evidence: declared in the artifact
+  skills/cvent-hospitality-cloud-rfp-intake.md:
+    method: generated
+    evidence: declared in the artifact
+  skills/cvent-hospitality-cloud-venue-profile-maintenance.md:
+    method: generated
+    evidence: declared in the artifact
+  well-known/cvent-hospitality-cloud-mcp-oauth-authorization-server.json:
+    method: unknown
+    evidence: no authorship recorded
+  well-known/cvent-hospitality-cloud-mcp-oauth-protected-resource.json:
+    method: unknown
+    evidence: no authorship recorded
+  well-known/cvent-hospitality-cloud-support-openid-configuration.json:
+    method: unknown
+    evidence: no authorship recorded
+  well-known/cvent-hospitality-cloud-well-known.yml:
+    method: unknown
+    evidence: no authorship recorded
+  wsdl/cvent-hospitality-cloud-soap-v200611.wsdl:
+    method: unknown
+    evidence: no authorship recorded
+  wsdl/cvent-hospitality-cloud-soap-v200611.yml:
     method: searched
     evidence: declared in the artifact

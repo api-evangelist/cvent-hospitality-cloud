@@ -1,0 +1,4923 @@
+generated: '2026-09-07'
+method: derived
+source: openapi/ (16 tag-split documents harvested from developers.cvent.com)
+note: 'Entity-relationship graph derived mechanically from the harvested contract: $ref edges give has_one / has_many,
+  and *Id scalar fields give belongs_to edges whose target is named by the field. Nothing here was authored —
+  target_hint on a belongs_to edge is the field name with the Id suffix stripped, and is a hint, not a resolved
+  reference. Cvent also publishes rendered ERDs at https://developers.cvent.com/docs/platform/reference/ERD and
+  /ERD-detailed.'
+docs:
+- https://developers.cvent.com/docs/platform/reference/ERD
+- https://developers.cvent.com/docs/platform/reference/ERD-detailed
+- https://developers.cvent.com/docs/platform/data-models/housing
+- https://developers.cvent.com/docs/platform/data-models/housing-hotels
+- https://developers.cvent.com/docs/platform/data-models/rfp-management
+entity_count: 410
+domains:
+- Authentication
+- Event Travel
+- Housing
+- Housing Hotels
+- Meeting Request
+- Proposal Draft
+- RFP Additional Details
+- RFP Management
+- RFP Requirements
+- RFP Suppliers
+- Signatures
+- Travel Accounts
+- Travel RFPs
+- Travel Suppliers
+- Venue Meeting Rooms
+- Venue Profiles
+entities:
+- name: AddOn
+  title: Add-on
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: AdditionalChoice
+  title: additionalChoice
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships: []
+- name: AdditionalGuestFees
+  title: AdditionalGuestFees
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Address-1
+  title: Address
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Address3
+  title: Address
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Address7
+  title: Address
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Address8
+  title: Address
+  domains:
+  - Travel Accounts
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-accounts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: AddressInfo
+  title: AddressInfo
+  domains:
+  - Venue Profiles
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: stateProvince
+    target: StateProvince
+  - type: has_one
+    via: country
+    target: Country
+- name: AgendaItem
+  title: AgendaItem
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: type
+    target: AgendaItemType1
+  - type: has_one
+    via: setup
+    target: AgendaItemSetup1
+  - type: has_one
+    via: sessionType
+    target: SessionType
+  - type: has_one
+    via: meal
+    target: RfpMealType
+  - type: has_many
+    via: days
+    target: Day
+  - type: has_many
+    via: meetingRoom
+    target: MeetingRoom
+- name: AgendaItemSetup
+  title: AgendaItemSetup
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships: []
+- name: AgendaItemSetup1
+  title: AgendaItemSetup
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: AgendaItemType
+  title: AgendaItemType
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships: []
+- name: AgendaItemType1
+  title: AgendaItemType
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: AgendaItems
+  title: AgendaItems
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_many
+    via: items
+    target: AgendaItem
+  - type: has_one
+    via: requiredRoomSizeUnits
+    target: MeasurementUnit
+- name: AggregatedCost
+  title: AggregatedCost
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: AirActual
+  title: AirActual
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields:
+  - airActualId
+  - requesterId
+  relationships:
+  - type: belongs_to
+    via: airActualId
+    target_hint: AirActual
+  - type: belongs_to
+    via: requesterId
+    target_hint: Requester
+  - type: has_one
+    via: status
+    target: TravelRequestStatus
+  - type: has_one
+    via: requesterType
+    target: AirRequesterType
+  - type: has_one
+    via: journeyType
+    target: JourneyType
+  - type: has_many
+    via: flightDetail
+    target: FlightDetail
+  - type: has_many
+    via: airActualAnswers
+    target: AttendeeAnswer1
+- name: AirActualDetail
+  title: AirActualDetail
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: attendee
+    target: Attendee3
+  - type: has_many
+    via: airActualDetails
+    target: AirActual
+- name: AirRequest
+  title: AirRequest
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields:
+  - airRequestId
+  - requesterId
+  relationships:
+  - type: belongs_to
+    via: airRequestId
+    target_hint: AirRequest
+  - type: belongs_to
+    via: requesterId
+    target_hint: Requester
+  - type: has_one
+    via: requesterType
+    target: AirRequesterType
+  - type: has_one
+    via: outgoingLeg
+    target: LegDetail
+  - type: has_one
+    via: incomingLeg
+    target: LegDetail
+  - type: has_one
+    via: seatType
+    target: SeatType
+  - type: has_one
+    via: ticketType
+    target: TicketType
+  - type: has_many
+    via: airlinePreference
+    target: AirlinePreference
+  - type: has_one
+    via: status
+    target: TravelRequestStatus
+  - type: has_one
+    via: gender
+    target: Gender1
+  - type: has_many
+    via: airRequestAnswers
+    target: AttendeeAnswer1
+- name: AirRequesterType
+  title: AirRequesterType
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields: []
+  relationships: []
+- name: AirReservationDetail
+  title: AirReservationDetail
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: attendee
+    target: Attendee3
+  - type: has_many
+    via: airRequestDetails
+    target: AirRequest
+- name: AirlinePreference
+  title: Airline Preference
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields: []
+  relationships: []
+- name: AlternateAnswer
+  title: AlternateAnswer
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields: []
+  relationships: []
+- name: AlternateQuestion
+  title: AlternateQuestion
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: AlternateTravelDetail
+  title: AlternateTravelDetail
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields:
+  - requesterId
+  relationships:
+  - type: has_one
+    via: attendee
+    target: Attendee3
+  - type: belongs_to
+    via: requesterId
+    target_hint: Requester
+  - type: has_one
+    via: question
+    target: AlternateQuestion
+  - type: has_one
+    via: answer
+    target: AlternateAnswer
+- name: AmenityType
+  title: Amenity Type
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: AnswerType1
+  title: AnswerType
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships: []
+- name: AreaMeasurement
+  title: Area Measurement
+  domains:
+  - Venue Meeting Rooms
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  id_fields: []
+  relationships: []
+- name: AttachmentSource
+  title: AttachmentSource
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Attendee3
+  title: Attendee
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: id
+    target: uuid-property
+- name: AttendeeAnswer1
+  title: AttendeeAnswer
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields: []
+  relationships: []
+- name: AttendeeSignatureResponse
+  title: AttendeeSignatureResponse
+  domains:
+  - Signatures
+  specs:
+  - openapi/cvent-hospitality-cloud-signatures-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: AttendeeType
+  title: AttendeeType
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: AttendeeTypeId
+  title: AttendeeTypeId
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: Audit
+  title: Audit
+  domains:
+  - Event Travel
+  - Housing
+  - Meeting Request
+  - Proposal Draft
+  - RFP Management
+  - RFP Requirements
+  - RFP Suppliers
+  - Signatures
+  - Travel Accounts
+  - Travel RFPs
+  - Venue Meeting Rooms
+  - Venue Profiles
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  - openapi/cvent-hospitality-cloud-signatures-openapi.yml
+  - openapi/cvent-hospitality-cloud-travel-accounts-openapi.yml
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  - openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml
+  id_fields: []
+  relationships: []
+- name: AvailableNight
+  title: AvailableNight
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: hotel
+    target: HotelId
+  - type: has_one
+    via: roomType
+    target: RoomTypeId
+  - type: has_one
+    via: attendeeType
+    target: AttendeeType
+  - type: has_one
+    via: displayRate
+    target: DisplayRate
+  - type: has_many
+    via: additionalGuestFees
+    target: AdditionalGuestFees
+  - type: has_one
+    via: taxStructure
+    target: TaxStructure
+  - type: has_one
+    via: currency
+    target: Currency1
+  - type: has_one
+    via: maxGuests
+    target: MaxGuests
+- name: AvailablePackage
+  title: AvailablePackage
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: day
+    target: Day
+  - type: has_one
+    via: packageType
+    target: PackageType
+  - type: has_one
+    via: roomOccupancy
+    target: RoomOccupancy
+  - type: has_one
+    via: roomType
+    target: SleepingRoomType1
+  - type: has_many
+    via: includedCostItems
+    target: CostItemType
+- name: BaseAddress
+  title: Base Address
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields: []
+  relationships: []
+- name: BaseProposal
+  title: BaseProposal
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields:
+  - commissionableBid
+  - scpTemplateId
+  relationships:
+  - type: belongs_to
+    via: scpTemplateId
+    target_hint: ScpTemplate
+  - type: has_one
+    via: type
+    target: ProposalType
+  - type: has_one
+    via: supplierSummary
+    target: SupplierSummary
+  - type: has_one
+    via: rfpSummary
+    target: RfpSummary
+  - type: has_one
+    via: eventSummary
+    target: EventSummary
+  - type: has_one
+    via: statusSummary
+    target: StatusSummary
+  - type: has_one
+    via: currencyCode
+    target: Currency
+  - type: belongs_to
+    via: commissionableBid
+    target_hint: CommissionableBid
+  - type: has_many
+    via: proposalDates
+    target: ProposalDate
+  - type: has_many
+    via: sleepingRooms
+    target: SleepingRoom1
+  - type: has_one
+    via: categoryItemsCost
+    target: CategoryItemsCost
+  - type: has_one
+    via: aggregatedCost
+    target: AggregatedCost
+  - type: has_one
+    via: estimatedCost
+    target: EstimatedCost
+  - type: has_many
+    via: contacts
+    target: Contact2
+  - type: has_many
+    via: plannerContacts
+    target: Contact2
+  - type: has_one
+    via: meetingRoom
+    target: MeetingRoom
+  - type: has_one
+    via: agendaItems
+    target: AgendaItems
+  - type: has_many
+    via: packages
+    target: Package
+  - type: has_one
+    via: transaction
+    target: Transaction
+- name: BidItemStatusType
+  title: Bid Item Status Type
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: BidStatusType
+  title: Bid Status Type
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: BidStayType
+  title: Bid Stay Type
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: BillingDetails-1
+  title: BillingDetails
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: rebateType
+    target: RebateType
+- name: BookingWebsiteLink
+  title: BookingWebsiteLink
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: BrideGroomType
+  title: BrideGroomType
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships: []
+- name: BudgetCategory
+  title: BudgetCategory
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: BudgetCostDetail1
+  title: BudgetCostDetail
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: category
+    target: BudgetCategory
+  - type: has_one
+    via: subCategory
+    target: BudgetSubCategory
+- name: BudgetCostType
+  title: BudgetCostType
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships: []
+- name: BudgetEstimate
+  title: BudgetEstimate
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: costType
+    target: BudgetCostType
+  - type: has_many
+    via: costDetail
+    target: BudgetCostDetail1
+- name: BudgetSubCategory
+  title: BudgetSubCategory
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: id
+    target: uuid-property
+- name: CallCenterLink
+  title: CallCenterLink
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: CancellationDetails
+  title: CancellationDetails
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: reason
+    target: CancelledReason-1
+- name: CancelledReason
+  title: CancelledReason
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: CancelledReason-1
+  title: CancelledReason
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Category
+  title: Category
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Category1
+  title: Category
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_many
+    via: items
+    target: Item
+- name: CategoryItemsCost
+  title: CategoryItemsCost
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_many
+    via: categories
+    target: Category1
+- name: ChainScale
+  title: Chain Scale
+  domains:
+  - Venue Profiles
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Choice
+  title: Choice
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships: []
+- name: CommentType
+  title: Comment Type
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: CompositeValue
+  title: CompositeValue
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Contact-1
+  title: Contact
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: address
+    target: Address-1
+  - type: has_many
+    via: preferredContactMethods
+    target: ContactMethods
+- name: Contact2
+  title: Contact
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: contactType
+    target: ContactType1
+  - type: has_one
+    via: stateProvince
+    target: StateProvince
+  - type: has_one
+    via: country
+    target: Country
+- name: ContactMethods
+  title: ContactMethods
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships: []
+- name: ContactType1
+  title: ContactType
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: CostItemType
+  title: CostItemType
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Country
+  title: Country
+  domains:
+  - Proposal Draft
+  - Venue Profiles
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  - openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml
+  id_fields: []
+  relationships: []
+- name: CreditCard
+  title: CreditCard
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: type
+    target: credit-card-types
+- name: Currency
+  title: Currency
+  domains:
+  - Proposal Draft
+  - Venue Profiles
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  - openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Currency1
+  title: Currency
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: CustomField
+  title: CustomField
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships: []
+- name: CustomFieldAnswers
+  title: RfpCustomField
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships: []
+- name: CustomFieldBase
+  title: CustomFieldBase
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: CustomFieldType
+  title: CustomFieldType
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships: []
+- name: CustomFields
+  title: CustomFields
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: DatePattern-1
+  title: DatePattern
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_many
+    via: startDays
+    target: DayOfWeek
+  - type: has_many
+    via: generatedDates
+    target: Dates-1
+- name: DateRequirements-1
+  title: DateRequirements
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: mode
+    target: RfpDateMode
+  - type: has_many
+    via: alternateDates
+    target: Dates-1
+  - type: has_one
+    via: pattern
+    target: DatePattern-1
+- name: DateType1
+  title: DateType
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Dates-1
+  title: Dates
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: Day
+  title: Day
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: DayOfWeek
+  title: DayOfWeek
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships: []
+- name: DeclinedReason
+  title: DeclinedReason
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Dimension
+  title: Dimension
+  domains:
+  - Venue Meeting Rooms
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  id_fields: []
+  relationships: []
+- name: DisplayRate
+  title: DisplayRate
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Distance
+  title: Distance
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: DistanceMeasurementUnit
+  title: Distance Measurement Unit
+  domains:
+  - Venue Profiles
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Document
+  title: document
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: DocumentType-1
+  title: DocumentType
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships: []
+- name: ErrorResponse-12
+  title: ErrorResponse
+  domains:
+  - Authentication
+  - Event Travel
+  - Housing
+  - Housing Hotels
+  - Meeting Request
+  - Proposal Draft
+  - RFP Additional Details
+  - RFP Management
+  - RFP Requirements
+  - RFP Suppliers
+  - Signatures
+  - Travel Accounts
+  - Travel RFPs
+  - Travel Suppliers
+  - Venue Meeting Rooms
+  - Venue Profiles
+  specs:
+  - openapi/cvent-hospitality-cloud-authentication-openapi.yml
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  - openapi/cvent-hospitality-cloud-housing-hotels-openapi.yml
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-additional-details-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  - openapi/cvent-hospitality-cloud-signatures-openapi.yml
+  - openapi/cvent-hospitality-cloud-travel-accounts-openapi.yml
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  - openapi/cvent-hospitality-cloud-travel-suppliers-openapi.yml
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  - openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_many
+    via: details
+    target: ErrorResponseBase1
+- name: ErrorResponseBase1
+  title: ErrorResponseBase
+  domains:
+  - Authentication
+  - Event Travel
+  - Housing
+  - Housing Hotels
+  - Meeting Request
+  - Proposal Draft
+  - RFP Additional Details
+  - RFP Management
+  - RFP Requirements
+  - RFP Suppliers
+  - Signatures
+  - Travel Accounts
+  - Travel RFPs
+  - Travel Suppliers
+  - Venue Meeting Rooms
+  - Venue Profiles
+  specs:
+  - openapi/cvent-hospitality-cloud-authentication-openapi.yml
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  - openapi/cvent-hospitality-cloud-housing-hotels-openapi.yml
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-additional-details-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  - openapi/cvent-hospitality-cloud-signatures-openapi.yml
+  - openapi/cvent-hospitality-cloud-travel-accounts-openapi.yml
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  - openapi/cvent-hospitality-cloud-travel-suppliers-openapi.yml
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  - openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml
+  id_fields: []
+  relationships: []
+- name: EstimatedCost
+  title: EstimatedCost
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Event-1
+  title: Event
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: EventFormatType
+  title: EventFormatType
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships: []
+- name: EventInsurance
+  title: Event Insurance
+  domains:
+  - Venue Profiles
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml
+  id_fields: []
+  relationships: []
+- name: EventOrganization-1
+  title: EventOrganization
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: organization
+    target: Organization
+  - type: has_one
+    via: industry
+    target: Industry-1
+  - type: has_one
+    via: type
+    target: OrganizationType-1
+  - type: has_one
+    via: address
+    target: Address-1
+- name: EventSummary
+  title: EventSummary
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: EventType-1
+  title: EventType
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships: []
+- name: ExhibitLayoutType
+  title: Exhibit Layout Type
+  domains:
+  - Venue Meeting Rooms
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  id_fields: []
+  relationships: []
+- name: FairSeasonType
+  title: Fair Season Type
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Field
+  title: Field
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: type
+    target: FieldType
+  - type: has_many
+    via: choices
+    target: Choice
+  - type: has_one
+    via: notApplicableAnswer
+    target: AdditionalChoice
+  - type: has_one
+    via: otherAnswer
+    target: AdditionalChoice
+- name: FieldType
+  title: FieldType
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships: []
+- name: FlightDetail
+  title: FlightDetail
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Gender1
+  title: Gender
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Guest1
+  title: Guest
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: homeAddress
+    target: Address3
+  - type: has_one
+    via: paymentInfo
+    target: PaymentInfo
+- name: GuestRoomOccupancy
+  title: GuestRoomOccupancy
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships: []
+- name: GuestRoomOccupancyPerRoomType
+  title: GuestRoomOccupancyPerRoomType
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: occupancy
+    target: GuestRoomOccupancy
+  - type: has_one
+    via: type
+    target: GuestRoomType
+- name: GuestRoomType
+  title: GuestRoomType
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships: []
+- name: HotelId
+  title: HotelId
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: HotelInfo
+  title: HotelInfo
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: HotelRating
+  title: HotelRating
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: HotelRequest
+  title: HotelRequest
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields:
+  - hotelRequestId
+  - requesterId
+  relationships:
+  - type: belongs_to
+    via: hotelRequestId
+    target_hint: HotelRequest
+  - type: belongs_to
+    via: requesterId
+    target_hint: Requester
+  - type: has_one
+    via: status
+    target: TravelRequestStatus
+  - type: has_one
+    via: gender
+    target: Gender1
+  - type: has_one
+    via: hotelAddress
+    target: Address7
+  - type: has_many
+    via: hotelRoomRates
+    target: HotelRoomRate
+  - type: has_many
+    via: hotelRequestAnswers
+    target: AttendeeAnswer1
+- name: HotelReservationDetail
+  title: HotelReservationDetail
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: attendee
+    target: Attendee3
+  - type: has_many
+    via: hotelRequestDetails
+    target: HotelRequest
+- name: HotelRoomRate
+  title: HotelRoomRate
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields: []
+  relationships: []
+- name: HotelRoomRatesRequest
+  title: HotelRoomRatesRequest
+  domains:
+  - Housing Hotels
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-hotels-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: currencyCode
+    target: currency.json
+- name: HotelRoomRatesResponse
+  title: HotelRoomRatesResponse
+  domains:
+  - Housing Hotels
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-hotels-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: currencyCode
+    target: currency.json
+- name: HousingEventId
+  title: HousingEventId
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: HousingEventStatus
+  title: HousingEventStatus
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: HousingEventSummary
+  title: HousingEventSummary
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: venue
+    target: Venue
+  - type: has_one
+    via: status
+    target: HousingEventStatus
+- name: HousingReservation
+  title: HousingReservation
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: HousingReservationResponse
+  title: HousingReservationResponse
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: attendee
+    target: Attendee3
+  - type: has_one
+    via: reservationRequest
+    target: HousingReservation
+  - type: has_one
+    via: lastModified
+    target: lastModified
+- name: ImageLink
+  title: ImageLink
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Industry-1
+  title: Industry
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships: []
+- name: InventoryAllocation
+  title: InventoryAllocation
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: attendeeType
+    target: AttendeeTypeId
+- name: Item
+  title: Item
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields:
+  - itemId
+  relationships:
+  - type: belongs_to
+    via: itemId
+    target_hint: Item
+- name: JourneyType
+  title: JourneyType
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields: []
+  relationships: []
+- name: LeadSource
+  title: LeadSource
+  domains:
+  - RFP Management
+  - RFP Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: section
+    target: LeadSourceSection
+- name: LeadSourceSection
+  title: LeadSourceSection
+  domains:
+  - RFP Management
+  - RFP Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: LegDetail
+  title: LegDetail
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Link
+  title: Link
+  domains:
+  - Event Travel
+  - Housing
+  - Meeting Request
+  - RFP Requirements
+  - RFP Suppliers
+  - Signatures
+  - Travel Accounts
+  - Travel RFPs
+  - Venue Meeting Rooms
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  - openapi/cvent-hospitality-cloud-signatures-openapi.yml
+  - openapi/cvent-hospitality-cloud-travel-accounts-openapi.yml
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Locale
+  title: Locale
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Locale-11
+  title: Locale
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: LocationType
+  title: LocationType
+  domains:
+  - Venue Profiles
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml
+  id_fields: []
+  relationships: []
+- name: ManagementLevelType1
+  title: Management Level Type
+  domains:
+  - Travel Accounts
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-accounts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: MaxGuests
+  title: MaxGuests
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: MeasurementUnit
+  title: MeasurementUnit
+  domains:
+  - Proposal Draft
+  - RFP Management
+  - Venue Profiles
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  - openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml
+  id_fields: []
+  relationships: []
+- name: MeetingRequestBulkResponseItem
+  title: MeetingRequestBulkResponseItem
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: data
+    target: meeting-request
+- name: MeetingRequestCreate
+  title: MeetingRequestCreate
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields:
+  - sourceId
+  relationships:
+  - type: belongs_to
+    via: sourceId
+    target_hint: Source
+  - type: has_many
+    via: questions
+    target: MeetingRequestQuestion
+- name: MeetingRequestCustomField
+  title: MeetingRequestCustomField
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_many
+    via: answerTypes
+    target: AnswerType1
+- name: MeetingRequestDocument
+  title: MeetingRequestDocument
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: referenceLink
+    target: MeetingRequestDocumentReferenceLink
+- name: MeetingRequestDocumentReferenceLink
+  title: MeetingRequestDocumentReferenceLink
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships: []
+- name: MeetingRequestQuestion
+  title: MeetingRequestQuestion
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: type
+    target: QuestionType1
+  - type: has_one
+    via: answerType
+    target: AnswerType1
+  - type: has_one
+    via: secondaryValue
+    target: SecondaryValue
+  - type: has_one
+    via: compositeValue
+    target: CompositeValue
+- name: MeetingRequestStatus
+  title: MeetingRequestStatus
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships: []
+- name: MeetingRequestUpdate
+  title: MeetingRequestUpdate
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields:
+  - id
+  - sourceId
+  relationships:
+  - type: has_many
+    via: questions
+    target: MeetingRequestQuestion
+  - type: has_one
+    via: status
+    target: MeetingRequestStatus
+  - type: belongs_to
+    via: sourceId
+    target_hint: Source
+- name: MeetingRoom
+  title: MeetingRoom
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: MeetingRoomAgendaItemType
+  title: MeetingRoomAgendaItemType
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships: []
+- name: MeetingRoomAmenity
+  title: Meeting Room Amenity
+  domains:
+  - Venue Meeting Rooms
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  id_fields: []
+  relationships: []
+- name: MeetingRoomCapacities
+  title: Meeting Room Capacities
+  domains:
+  - Venue Meeting Rooms
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_many
+    via: exhibits
+    target: MeetingRoomExhibitCapacity
+  - type: has_many
+    via: seating
+    target: MeetingRoomSeatingCapacity
+- name: MeetingRoomExhibitCapacity
+  title: Meeting Room Exhibit Capacity
+  domains:
+  - Venue Meeting Rooms
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: layoutType
+    target: ExhibitLayoutType
+- name: MeetingRoomRate
+  title: Meeting Room Rate
+  domains:
+  - Venue Meeting Rooms
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: applicationType
+    target: RateApplicationType
+- name: MeetingRoomRequirement
+  title: MeetingRoomRequirement
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_many
+    via: agendaItemType
+    target: MeetingRoomAgendaItemType
+  - type: has_many
+    via: setupType
+    target: MeetingRoomSetupType
+- name: MeetingRoomSeatingCapacity
+  title: Meeting Room Seating Capacity
+  domains:
+  - Venue Meeting Rooms
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: layoutType
+    target: SeatingLayoutType
+- name: MeetingRoomSetupType
+  title: MeetingRoomSetupType
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Oauth2TokenApplicationXWwwFormUrlencodedPostRequest
+  title: null
+  domains:
+  - Authentication
+  specs:
+  - openapi/cvent-hospitality-cloud-authentication-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Oauth2TokenPostResponse
+  title: null
+  domains:
+  - Authentication
+  specs:
+  - openapi/cvent-hospitality-cloud-authentication-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Oauth2TokenPostResponse-0
+  title: null
+  domains:
+  - Authentication
+  specs:
+  - openapi/cvent-hospitality-cloud-authentication-openapi.yml
+  id_fields: []
+  relationships: []
+- name: OfferingCostType-1
+  title: OfferingCostType
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Organization
+  title: Organization
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: OrganizationType-1
+  title: OrganizationType
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships: []
+- name: OtherPay
+  title: OtherPay
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Package
+  title: Package
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: dateType
+    target: DateType1
+  - type: has_many
+    via: availablePackages
+    target: AvailablePackage
+- name: PackagePricingPreference
+  title: PackagePricingPreference
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships: []
+- name: PackageType
+  title: PackageType
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: PaginatedInternalDocuments
+  title: PaginatedInternalDocuments
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: RfpInternalDocument
+- name: PaginatedRfpAgendaItems
+  title: PaginatedRfpAgendaItems
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: RfpAgendaItem
+- name: PaginatedRfpAgendaItemsSchedule
+  title: PaginatedRfpAgendaItemsSchedule
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: RfpAgendaItemScheduleWithId
+- name: PaginatedRfpAttachments
+  title: PaginatedRFPAttachments
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: RfpAttachment
+- name: PaginatedRfpCustomField
+  title: PaginatedRfpCustomField
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: CustomFieldAnswers
+- name: PaginatedRfpQuestions
+  title: PaginatedRfpQuestions
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: RfpQuestion
+- name: PaginatedRfpRecipientsHistory
+  title: PaginatedRfpRecipientsHistory
+  domains:
+  - RFP Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: RfpRecipientLogEntry
+- name: PaginatedRfpSuppliers
+  title: PaginatedRfpSuppliers
+  domains:
+  - RFP Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: RfpSupplier
+- name: PaginationLinks
+  title: PaginationLinks
+  domains:
+  - Event Travel
+  - Housing
+  - Meeting Request
+  - RFP Requirements
+  - RFP Suppliers
+  - Signatures
+  - Travel Accounts
+  - Travel RFPs
+  - Venue Meeting Rooms
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  - openapi/cvent-hospitality-cloud-signatures-openapi.yml
+  - openapi/cvent-hospitality-cloud-travel-accounts-openapi.yml
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: next
+    target: Link
+  - type: has_one
+    via: self
+    target: Link
+  - type: has_one
+    via: prev
+    target: Link
+- name: Paging
+  title: Paging
+  domains:
+  - Event Travel
+  - Housing
+  - Meeting Request
+  - RFP Requirements
+  - RFP Suppliers
+  - Signatures
+  - Travel Accounts
+  - Travel RFPs
+  - Venue Meeting Rooms
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  - openapi/cvent-hospitality-cloud-signatures-openapi.yml
+  - openapi/cvent-hospitality-cloud-travel-accounts-openapi.yml
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: _links
+    target: PaginationLinks
+- name: PaymentInfo
+  title: PaymentInfo
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paymentType
+    target: payment-types
+  - type: has_one
+    via: address
+    target: Address3
+  - type: has_one
+    via: other
+    target: OtherPay
+- name: Planner
+  title: Planner
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: PolicyValueType
+  title: Policy Value Type
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: ProposalDate
+  title: ProposalDate
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: dateType
+    target: DateType1
+- name: ProposalRequest
+  title: ProposalRequest
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: ProposalResponse
+  title: Proposal
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: status
+    target: ProposalStatus
+- name: ProposalStatus
+  title: ProposalStatus
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: ProposalType
+  title: ProposalType
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Proximity
+  title: Proximity
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: distance
+    target: Distance
+- name: QuestionClassificationType
+  title: QuestionClassificationType
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships: []
+- name: QuestionCommon
+  title: QuestionCommon
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: type
+    target: QuestionType
+  - type: has_many
+    via: choices
+    target: Choice
+  - type: has_many
+    via: categories
+    target: Category
+  - type: has_many
+    via: subCategories
+    target: TextField
+  - type: has_one
+    via: notApplicableAnswer
+    target: AdditionalChoice
+  - type: has_one
+    via: otherAnswer
+    target: AdditionalChoice
+  - type: has_many
+    via: fields
+    target: Field
+  - type: has_one
+    via: choiceSortOrder
+    target: choice-sort-order
+  - type: has_one
+    via: displayType
+    target: display-type
+  - type: has_one
+    via: dateAnswerFormat
+    target: date-answer-format
+  - type: has_one
+    via: numericAnswerFormat
+    target: numeric-answer-format
+  - type: has_one
+    via: unitPosition
+    target: unit-position
+  - type: has_one
+    via: textAnswerFormat
+    target: text-answer-format
+- name: QuestionResponseDataType
+  title: Question Response Data Type
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: QuestionResponseFormat
+  title: Question Response Format
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: QuestionResponseType
+  title: Question Response Type
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: QuestionSection
+  title: Question Section
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: QuestionType
+  title: QuestionType
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships: []
+- name: QuestionType1
+  title: QuestionType
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships: []
+- name: RFPID
+  title: RFP ID
+  domains:
+  - RFP Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  id_fields: []
+  relationships: []
+- name: RateApplicationType
+  title: Rate Application Type
+  domains:
+  - Venue Meeting Rooms
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  id_fields: []
+  relationships: []
+- name: RateLevelType
+  title: Rate Level Type
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: RateReviewStatusType
+  title: Rate Review Status Type
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: RateType
+  title: Rate Type
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: RebateType
+  title: RebateType
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships: []
+- name: RecipientInfo
+  title: RecipientInfo
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: type
+    target: RecipientType
+- name: RecipientType
+  title: Recipient Type
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships: []
+- name: ReferenceToRFP
+  title: Reference to RFP
+  domains:
+  - RFP Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: id
+    target: RFPID
+- name: ReferenceToSupplier
+  title: Reference to Supplier
+  domains:
+  - RFP Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: id
+    target: SupplierId
+- name: Reservation
+  title: Reservation
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields:
+  - id
+  - membershipId
+  relationships:
+  - type: has_one
+    via: attendeeType
+    target: AttendeeTypeId
+  - type: has_one
+    via: roomType
+    target: RoomInfo
+  - type: has_many
+    via: nights
+    target: ReservationNight
+  - type: has_many
+    via: guests
+    target: ReservationGuest
+  - type: has_one
+    via: customFields
+    target: CustomFields
+  - type: has_one
+    via: rewardProgram
+    target: RewardProgram
+  - type: belongs_to
+    via: membershipId
+    target_hint: Membership
+  - type: has_one
+    via: travelDetails
+    target: TravelDetails
+- name: ReservationContact
+  title: ReservationContact
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: ReservationGuest
+  title: ReservationGuest
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paymentInfo
+    target: ReservationPaymentInfo
+  - type: has_one
+    via: locale
+    target: Locale-11
+- name: ReservationNight
+  title: ReservationNight
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: rate
+    target: ReservationNightRate
+- name: ReservationNightRate
+  title: ReservationNightRate
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_many
+    via: additionalGuestFees
+    target: AdditionalGuestFees
+  - type: has_one
+    via: displayRate
+    target: DisplayRate
+- name: ReservationPaymentInfo
+  title: Reservation Payment Info
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: creditCard
+    target: TokenizedCreditCard
+- name: ReservationRequestStatus
+  title: ReservationRequestStatus
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: ReservationTotalCharges
+  title: ReservationTotalCharges
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: currency
+    target: Currency1
+- name: RewardProgram
+  title: RewardProgram
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: Rfp
+  title: Rfp
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: status
+    target: RfpStatus-1
+  - type: has_one
+    via: type
+    target: RfpType-1
+  - type: has_one
+    via: cancellationDetails
+    target: CancellationDetails
+- name: RfpAgendaItem
+  title: RfpAgendaItem
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: RfpAgendaItemRequest
+  title: RfpAgendaItemRequest
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: type
+    target: AgendaItemType
+  - type: has_one
+    via: setup
+    target: AgendaItemSetup
+  - type: has_one
+    via: rfpMeal
+    target: RfpMeal
+  - type: has_many
+    via: schedules
+    target: RfpAgendaItemSchedule
+- name: RfpAgendaItemSchedule
+  title: RfpAgendaItemSchedule
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships: []
+- name: RfpAgendaItemScheduleWithId
+  title: RfpAgendaItemScheduleWithId
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: RfpAttachment
+  title: RfpAttachment
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships: []
+- name: RfpAttachmentBase
+  title: RfpAttachmentBase
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: type
+    target: DocumentType-1
+  - type: has_one
+    via: source
+    target: AttachmentSource
+- name: RfpDateMode
+  title: RfpDateMode
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships: []
+- name: RfpEvent
+  title: RfpEvent
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields:
+  - meetingRequestId
+  relationships:
+  - type: has_one
+    via: event
+    target: Event-1
+  - type: has_one
+    via: type
+    target: EventType-1
+  - type: has_one
+    via: totalMeetingSpaceRequired
+    target: SpaceArea
+  - type: has_one
+    via: largestMeetingSpaceRequired
+    target: SpaceArea
+  - type: belongs_to
+    via: meetingRequestId
+    target_hint: MeetingRequest
+  - type: has_one
+    via: formatType
+    target: EventFormatType
+- name: RfpGuestRooms
+  title: RfpGuestRooms
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_many
+    via: occupancies
+    target: GuestRoomOccupancyPerRoomType
+  - type: has_many
+    via: roomBlocks
+    target: RoomBlock
+- name: RfpInternalDocument
+  title: RfpInternalDocument
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: type
+    target: DocumentType-1
+- name: RfpLeadSource
+  title: RfpLeadSource
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: RfpLeadSourceSection
+  title: RfpLeadSourceSection
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: RfpMeal
+  title: RfpMeal
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships: []
+- name: RfpMealType
+  title: RfpMealType
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: RfpPastEvent
+  title: RfpPastEvent
+  domains:
+  - RFP Additional Details
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-additional-details-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: RfpPastEventRequest
+  title: RfpPastEventRequest
+  domains:
+  - RFP Additional Details
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-additional-details-openapi.yml
+  id_fields: []
+  relationships: []
+- name: RfpPastEvents
+  title: RFP Past Events
+  domains:
+  - RFP Additional Details
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-additional-details-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_many
+    via: data
+    target: RfpPastEvent
+- name: RfpQuestion
+  title: RfpQuestion
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_many
+    via: supplierTypes
+    target: SupplierType
+  - type: has_one
+    via: classificationType
+    target: QuestionClassificationType
+  - type: has_one
+    via: standardQuestion
+    target: StandardQuestion
+- name: RfpRecipientLogEntry
+  title: RfpRecipientLogEntry
+  domains:
+  - RFP Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: targetType
+    target: TargetType
+- name: RfpRequest
+  title: RfpRequest
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields:
+  - sourceId
+  relationships:
+  - type: has_one
+    via: dateRequirements
+    target: DateRequirements-1
+  - type: has_one
+    via: rfpEvent
+    target: RfpEvent
+  - type: has_one
+    via: contact
+    target: Contact-1
+  - type: has_one
+    via: rfpEventOrganization
+    target: EventOrganization-1
+  - type: has_one
+    via: billingDetails
+    target: BillingDetails-1
+  - type: has_one
+    via: measurementUnit
+    target: MeasurementUnit
+  - type: has_many
+    via: requiredCostItems
+    target: OfferingCostType-1
+  - type: has_many
+    via: hiddenCostItems
+    target: OfferingCostType-1
+  - type: has_many
+    via: notificationRecipients
+    target: RecipientInfo
+  - type: has_one
+    via: leadSource
+    target: LeadSource
+  - type: belongs_to
+    via: sourceId
+    target_hint: Source
+  - type: has_one
+    via: weddingDetails
+    target: WeddingDetails-1
+  - type: has_one
+    via: packagePricingPreference
+    target: PackagePricingPreference
+  - type: has_many
+    via: preferredVenueIntegrations
+    target: VenueIntegrationType
+  - type: has_one
+    via: venueIntegrationPreference
+    target: VenueIntegrationPreference
+- name: RfpResponseReason
+  title: RfpResponseReason
+  domains:
+  - RFP Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  id_fields: []
+  relationships: []
+- name: RfpStatus-1
+  title: RfpStatus
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships: []
+- name: RfpSummary
+  title: RfpSummary
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: RfpSupplier
+  title: RfpSupplier
+  domains:
+  - RFP Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  id_fields:
+  - externalId
+  - externalProposalId
+  - forwardId
+  relationships:
+  - type: belongs_to
+    via: externalProposalId
+    target_hint: ExternalProposal
+  - type: belongs_to
+    via: externalId
+    target_hint: External
+  - type: belongs_to
+    via: forwardId
+    target_hint: Forward
+- name: RfpSupplierStatus
+  title: RfpSupplierStatus
+  domains:
+  - RFP Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  id_fields: []
+  relationships: []
+- name: RfpType-1
+  title: RfpType
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships: []
+- name: RoomAttendeeType
+  title: RoomAttendeeType
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: RoomBlock
+  title: RoomBlock
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_many
+    via: details
+    target: RoomBlockDetails
+- name: RoomBlockDetails
+  title: RoomBlockDetails
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: type
+    target: GuestRoomType
+- name: RoomCategory
+  title: RoomCategory
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: RoomCategoryId
+  title: RoomCategoryId
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: RoomId
+  title: RoomId
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: RoomInfo
+  title: RoomInfo
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: roomCategory
+    target: RoomCategory
+- name: RoomOccupancy
+  title: RoomOccupancy
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: RoomTypeId
+  title: roomTypeId
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: SeatType
+  title: SeatType
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields: []
+  relationships: []
+- name: SeatingLayoutType
+  title: Seating Layout Type
+  domains:
+  - Venue Meeting Rooms
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  id_fields: []
+  relationships: []
+- name: SecondaryValue
+  title: SecondaryValue
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships: []
+- name: SessionType
+  title: SessionType
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: SleepingRoom1
+  title: SleepingRoom
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: proposalDateType
+    target: DateType1
+  - type: has_many
+    via: sleepingRoomBlocks
+    target: SleepingRoomBlock
+- name: SleepingRoomBlock
+  title: SleepingRoomBlock
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: proposalDateType
+    target: DateType1
+  - type: has_one
+    via: sleepingRoomType
+    target: SleepingRoomType1
+- name: SleepingRoomRequirement
+  title: SleepingRoomRequirement
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships: []
+- name: SleepingRoomType1
+  title: SleepingRoomType
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: SpaceArea
+  title: SpaceArea
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships: []
+- name: StandardQuestion
+  title: StandardQuestion
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: StateProvince
+  title: StateProvince
+  domains:
+  - Proposal Draft
+  - Venue Profiles
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  - openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml
+  id_fields: []
+  relationships: []
+- name: StatusSummary
+  title: StatusSummary
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Supplier1
+  title: Supplier
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: type
+    target: SupplierType1
+- name: SupplierAd
+  title: SupplierAd
+  domains:
+  - RFP Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  id_fields: []
+  relationships: []
+- name: SupplierAssociatedAds
+  title: SupplierAssociatedAds
+  domains:
+  - RFP Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  id_fields: []
+  relationships: []
+- name: SupplierId
+  title: SupplierId
+  domains:
+  - RFP Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  id_fields: []
+  relationships: []
+- name: SupplierResponse
+  title: SupplierResponse
+  domains:
+  - RFP Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: reason
+    target: RfpResponseReason
+- name: SupplierSummary
+  title: SupplierSummary
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: SupplierType
+  title: SupplierType
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships: []
+- name: SupplierType1
+  title: SupplierType
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: TargetType
+  title: TargetType
+  domains:
+  - RFP Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  id_fields: []
+  relationships: []
+- name: TaxAndFee
+  title: TaxAndFee
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: TaxStructure
+  title: TaxStructure
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_many
+    via: items
+    target: TaxAndFee
+- name: TaxType1
+  title: Tax Type
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: TextField
+  title: TextField
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: TicketType
+  title: TicketType
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields: []
+  relationships: []
+- name: TokenizedCreditCard
+  title: Tokenized Credit Card
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: Transaction
+  title: Transaction
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: type
+    target: TransactionType
+- name: TransactionType
+  title: TransactionType
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: TravelAccountType
+  title: Travel Account Type
+  domains:
+  - Travel Accounts
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-accounts-openapi.yml
+  id_fields: []
+  relationships: []
+- name: TravelBidAmenity
+  title: Travel Bid Amenity
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: type
+    target: AmenityType
+  - type: has_one
+    via: status
+    target: BidItemStatusType
+- name: TravelBidComment
+  title: Travel Bid Comment
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: commentType
+    target: CommentType
+- name: TravelBidDiscount
+  title: Travel Bid Discount
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: status
+    target: BidItemStatusType
+- name: TravelBidDisposition
+  title: Travel Bid Disposition
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields:
+  - bid
+  relationships:
+  - type: belongs_to
+    via: bid
+    target_hint: Bid
+  - type: has_one
+    via: bid
+    target: TravelProposalBid
+  - type: has_many
+    via: acceptedBidRooms
+    target: TravelBidDispositionAcceptedRoom
+  - type: has_one
+    via: rateType
+    target: RateType
+- name: TravelBidDispositionAcceptedRoom
+  title: Travel Bid Disposition Accepted Room
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: TravelBidFairSeason
+  title: Travel Bid Fair Season
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: type
+    target: FairSeasonType
+  - type: has_many
+    via: rates
+    target: TravelBidFairSeasonRate
+  - type: has_one
+    via: status
+    target: BidItemStatusType
+- name: TravelBidFairSeasonRate
+  title: Travel Bid Fair Season Rate
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: status
+    target: BidItemStatusType
+- name: TravelBidPolicy
+  title: Travel Bid Policy
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: valueType
+    target: PolicyValueType
+  - type: has_one
+    via: status
+    target: BidItemStatusType
+- name: TravelBidRoom
+  title: Travel Bid Room
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: status
+    target: BidItemStatusType
+- name: TravelBidSeason
+  title: Travel Bid Season
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_many
+    via: rates
+    target: TravelBidSeasonRate
+  - type: has_many
+    via: weekendRates
+    target: TravelBidSeasonRate
+  - type: has_one
+    via: status
+    target: BidItemStatusType
+- name: TravelBidSeasonRate
+  title: Travel Bid Season Rate
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: status
+    target: BidItemStatusType
+- name: TravelBidTaxAndFee
+  title: Travel Bid Tax and Fee
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: code
+    target: TaxType1
+  - type: has_one
+    via: status
+    target: BidItemStatusType
+- name: TravelBidWeekendDays
+  title: Travel Bid Weekend Days
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: TravelDepartureArrival
+  title: TravelDepartureArrival
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: TravelDetails
+  title: TravelDetails
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: arrival
+    target: TravelDepartureArrival
+  - type: has_one
+    via: departure
+    target: TravelDepartureArrival
+- name: TravelProgramFormatType
+  title: Travel Program Format Type
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: TravelProgramQuestion
+  title: Travel Program Question
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: responseType
+    target: QuestionResponseType
+  - type: has_one
+    via: responseDataType
+    target: QuestionResponseDataType
+  - type: has_one
+    via: responseFormat
+    target: QuestionResponseFormat
+- name: TravelProgramQuestion-1
+  title: Travel Program Question
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields:
+  - questionId
+  relationships:
+  - type: belongs_to
+    via: questionId
+    target_hint: Question
+  - type: has_one
+    via: section
+    target: QuestionSection
+- name: TravelProgramStatus
+  title: Travel Program Status
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: TravelProgramStayType
+  title: Travel Program Stay Type
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: TravelProgramType
+  title: Travel Program Type
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: TravelProposalBid
+  title: Travel Proposal Bid
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: TravelProposalBidRate
+  title: Travel Proposal Bid Rate
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: level
+    target: RateLevelType
+  - type: has_one
+    via: type
+    target: RateType
+- name: TravelProposalCustomQuestion
+  title: Travel Proposal Custom Question
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: TravelProposalDisposition
+  title: Travel Proposal Disposition
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_many
+    via: bidDispositions
+    target: TravelBidDisposition
+- name: TravelProposalGroupAndMeeting
+  title: Travel Proposal Group and Meeting
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: runOfHouseRate
+    target: TravelProposalGroupAndMeetingRunOfHouseRate
+  - type: has_one
+    via: dayDelegateRate
+    target: TravelProposalGroupAndMeetingDayDelegateRate
+  - type: has_one
+    via: taxAndServiceCharge
+    target: TravelProposalGroupAndMeetingTaxAndServiceCharge
+  - type: has_one
+    via: meetingRoomBasicInformation
+    target: TravelProposalGroupAndMeetingMeetingRoomBasicInformation
+  - type: has_one
+    via: amenity
+    target: TravelProposalGroupAndMeetingAmenity
+  - type: has_one
+    via: breakOutRoom
+    target: TravelProposalGroupAndMeetingBreakOutRoom
+- name: TravelProposalGroupAndMeetingAmenity
+  title: Travel Proposal Group And Meeting Amenity
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: TravelProposalGroupAndMeetingBreakOutRoom
+  title: Travel Proposal Group And Meeting Break Out Room
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: TravelProposalGroupAndMeetingDayDelegateRate
+  title: Travel Proposal Group And Meeting Day Delegate Rate
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: TravelProposalGroupAndMeetingMeetingRoomBasicInformation
+  title: Travel Proposal Group And Meeting Meeting Room Basic Information
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: TravelProposalGroupAndMeetingRunOfHouseRate
+  title: Travel Proposal Group And Meeting Run of House Rate
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: TravelProposalGroupAndMeetingTaxAndServiceCharge
+  title: Travel Proposal Group And Meeting Tax and Service Charge
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: TravelRequestStatus
+  title: TravelRequestStatus
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields: []
+  relationships: []
+- name: UUIDProperty
+  title: UUID Property
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: ValidToken
+  title: Valid Token
+  domains:
+  - Authentication
+  specs:
+  - openapi/cvent-hospitality-cloud-authentication-openapi.yml
+  id_fields:
+  - tokenValid
+  relationships:
+  - type: belongs_to
+    via: tokenValid
+    target_hint: TokenValid
+- name: Venue
+  title: Venue
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: address
+    target: VenueAddress
+- name: VenueAddress
+  title: VenueAddress
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: VenueFacility
+  title: VenueFacility
+  domains:
+  - Venue Profiles
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: eventInsurance
+    target: EventInsurance
+- name: VenueID
+  title: Venue ID
+  domains:
+  - Venue Meeting Rooms
+  - Venue Profiles
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  - openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml
+  id_fields: []
+  relationships: []
+- name: VenueIntegrationPreference
+  title: VenueIntegrationPreference
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: type
+    target: VenueIntegrationType
+- name: VenueIntegrationType
+  title: VenueIntegrationType
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships: []
+- name: VenueSummary
+  title: VenueSummary
+  domains:
+  - Proposal Draft
+  specs:
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: VenueType
+  title: Venue Type
+  domains:
+  - Venue Profiles
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml
+  id_fields: []
+  relationships: []
+- name: WeddingDetails-1
+  title: Wedding Details
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: firstPartner
+    target: WeddingPartner
+  - type: has_one
+    via: secondPartner
+    target: WeddingPartner
+- name: WeddingPartner
+  title: WeddingPartner
+  domains:
+  - RFP Management
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: type
+    target: BrideGroomType
+- name: address.json
+  title: Address
+  domains:
+  - Travel Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-suppliers-openapi.yml
+  id_fields: []
+  relationships: []
+- name: air-actual-detail
+  title: AirActualPaginatedResponse
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: AirActualDetail
+- name: air-reservation-detail
+  title: AirReservationPaginatedResponse
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: AirReservationDetail
+- name: alternate-travel-paginated-response
+  title: AlternateTravelPaginatedResponse
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_many
+    via: data
+    target: AlternateTravelDetail
+- name: available-nights
+  title: AvailableNightsList
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: AvailableNight
+- name: brand
+  title: Brand
+  domains:
+  - Travel Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-suppliers-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: address
+    target: address.json
+- name: brand-paginated-response
+  title: Brand paginated response
+  domains:
+  - Travel Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-suppliers-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: paging.json
+  - type: has_many
+    via: data
+    target: brand
+- name: business-type
+  title: Business Type
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: chain
+  title: Chain
+  domains:
+  - Travel Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-suppliers-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: address
+    target: address.json
+- name: chain-paginated-response
+  title: Chain paginated response
+  domains:
+  - Travel Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-suppliers-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: paging.json
+  - type: has_many
+    via: data
+    target: chain
+- name: choice-sort-order
+  title: null
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships: []
+- name: connection-response
+  title: ConnectionResponse
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields:
+  - eventId
+  relationships:
+  - type: belongs_to
+    via: eventId
+    target_hint: Event
+- name: credit-card-types
+  title: null
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: currency.json
+  title: Currency
+  domains:
+  - Housing Hotels
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-hotels-openapi.yml
+  id_fields: []
+  relationships: []
+- name: date-answer-format
+  title: null
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships: []
+- name: display-type
+  title: null
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships: []
+- name: error-response
+  title: ErrorResponse
+  domains:
+  - Housing
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_many
+    via: details
+    target: ErrorResponseBase1
+- name: existing-reservation
+  title: ExistingReservation
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: hotel
+    target: HotelInfo
+  - type: has_one
+    via: bookingSite
+    target: BookingWebsiteLink
+  - type: has_one
+    via: callCenter
+    target: CallCenterLink
+  - type: has_many
+    via: addOns
+    target: AddOn
+- name: existing-reservation-request
+  title: ExistingReservationRequest
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: status
+    target: ReservationRequestStatus
+  - type: has_one
+    via: bookingSite
+    target: BookingWebsiteLink
+  - type: has_one
+    via: callCenter
+    target: CallCenterLink
+- name: existingMeetingRoom
+  title: Existing Meeting Room
+  domains:
+  - Venue Meeting Rooms
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: existingVenueDetails
+  title: ExistingVenueDetails
+  domains:
+  - Venue Profiles
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: existingVenueFacility
+  title: ExistingVenueFacility
+  domains:
+  - Venue Profiles
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: external-code-type.json
+  title: External Code Type
+  domains:
+  - Travel Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-suppliers-openapi.yml
+  id_fields: []
+  relationships: []
+- name: format-type
+  title: Format Type
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: hotel-reservation-detail
+  title: HotelReservationPaginatedResponse
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: HotelReservationDetail
+- name: housing-event
+  title: HousingEvent
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: defaultLocale
+    target: Locale-11
+  - type: has_many
+    via: locales
+    target: Locale-11
+  - type: has_one
+    via: reservationContact
+    target: ReservationContact
+  - type: has_many
+    via: attendeeTypes
+    target: AttendeeType
+  - type: has_many
+    via: planners
+    target: Planner
+  - type: has_one
+    via: currency
+    target: Currency1
+  - type: has_one
+    via: roomsSortType
+    target: rooms-sort-type
+- name: housing-event-hotel
+  title: HotelDetails
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: housingEvent
+    target: HousingEventId
+  - type: has_many
+    via: images
+    target: ImageLink
+  - type: has_one
+    via: proximity
+    target: Proximity
+  - type: has_one
+    via: rating
+    target: HotelRating
+  - type: has_one
+    via: address
+    target: Address3
+  - type: has_many
+    via: rewardPrograms
+    target: RewardProgram
+- name: housing-event-hotels-list
+  title: HotelsList
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: housing-event-hotel
+- name: housing-event-room-types-list
+  title: RoomTypesList
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: room-type-details
+- name: housing-event-summary-list
+  title: HousingEventSummaryList
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: HousingEventSummary
+- name: inventory-details
+  title: null
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: rate
+    target: night-rate
+  - type: has_one
+    via: maxGuests
+    target: MaxGuests
+- name: inventory-details-list
+  title: InventoryDetailsList
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: room-inventory
+- name: lastModified
+  title: null
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields: []
+  relationships: []
+- name: link.json
+  title: Link
+  domains:
+  - Travel Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-suppliers-openapi.yml
+  id_fields: []
+  relationships: []
+- name: meeting-request
+  title: MeetingRequest
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields:
+  - id
+  - sourceId
+  relationships:
+  - type: has_one
+    via: status
+    target: MeetingRequestStatus
+  - type: has_many
+    via: questions
+    target: MeetingRequestQuestion
+  - type: belongs_to
+    via: sourceId
+    target_hint: Source
+- name: meeting-request-bulk-create
+  title: MeetingRequestBulkCreate
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships: []
+- name: meeting-request-bulk-response
+  title: MeetingRequestBulkResponse
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships: []
+- name: meeting-request-bulk-update
+  title: MeetingRequestBulkUpdate
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships: []
+- name: meeting-request-document-paginated-response
+  title: MeetingRequestDocumentPaginatedResponse
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: MeetingRequestDocument
+- name: meeting-request-form
+  title: MeetingRequestForm
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_many
+    via: questions
+    target: MeetingRequestCustomField
+- name: meeting-request-form-paginated-response
+  title: MeetingRequestFormResponse
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: meeting-request-form
+- name: meeting-request-paginated-response
+  title: MeetingRequestPaginatedResponse
+  domains:
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: meeting-request
+- name: meetingRoom
+  title: Meeting Room
+  domains:
+  - Venue Meeting Rooms
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  id_fields:
+  - externalSourceId
+  relationships:
+  - type: belongs_to
+    via: externalSourceId
+    target_hint: ExternalSource
+  - type: has_one
+    via: capacities
+    target: MeetingRoomCapacities
+  - type: has_many
+    via: amenities
+    target: MeetingRoomAmenity
+- name: meetingRoomImage
+  title: Meeting Room Image
+  domains:
+  - Venue Meeting Rooms
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: meetingRoomImageAssociationRequest
+  title: Meeting Room Image Association Request
+  domains:
+  - Venue Meeting Rooms
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  id_fields: []
+  relationships: []
+- name: meetingRoomImageAssociationResponse
+  title: Meeting Room Image Association Response
+  domains:
+  - Venue Meeting Rooms
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  id_fields: []
+  relationships: []
+- name: meetingRoomImagesResponse
+  title: Meeting Room Images Response
+  domains:
+  - Venue Meeting Rooms
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_many
+    via: data
+    target: meetingRoomImage
+- name: meetingRoomOverview
+  title: Meeting Room Overview
+  domains:
+  - Venue Meeting Rooms
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: meetingRoomsOverviewResponse
+  title: Meeting Rooms Overview Response
+  domains:
+  - Venue Meeting Rooms
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: meetingRoomOverview
+- name: new-reservation
+  title: NewReservation
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: night-rate
+  title: null
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: currency
+    target: Currency1
+- name: numeric-answer-format
+  title: null
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships: []
+- name: pagination-links.json
+  title: PaginationLinks
+  domains:
+  - Travel Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-suppliers-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: next
+    target: link.json
+  - type: has_one
+    via: self
+    target: link.json
+  - type: has_one
+    via: prev
+    target: link.json
+- name: paging.json
+  title: Paging
+  domains:
+  - Travel Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-suppliers-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: _links
+    target: pagination-links.json
+- name: patchMeetingRoom
+  title: MeetingRoomPatch
+  domains:
+  - Venue Meeting Rooms
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  id_fields:
+  - externalSourceId
+  relationships:
+  - type: belongs_to
+    via: externalSourceId
+    target_hint: ExternalSource
+  - type: has_many
+    via: amenities
+    target: MeetingRoomAmenity
+- name: payment-types
+  title: null
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: property
+  title: property
+  domains:
+  - Travel Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-suppliers-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: address
+    target: address.json
+  - type: has_many
+    via: externalCodes
+    target: property-external-code.json
+- name: property-external-code.json
+  title: Property External Codes
+  domains:
+  - Travel Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-suppliers-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: type
+    target: external-code-type.json
+- name: property-paginated-response
+  title: Property paginated response
+  domains:
+  - Travel Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-suppliers-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: paging.json
+  - type: has_many
+    via: data
+    target: property
+- name: property-room
+  title: Property Room
+  domains:
+  - Travel Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-suppliers-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: bedTypeCode
+    target: room-bed-type.json
+  - type: has_many
+    via: externalCodes
+    target: property-room-external-code.json
+- name: property-room-external-code.json
+  title: Property Room External Code
+  domains:
+  - Travel Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-suppliers-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: type
+    target: external-code-type.json
+- name: property-room-paginated-response
+  title: Property room paginated response
+  domains:
+  - Travel Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-suppliers-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: paging.json
+  - type: has_many
+    via: data
+    target: property-room
+- name: property/allOf/0
+  title: Audit
+  domains:
+  - Travel Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-suppliers-openapi.yml
+  id_fields: []
+  relationships: []
+- name: proposal-status-type
+  title: Proposal Status Type
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships: []
+- name: question
+  title: Travel Program Question
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: responseType
+    target: QuestionResponseType
+  - type: has_one
+    via: responseDataType
+    target: QuestionResponseDataType
+  - type: has_one
+    via: responseFormat
+    target: QuestionResponseFormat
+- name: question-paginated-response
+  title: Travel Program Question Paginated Response
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: question
+- name: questions-paginated-response1
+  title: Travel Program Questions Paginated Response
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: TravelProgramQuestion
+- name: reservation-request
+  title: ReservationRequest
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields:
+  - membershipId
+  - sourceId
+  relationships:
+  - type: belongs_to
+    via: sourceId
+    target_hint: Source
+  - type: has_one
+    via: locale
+    target: Locale-11
+  - type: has_one
+    via: housingEvent
+    target: HousingEventId
+  - type: has_one
+    via: attendeeType
+    target: AttendeeTypeId
+  - type: has_one
+    via: roomType
+    target: RoomTypeId
+  - type: has_one
+    via: hotel
+    target: HotelId
+  - type: has_many
+    via: guests
+    target: Guest1
+  - type: has_one
+    via: customFields
+    target: CustomFields
+  - type: has_one
+    via: rewardProgram
+    target: RewardProgram
+  - type: belongs_to
+    via: membershipId
+    target_hint: Membership
+  - type: has_one
+    via: travelDetails
+    target: TravelDetails
+- name: reservation-request-paginated-response
+  title: HousingReservationPaginatedResponse
+  domains:
+  - Event Travel
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: HousingReservationResponse
+- name: reservations-paginated-response
+  title: ExistingReservations
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: existing-reservation
+- name: room-bed-type.json
+  title: Room bed type
+  domains:
+  - Travel Suppliers
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-suppliers-openapi.yml
+  id_fields: []
+  relationships: []
+- name: room-inventory
+  title: null
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: housingEvent
+    target: HousingEventId
+  - type: has_one
+    via: hotel
+    target: HotelId
+  - type: has_one
+    via: roomType
+    target: RoomId
+  - type: has_many
+    via: allocation
+    target: InventoryAllocation
+- name: room-type-details
+  title: RoomTypeDetails
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: housingEvent
+    target: HousingEventId
+  - type: has_one
+    via: hotel
+    target: HotelId
+  - type: has_many
+    via: attendeeTypes
+    target: RoomAttendeeType
+  - type: has_many
+    via: images
+    target: ImageLink
+  - type: has_one
+    via: roomCategory
+    target: RoomCategory
+- name: rooms-sort-type
+  title: null
+  domains:
+  - Housing
+  specs:
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  id_fields: []
+  relationships: []
+- name: signatures-response
+  title: SignaturesResponse
+  domains:
+  - Signatures
+  specs:
+  - openapi/cvent-hospitality-cloud-signatures-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: AttendeeSignatureResponse
+- name: text-answer-format
+  title: null
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships: []
+- name: travel-account
+  title: Travel Account
+  domains:
+  - Travel Accounts
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-accounts-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: type
+    target: TravelAccountType
+  - type: has_many
+    via: addresses
+    target: Address8
+- name: travel-account-paginated-response
+  title: Travel account paginated response
+  domains:
+  - Travel Accounts
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-accounts-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: travel-account
+- name: travel-account-supplier-account
+  title: Supplier Travel Account
+  domains:
+  - Travel Accounts
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-accounts-openapi.yml
+  id_fields:
+  - chainDefinedId
+  - crmId
+  relationships:
+  - type: has_one
+    via: managementLevel
+    target: ManagementLevelType1
+  - type: belongs_to
+    via: crmId
+    target_hint: Crm
+  - type: belongs_to
+    via: chainDefinedId
+    target_hint: ChainDefined
+- name: travel-account-supplier-account-paginated-response
+  title: Supplier travel account paginated response
+  domains:
+  - Travel Accounts
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-accounts-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: travel-account-supplier-account
+- name: travel-program
+  title: Travel Program
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: type
+    target: TravelProgramType
+  - type: has_one
+    via: format
+    target: TravelProgramFormatType
+  - type: has_one
+    via: status
+    target: TravelProgramStatus
+  - type: has_one
+    via: stayType
+    target: TravelProgramStayType
+  - type: has_many
+    via: questions
+    target: TravelProgramQuestion-1
+- name: travel-program-paginated-response
+  title: Travel program paginated response
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: travel-program
+- name: travel-proposal
+  title: Travel Proposal
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: status
+    target: proposal-status-type
+  - type: has_one
+    via: rateReviewStatus
+    target: RateReviewStatusType
+  - type: has_one
+    via: businessType
+    target: business-type
+  - type: has_one
+    via: format
+    target: format-type
+  - type: has_many
+    via: bids
+    target: TravelProposalBid
+  - type: has_many
+    via: customQuestionAnswers
+    target: TravelProposalCustomQuestion
+  - type: has_one
+    via: groupAndMeeting
+    target: TravelProposalGroupAndMeeting
+  - type: has_one
+    via: proposalDisposition
+    target: TravelProposalDisposition
+- name: travel-proposal-bid
+  title: Travel Proposal Bid
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields:
+  - id
+  relationships:
+  - type: has_one
+    via: stayType
+    target: BidStayType
+  - type: has_one
+    via: status
+    target: BidStatusType
+  - type: has_one
+    via: rate
+    target: TravelProposalBidRate
+  - type: has_many
+    via: weekendDays
+    target: TravelBidWeekendDays
+  - type: has_many
+    via: comments
+    target: TravelBidComment
+  - type: has_many
+    via: roomTypes
+    target: TravelBidRoom
+  - type: has_many
+    via: seasons
+    target: TravelBidSeason
+  - type: has_many
+    via: discounts
+    target: TravelBidDiscount
+  - type: has_many
+    via: fairSeasons
+    target: TravelBidFairSeason
+  - type: has_many
+    via: amenities
+    target: TravelBidAmenity
+  - type: has_many
+    via: policies
+    target: TravelBidPolicy
+  - type: has_many
+    via: taxesAndFees
+    target: TravelBidTaxAndFee
+- name: travel-proposal-bid-paginated-response
+  title: Travel Proposal Paginated Response
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: travel-proposal-bid
+- name: travel-proposal-paginated-response
+  title: Travel Proposal Paginated Response
+  domains:
+  - Travel RFPs
+  specs:
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: paging
+    target: Paging
+  - type: has_many
+    via: data
+    target: travel-proposal
+- name: unit-position
+  title: null
+  domains:
+  - RFP Requirements
+  specs:
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  id_fields: []
+  relationships: []
+- name: uuid-property
+  title: UUID Property
+  domains:
+  - Event Travel
+  - Meeting Request
+  specs:
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  id_fields: []
+  relationships: []
+- name: venueDetails
+  title: VenueDetails
+  domains:
+  - Venue Profiles
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: type
+    target: VenueType
+  - type: has_one
+    via: chainScale
+    target: ChainScale
+  - type: has_one
+    via: currency
+    target: Currency
+  - type: has_many
+    via: locationTypes
+    target: LocationType
+  - type: has_one
+    via: address
+    target: AddressInfo
+- name: venueDetailsOverview
+  title: Venue Details Overview
+  domains:
+  - Venue Profiles
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml
+  id_fields:
+  - id
+  relationships: []
+- name: venueDetailsPatch
+  title: VenueDetailsPatch
+  domains:
+  - Venue Profiles
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml
+  id_fields: []
+  relationships:
+  - type: has_one
+    via: type
+    target: VenueType
+  - type: has_many
+    via: locationTypes
+    target: LocationType
+- name: venueFacilityPatch
+  title: VenueFacilityPatch
+  domains:
+  - Venue Profiles
+  specs:
+  - openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml
+  id_fields: []
+  relationships: []

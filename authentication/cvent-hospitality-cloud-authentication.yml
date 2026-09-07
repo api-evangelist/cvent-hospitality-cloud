@@ -1,23 +1,79 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/cvent-hospitality-cloud-openapi.yml
+generated: '2026-09-07'
+method: searched
+docs:
+  - https://developers.cvent.com/docs/rest-api/reference/reference
+  - https://developers.cvent.com/docs/rest-api/tutorials/developer-quickstart
+  - https://developers.cvent.com/docs/rest-api/explanation/concepts
+note: >-
+  Read from the securitySchemes block of the contract Cvent publishes at
+  https://developers.cvent.com/documentation and cross-checked against the developer portal. Every
+  hospitality operation is OAuth 2.0 bearer-protected: 'Authorization: Bearer {accessToken}', tokens
+  valid for 60 minutes, minted at https://api-platform.cvent.com/ea/oauth2/token. Machine-to-machine
+  integrations use client credentials and the call is attributed to the application; web applications use
+  the authorization code flow and the call is attributed to the authenticating Cvent administrator, who
+  must be both an admin and a registered developer.
+  Two additional schemes in the contract, CallbackApiKeyAuth and CallbackBasicAuth, are INBOUND — they
+  describe how Cvent authenticates itself to a subscriber's webhook endpoint, not how a client
+  authenticates to Cvent.
+  The legacy SOAP API does NOT use OAuth: it exchanges credentials for a session ticket via its own Login
+  call (see wsdl/cvent-hospitality-cloud-soap-v200611.yml).
+token_lifetime: 60 minutes
+scope_count: 238
+source: openapi/cvent-hospitality-cloud-authentication-openapi.yml, openapi/cvent-hospitality-cloud-event-travel-openapi.yml,
+  openapi/cvent-hospitality-cloud-housing-hotels-openapi.yml, openapi/cvent-hospitality-cloud-housing-openapi.yml,
+  openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml, openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml,
+  openapi/cvent-hospitality-cloud-rfp-additional-details-openapi.yml, openapi/cvent-hospitality-cloud-rfp-management-openapi.yml,
+  openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml, openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml,
+  openapi/cvent-hospitality-cloud-signatures-openapi.yml, openapi/cvent-hospitality-cloud-travel-accounts-openapi.yml
+  ...
 summary:
   types:
-  - http
   - oauth2
   oauth2_flows:
+  - authorizationCode
   - clientCredentials
 schemes:
-- name: OAuth2ClientCredentials
+- name: OAuth2.clientCredentials
   type: oauth2
   flows:
   - flow: clientCredentials
-    tokenUrl: https://api-platform.cvent.com/reglink/v1/authentication/token
-    scopes: 2
+    tokenUrl: https://api-platform.cvent.com/ea/oauth2/token
+    scopes: 238
+  description: OAuth2 Client Credentials Flow.
   sources:
-  - openapi/cvent-hospitality-cloud-openapi.yml
-- name: BasicAuth
-  type: http
-  scheme: basic
+  - openapi/cvent-hospitality-cloud-authentication-openapi.yml
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  - openapi/cvent-hospitality-cloud-housing-hotels-openapi.yml
+  - openapi/cvent-hospitality-cloud-housing-openapi.yml
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  - openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-additional-details-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  - openapi/cvent-hospitality-cloud-signatures-openapi.yml
+  - openapi/cvent-hospitality-cloud-travel-accounts-openapi.yml
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  - openapi/cvent-hospitality-cloud-travel-suppliers-openapi.yml
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  - openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml
+- name: OAuth2.authorizationCode
+  type: oauth2
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://api-platform.cvent.com/ea/oauth2/authorize
+    tokenUrl: https://api-platform.cvent.com/ea/oauth2/token
+    scopes: 208
+  description: OAuth2 Authorization Code Flow.
   sources:
-  - openapi/cvent-hospitality-cloud-openapi.yml
+  - openapi/cvent-hospitality-cloud-authentication-openapi.yml
+  - openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  - openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-additional-details-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  - openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  - openapi/cvent-hospitality-cloud-signatures-openapi.yml
+  - openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  - openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  - openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml

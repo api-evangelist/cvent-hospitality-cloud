@@ -1,0 +1,83 @@
+generated: '2026-09-07'
+method: searched
+source: >-
+  https://developers.cvent.com/docs/rest-api/changelog, https://status.cvent.com/,
+  https://developers.cvent.com/docs/rest-api/migration-guide/calls-and-methods,
+  https://developers.cvent.com/docs/passkey/REST/migration, and the harvested contract
+versioning:
+  scheme: path segment
+  current: /ea
+  spec_info_version: ea
+  header_versioning: false
+  note: >-
+    There is no date-pinned or header-negotiated version. The /ea contract advances in place, published
+    on a roughly two-week cadence, and the changelog is the only version record.
+release_cadence:
+  interval: biweekly
+  observed_window: September 2022 through 2026-08-20
+  evidence: >-
+    71 dated release notes on https://developers.cvent.com/docs/rest-api/changelog, landing in
+    consistent two-week pairs (August 19-20 2026, August 5-6 2026, July 22-23 2026, July 7-8 2026,
+    June 17-18 2026 ...) and running back to September 2022.
+  artifact: changelog/cvent-hospitality-cloud-changelog.yml
+status_page:
+  url: https://status.cvent.com/
+  http_status: 200
+  note: >-
+    Public status page. It is a JavaScript application shell — every /.well-known/* path on that host
+    also answers 200 with the same HTML, which is why those probes are recorded as misses in
+    well-known/cvent-hospitality-cloud-well-known.yml.
+deprecation:
+  policy_published: false
+  policy_note: >-
+    Cvent publishes no standalone deprecation policy page and no notice period, and the contract carries
+    no Sunset or Deprecation response headers (RFC 8594 — searched the harvested document, zero
+    matches). What it does publish is per-change deprecation IN the changelog, per-operation
+    `deprecated: true` in the contract, and full written migration guides for the surfaces it is
+    replacing. That is a real practice without a stated guarantee.
+  rfc8594_headers: false
+  deprecated_operations_in_contract:
+    - operationId: getEmailStatus
+      path: GET /emails/{emailRequestId}/status
+    - operationId: getProgramItemDocuments
+      path: GET /program-items/{programItemId}/docs
+    - operationId: listWebcastAttendeeLinks
+      path: GET /webcasts/{id}/attendee-links
+  deprecated_in_hospitality_surface: 0
+  deprecated_note: >-
+    None of the three deprecated operations in the platform contract fall inside the hospitality surface
+    split into this repository.
+  changelog_deprecations: >-
+    The changelog carries an explicit "Deprecated" section on release days that have one (for example
+    June 18-19 2025).
+superseded_surfaces:
+  - name: Cvent SOAP Web Services API (V200611)
+    status: legacy
+    still_served: true
+    contract: wsdl/cvent-hospitality-cloud-soap-v200611.wsdl
+    successor: Cvent REST API (/ea)
+    migration_guide: https://developers.cvent.com/docs/rest-api/migration-guide/calls-and-methods
+    note: >-
+      Filed under legacy-api in Cvent's own navigation, with a call-by-call and object-by-object
+      mapping to REST. No sunset date is published and the WSDL still returns HTTP 200.
+  - name: Passkey RegLink XML and browser-based APIs
+    status: legacy
+    successor: Passkey RegLink REST (the Housing surface of the /ea contract)
+    migration_guide: https://developers.cvent.com/docs/passkey/REST/migration
+    note: >-
+      Cvent publishes a one-to-one mapping from each legacy call to its REST replacement —
+      CreateBridge to Create Reservation Request, GetEventDetails to Get Housing Event Info, GetBridge
+      to Get Reservation Request, and so on. One gap is called out honestly by Cvent itself: no single
+      REST operation matches CreateReservationFromBridge; the flow is Create Reservation followed by
+      Link Reservation.
+sla:
+  published: false
+  note: >-
+    No public SLA document. Availability commitments are contractual — the Passkey RegLink surface is
+    an add-on license negotiated with a Cvent account representative.
+support:
+  - https://support.cvent.com/
+  - https://www.cvent.com/en/contact/support
+tls_maintenance:
+  note: Cvent publishes a certificate-renewal guide for integrators pinning its TLS certificates.
+  url: https://developers.cvent.com/docs/rest-api/guides/tls-cert-renewal

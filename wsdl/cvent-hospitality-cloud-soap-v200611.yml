@@ -1,0 +1,60 @@
+generated: '2026-09-07'
+method: searched
+source: https://api.cvent.com/soap/V200611.asmx?WSDL
+note: >-
+  Cvent's legacy SOAP Web Services API. The WSDL is served live and anonymously, and Cvent's own docs
+  publish the endpoint (https://developers.cvent.com/docs/legacy-api/soap-api/framework names both the
+  North American and EU endpoints). Saved verbatim, byte-for-byte as fetched — nothing authored.
+file: cvent-hospitality-cloud-soap-v200611.wsdl
+service: V200611
+target_namespace: http://api.cvent.com/2006-11
+soap_version: '1.1'
+wsdl_version: '1.1'
+profile: WS-I Basic Profile 1.1
+operations: 51
+complex_types: 390
+size_bytes: 330911
+endpoints:
+  - region: North America
+    endpoint: https://api.cvent.com/soap/V200611.ASMX
+    wsdl: https://api.cvent.com/soap/V200611.ASMX?WSDL
+    http_status: 200
+  - region: European Union
+    endpoint: https://api-eur.cvent.com/SOAP/V200611.ASMX
+    wsdl: https://api-eur.cvent.com/SOAP/V200611.ASMX?wsdl
+    http_status: not-probed
+authentication:
+  model: ticket
+  note: >-
+    A Login call exchanges account credentials for a ticket (CvSessionHeader) that is presented on every
+    subsequent call. This is not OAuth — it is a separate credential system from the REST platform's
+    OAuth 2.0 at https://api-platform.cvent.com/ea/oauth2/token.
+rate_limits:
+  quota: 10000
+  window: 24h (midnight to midnight, Eastern Time)
+  scope: per organization
+  introspection: DescribeGlobal returns the account's current API call count and limit
+  source: https://developers.cvent.com/docs/legacy-api/soap-api/framework
+hospitality_operations:
+  - CreateRFP
+  - CreateMeetingRequest
+  - UpdateMeetingRequest
+  - CreateApprover
+  - UpdateApprover
+  - DeleteApprover
+status: legacy
+status_note: >-
+  Cvent files this under "legacy-api" in its own documentation and publishes a REST migration guide
+  (https://developers.cvent.com/docs/rest-api/migration-guide/calls-and-methods) mapping every SOAP call
+  to its REST equivalent. It is still served and still documented — legacy, not retired.
+docs:
+  - https://developers.cvent.com/docs/legacy-api/soap-api/framework
+  - https://developers.cvent.com/docs/legacy-api/soap-api/call-definitions/overview
+  - https://developers.cvent.com/docs/legacy-api/soap-api/error-codes
+  - https://developers.cvent.com/docs/legacy-api/soap-api/changelog
+  - https://developers.cvent.com/docs/rest-api/migration-guide/calls-and-methods
+x-evidence:
+  - url: https://api.cvent.com/soap/V200611.asmx?WSDL
+    http_status: 200
+    content_type: text/xml; charset=utf-8
+    fetched: '2026-09-07'

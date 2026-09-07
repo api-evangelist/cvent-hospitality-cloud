@@ -1,0 +1,247 @@
+generated: '2026-09-07'
+method: searched
+source: >-
+  https://developers.cvent.com/docs/rest-api/reference/reference,
+  https://developers.cvent.com/docs/rest-api/explanation/concepts,
+  https://developers.cvent.com/docs/rest-api/guides/handling-rate-limits,
+  https://developers.cvent.com/docs/rest-api/reference/api-standards,
+  and openapi/_original/cvent-hospitality-cloud-rest-apis-openapi.json
+note: >-
+  Cross-cutting runtime semantics for the Cvent REST API — the contract that carries the Hospitality
+  Cloud surface (Housing / Passkey RegLink, RFPs, Venues, Travel). Every statement below is either
+  quoted from a Cvent docs page or read out of the harvested contract.
+authentication:
+  style: OAuth 2.0 bearer
+  header: 'Authorization: Bearer {accessToken}'
+  flows:
+    - client_credentials
+    - authorization_code
+  token_endpoint: https://api-platform.cvent.com/ea/oauth2/token
+  authorization_endpoint: https://api-platform.cvent.com/ea/oauth2/authorize
+  token_lifetime: 60 minutes
+  scope_count: 238
+  scope_shape: '<domain>/<resource>:<read|write|delete>, e.g. housing/reservations:write'
+  gotcha: >-
+    A token carrying roughly 50 or more scopes trips HTTP 431 (Request headers too large). Cvent's own
+    guidance is to mint a runtime token with only the scopes a call needs.
+  artifacts:
+    - authentication/cvent-hospitality-cloud-authentication.yml
+    - scopes/cvent-hospitality-cloud-scopes.yml
+  docs: https://developers.cvent.com/docs/rest-api/explanation/concepts
+pagination:
+  style: opaque cursor
+  request_params:
+    - name: limit
+      in: query
+      note: Page size.
+    - name: token
+      in: query
+      note: The currentToken value from the previous response.
+  response_envelope: paging
+  response_fields:
+    - paging.limit
+    - paging.totalCount
+    - paging.currentToken
+  termination: >-
+    Continue until the response contains no currentToken, which indicates the last page.
+  docs: https://developers.cvent.com/docs/rest-api/reference/reference
+filtering:
+  style: POST /filter companion endpoints plus a match-filter grammar
+  note: >-
+    Many list surfaces have a POST sibling (for example POST /attendees/filter,
+    POST /logs/communications/messages/filter) that takes a structured filter body rather than query
+    parameters.
+  docs:
+    - https://developers.cvent.com/docs/rest-api/reference/filters
+    - https://developers.cvent.com/docs/rest-api/guides/match-filter
+change_tracking:
+  note: >-
+    The API Standards reference documents "Tracking Changes" query parameters for pulling only records
+    modified since a point in time; several list endpoints also expose a deleted boolean.
+  docs:
+    - https://developers.cvent.com/docs/rest-api/reference/api-standards
+    - https://developers.cvent.com/docs/rest-api/guides/managing-change-history
+field_semantics:
+  ordering: >-
+    "JSON Objects are collections of key/value pairs. Field ordering is mutable and not guaranteed to
+    match the order in the API reference." Clients must access values by key, never by position.
+  forward_compatibility: >-
+    "Design clients to ignore extra fields or handle them gracefully" — added response properties are
+    treated as non-breaking.
+  docs: https://developers.cvent.com/docs/rest-api/explanation/concepts
+error_envelope:
+  media_type: application/json
+  schema: ErrorResponse
+  required:
+    - code
+    - message
+  nested: details[] carries cascading child errors
+  problem_json: false
+  artifact: errors/cvent-hospitality-cloud-problem-types.yml
+rate_limit_signaling:
+  headers:
+    - X-RateLimit-Limit
+    - X-RateLimit-Remaining
+    - X-RateLimit-Reset
+  retry_after: false
+  retry_after_note: >-
+    Cvent does NOT return Retry-After. The published recovery strategy is client-side exponential
+    backoff, which is why the header list above matters more than usual.
+  exhaustion_status: 429
+  introspection:
+    - GET /usage
+    - GET /usage/tier
+  artifact: rate-limits/cvent-hospitality-cloud-rate-limits.yml
+  docs: https://developers.cvent.com/docs/rest-api/guides/handling-rate-limits
+versioning:
+  scheme: path segment on the host
+  current: /ea
+  servers:
+    - https://api-platform.cvent.com/ea
+    - https://api-platform-eur.cvent.com/ea
+  spec_version: ea
+  note: >-
+    There is no Accept-version or date-pinned version header. The contract advances in place on a
+    roughly two-week cadence and the changelog is the versioning record.
+  artifacts:
+    - lifecycle/cvent-hospitality-cloud-lifecycle.yml
+    - changelog/cvent-hospitality-cloud-changelog.yml
+data_residency:
+  note: >-
+    Two independent production regions with separate hosts and separate accounts. An integration is
+    bound to one of them; there is no cross-region routing.
+  regions:
+    - name: North America / global
+      rest: https://api-platform.cvent.com/ea
+      soap: https://api.cvent.com/soap/V200611.ASMX
+    - name: European Union
+      rest: https://api-platform-eur.cvent.com/ea
+      soap: https://api-eur.cvent.com/SOAP/V200611.ASMX
+idempotency:
+  coverage: none
+  mechanism: null
+  header: null
+  scope: []
+  evidence: >-
+    No Idempotency-Key header, no idempotency parameter, and no idempotency extension appears anywhere
+    in the 469-operation contract (searched openapi/_original/cvent-hospitality-cloud-rest-apis-openapi.json
+    for /idempoten/i — zero matches). The Concepts page says clients should "follow idempotency
+    guidelines for mutating endpoints when supported (for example use idempotency keys where available)"
+    but names no header, no retention window and no covered operation, and no other Cvent page defines
+    one.
+  consequence: >-
+    A retried POST /reservation-requests or POST /reservations can create a duplicate. Callers must
+    dedupe themselves — the RegLink flow's own sourceId (an attendee-specific identifier the caller
+    assigns and Passkey echoes back on callbacks) is the closest available correlation key, but it is a
+    caller-side convention, not a server-enforced idempotency contract.
+  docs: https://developers.cvent.com/docs/rest-api/explanation/concepts
+dry_run_mode:
+  supported: false
+  evidence: >-
+    No dry-run, preview, validate-only or simulate parameter appears on any mutating operation in the
+    contract.
+reversibility:
+  grade: documented
+  grade_basis: >-
+    Reversal paths exist and are documented operation-by-operation with their preconditions, but no Cvent
+    page or contract field states a TIME WINDOW inside which a reversal is accepted. Under the 0.12.0
+    rule that is `documented` (0.4), not `verified` (1.0). No window is asserted here because none is
+    published, and an invented window on a hotel booking is the error that costs a customer money.
+  write_surfaces:
+    - operation: createReservationRequest
+      method: POST
+      path: /reservation-requests
+      reversal: cancelReservationRequest
+      reversal_operation: DELETE /reservation-requests/{reservationRequestsId}
+      window: null
+      precondition: >-
+        "You cannot cancel a reservation request that already has a linked reservation." Unlink the
+        reservation first.
+      caveat: >-
+        "If a reservation has already been booked through this request, cancelling the request does not
+        cancel the linked reservation." Cancelling the request and cancelling the booking are two
+        separate actions.
+      source: openapi/cvent-hospitality-cloud-housing-openapi.yml
+    - operation: createReservation
+      method: POST
+      path: /reservations
+      reversal: cancelReservation
+      reversal_operation: DELETE /reservations/{reservationId}
+      window: null
+      caveat: >-
+        "Cancelling a reservation does not cancel the linked reservation request." After cancellation,
+        unlink the reservation from its request so a new one can be linked.
+      source: openapi/cvent-hospitality-cloud-housing-openapi.yml
+    - operation: linkReservation
+      method: POST
+      path: /reservation-requests/{reservationRequestsId}/reservations/{reservationId}
+      reversal: unlinkReservation
+      reversal_operation: DELETE /reservation-requests/{reservationRequestsId}/reservations/{reservationId}
+      window: null
+      note: >-
+        "Unlinking does not cancel or change the reservation itself." A clean, side-effect-free undo of
+        the link only.
+      source: openapi/cvent-hospitality-cloud-housing-openapi.yml
+    - operation: associateMeetingRoomImage
+      method: PUT
+      path: /venues/{venueId}/meeting-rooms/{meetingRoomId}/images
+      reversal: disassociateMeetingRoomImage
+      reversal_operation: DELETE /venues/{venueId}/meeting-rooms/{meetingRoomId}/images/{imageId}
+      window: null
+      source: openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+    - operation: createMeetingRoom
+      method: POST
+      path: /venues/{venueId}/meeting-rooms
+      reversal: null
+      window: null
+      note: >-
+        No delete operation for a meeting room is published. Creation of a meeting room is, on the
+        public contract, not reversible.
+      source: openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+    - operation: createMeetingRequest
+      method: POST
+      path: /meeting-request-forms/{id}/requests
+      reversal: null
+      window: null
+      note: >-
+        updateMeetingRequest (PUT) can change a submitted request, but no cancel or withdraw operation
+        is published.
+      source: openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+    - operation: createProposalDraft
+      method: POST
+      path: /proposal-drafts
+      reversal: null
+      window: null
+      source: openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+    - operation: updateHotelRoomRates
+      method: PUT
+      path: /housing-hotels/{hotelCode}/rooms/{roomCode}/rates
+      reversal: null
+      window: null
+      note: >-
+        A full replace with no versioning or restore path. Reversing a rate change means re-sending the
+        previous rates, which the caller must have kept.
+      source: openapi/cvent-hospitality-cloud-housing-hotels-openapi.yml
+  booking_windows_note: >-
+    housing-event-hotel carries reservationAccessDate and hotelCloseDate. These bound when a room block
+    can be BOOKED — they are not reversal windows, and are recorded here only so a reader does not
+    mistake one for the other.
+metadata:
+  supported: false
+  note: No general-purpose customer metadata bag on resources; extensibility is via account-defined custom fields.
+  custom_fields:
+    operations: 7
+    docs: https://developers.cvent.com/docs/platform/data-models/custom-fields
+request_tracing:
+  note: >-
+    Cvent stamps Request-ID on the webhook validation GET it sends to a subscriber endpoint. No
+    correlation-id request header is documented for inbound REST calls.
+  docs: https://developers.cvent.com/docs/webhooks/technical-requirements
+bulk:
+  note: Long-running bulk jobs return 207 Multi-Status with per-item results at GET /bulk-jobs/{id}/results.
+  docs: https://developers.cvent.com/docs/rest-api/guides/bulk-api-user-guide
+credential_rotation:
+  docs: https://developers.cvent.com/docs/rest-api/guides/rotating-api-credentials
+  termination_protection: >-
+    Applications can be marked with Termination Protection, which disables the Delete button on
+    credentials in production use.

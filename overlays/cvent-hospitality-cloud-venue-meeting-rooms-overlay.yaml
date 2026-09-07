@@ -1,0 +1,46 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — Cvent Venue Meeting Rooms API
+  version: 1.0.0
+extends: cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+actions:
+- target: $.info
+  description: 'Record provenance: which document this was split from, and where it was fetched.'
+  update:
+    x-apievangelist-source: https://developers.cvent.com/documentation
+    x-apievangelist-source-transport: https://developers.cvent.com/api/graphql (query getPublicSpec)
+    x-apievangelist-source-document: openapi/_original/cvent-hospitality-cloud-rest-apis-openapi.json
+    x-apievangelist-source-title: Cvent REST APIs
+    x-apievangelist-split-by-tag: Venue Meeting Rooms
+    x-apievangelist-harvested: '2026-09-07'
+    x-apievangelist-method: searched
+- target: $.info
+  description: Cross-link the derived artifacts in this repository that describe how to call this surface.
+  update:
+    x-apievangelist-artifacts:
+      authentication: authentication/cvent-hospitality-cloud-authentication.yml
+      scopes: scopes/cvent-hospitality-cloud-scopes.yml
+      conventions: conventions/cvent-hospitality-cloud-conventions.yml
+      errors: errors/cvent-hospitality-cloud-problem-types.yml
+      rate_limits: rate-limits/cvent-hospitality-cloud-rate-limits.yml
+      lifecycle: lifecycle/cvent-hospitality-cloud-lifecycle.yml
+      data_model: data-model/cvent-hospitality-cloud-data-model.yml
+- target: $.paths.*.*[?(@.operationId)]
+  description: Flag that every operation on this surface is OAuth 2.0 bearer-protected and rate limited; a 429
+    carries no Retry-After, so clients must apply the documented exponential backoff.
+  update:
+    x-apievangelist-runtime:
+      auth: OAuth 2.0 bearer (client credentials or authorization code)
+      rate_limit_headers:
+      - X-RateLimit-Limit
+      - X-RateLimit-Remaining
+      - X-RateLimit-Reset
+      exhaustion_status: 429
+      retry_after_header: false
+      idempotency: none-documented
+x-apievangelist-note: 'Overlay of API Evangelist enhancements only. It never mutates Cvent''s contract: the harvested
+  document is preserved verbatim at openapi/_original/cvent-hospitality-cloud-rest-apis-openapi.json and the split
+  file it extends carries Cvent''s own operations, schemas and descriptions unchanged.'
+x-apievangelist-surface:
+  operations: 8
+  mutating_operations: 5

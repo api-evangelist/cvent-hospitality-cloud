@@ -1,4 +1,4 @@
-generated: '2026-07-11'
+generated: '2026-09-07'
 method: searched
 probe: true
 source: https://trust.cvent.com/
@@ -18,8 +18,8 @@ evidence:
   - soc 2
   - soc2
   - iso 27001
+  - pci dss
   - pci-dss
   - hipaa
   - fedramp
   - trust center
-  - gdpr

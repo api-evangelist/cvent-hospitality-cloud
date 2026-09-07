@@ -1,0 +1,119 @@
+generated: '2026-09-07'
+method: derived
+source: openapi/ (16 tag-split documents) + https://developers.cvent.com/docs/rest-api/reference/reference
+format: vendor-json
+note: Cvent does NOT use RFC 9457 application/problem+json. Every error in the contract is an ordinary application/json
+  body carrying the ErrorResponse envelope below, and the docs error table confirms the status-code semantics.
+  Titles and remediation come from the published REST API reference; the counts and per-status coverage are derived
+  from the contract itself.
+envelope:
+  media_type: application/json
+  schema: ErrorResponse
+  required:
+  - code
+  - message
+  fields:
+  - name: code
+    type: string
+    description: Machine-readable error code.
+  - name: message
+    type: string
+    description: Human-readable description of the failure.
+  - name: details
+    type: array
+    description: Cascading child errors, each an ErrorResponse base object.
+  source: components.schemas.error-response / ErrorResponse in the harvested contract
+problem_types:
+- status: 400
+  title: Bad Request
+  meaning: The request body or parameters are invalid or malformed.
+  remediation: Validate the payload against the operation schema before retrying; retrying an identical request
+    will fail identically.
+  operations_declaring_it: 72
+  contract_description: Bad request
+  example_operations:
+  - oauth2Authorize
+  - oauth2Token
+  - validateToken
+  - getAirActualDetail
+  - getAirRequests
+  - getAlternateTravelAnswers
+- status: 401
+  title: Unauthorized
+  meaning: The Bearer token is missing, expired, or invalid.
+  remediation: Request a new access token from https://api-platform.cvent.com/ea/oauth2/token. Tokens are valid
+    for 60 minutes.
+  operations_declaring_it: 86
+  contract_description: Bad or expired token
+  example_operations:
+  - oauth2Token
+  - validateToken
+  - getAirActualDetail
+  - getAirRequests
+  - getAlternateTravelAnswers
+  - getHotelRequests
+- status: 403
+  title: Forbidden
+  meaning: The token does not have the required scope for this operation.
+  remediation: Add the operation's scope to the application in the Cvent workspace, then mint a new token. Tokens
+    carrying more than ~50 scopes trigger HTTP 431.
+  operations_declaring_it: 85
+  contract_description: You do not have access to the resource
+  example_operations:
+  - validateToken
+  - getAirActualDetail
+  - getAirRequests
+  - getAlternateTravelAnswers
+  - getHotelRequests
+  - getHousingReservationRequests
+- status: 404
+  title: Not Found
+  meaning: The requested resource does not exist.
+  remediation: Check the identifier. Housing, RFP and venue identifiers are account-scoped.
+  operations_declaring_it: 69
+  contract_description: Resource not found
+  example_operations:
+  - getAirActualDetail
+  - getAirRequests
+  - getAlternateTravelAnswers
+  - getHotelRequests
+  - getHousingReservationRequests
+  - updateHotelRoomRates
+- status: 422
+  title: Unprocessable Entity
+  meaning: The request was well-formed but semantically invalid.
+  remediation: Correct the field named in details[] and resubmit.
+  operations_declaring_it: 1
+  contract_description: Was not able to process the request.
+  example_operations:
+  - getMRFById
+- status: 429
+  title: Too Many Requests
+  meaning: The account exceeded its per-second rate limit or daily quota.
+  remediation: Back off exponentially starting at 2s plus 1-1000ms jitter, doubling to a 16s ceiling, for at most
+    five attempts. A daily-quota 429 will not clear until after midnight UTC. Every request, including a 429,
+    counts against quota.
+  operations_declaring_it: 85
+  contract_description: Too many requests
+  example_operations:
+  - validateToken
+  - getAirActualDetail
+  - getAirRequests
+  - getAlternateTravelAnswers
+  - getHotelRequests
+  - getHousingReservationRequests
+- status: 431
+  title: Request Header Fields Too Large
+  meaning: The access token carries too many scopes (~50+).
+  remediation: Mint a runtime token with only the scopes the call needs.
+  operations_declaring_it: 0
+  contract_description: null
+  note: Documented on https://developers.cvent.com/docs/rest-api/explanation/concepts but not declared on any
+    operation in the contract.
+response_schemas_in_contract:
+- schema: ErrorResponse-12
+  used_by_responses: 392
+- schema: error-response
+  used_by_responses: 3
+- schema: Oauth2TokenPostResponse-0
+  used_by_responses: 1

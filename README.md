@@ -82,7 +82,7 @@ Cvent Hospitality Cloud is the hotel and venue product line of the Cvent Platfor
 - Hospitality Cloud
 - Hotels
 - Housing
-- OAuth 2.0
+- Authentication
 - Passkey
 - Reservations
 - RFP
@@ -95,16 +95,16 @@ Cvent Hospitality Cloud is the hotel and venue product line of the Cvent Platfor
 ## Timestamps
 
 - **Created:** 2024-01-01
-- **Modified:** 2026-04-28
+- **Modified:** 2026-09-07
 
 ## APIs
 
 ### Cvent Passkey RegLink API
 
-Passkey RegLink APIs are RESTful JSON APIs (with legacy URL-based and SOAP options) that connect Cvent registration with Passkey hotel reservations. Primary functions include sending registrant information to Passkey to streamline hotel reservations, fetching Passkey event and hotel availability, retrieving reservation information, and creating, updating, and cancelling registrant reservations.
+Passkey RegLink is the hotel room-block and housing surface of the Cvent platform. It connects an external registration system to Passkey events and hotel inventory: fetch housing events, hotels, room types, availability and inventory; create a reservation request (the "bridge") that pre-populates a registrant and hands them a unique booking link; then create, update, cancel, link and unlink the resulting reservations. Cvent's own migration guide maps every legacy XML and browser RegLink call onto these operations. It is delivered as the Housing and Housing Hotels tags of the unified Cvent REST API at https://api-platform.cvent.com/ea, secured with OAuth 2.0 and 15 housing/* scopes, with an optional callback service that POSTs on reservation create, modify and cancel. Passkey is an add-on licence.
 
 - **Human URL:** [https://developers.cvent.com/docs/passkey/REST/overview](https://developers.cvent.com/docs/passkey/REST/overview)
-- **Base URL:** `https://api-platform.cvent.com`
+- **Base URL:** `https://api-platform.cvent.com/ea`
 
 #### Tags
 
@@ -113,50 +113,378 @@ Passkey RegLink APIs are RESTful JSON APIs (with legacy URL-based and SOAP optio
 - Passkey
 - Reservations
 - Room Blocks
+- Housing
 
 #### Properties
 
+- [Open API](openapi/cvent-hospitality-cloud-housing-openapi.yml)
+- [Open API](openapi/cvent-hospitality-cloud-housing-hotels-openapi.yml)
+- [Overlay](overlays/cvent-hospitality-cloud-housing-overlay.yaml)
 - [Documentation](https://developers.cvent.com/docs/passkey/REST/overview)
 - [Getting Started](https://developers.cvent.com/docs/passkey/REST/getting-started)
-- [Passkey Docs](https://developers.cvent.com/doc/passkey/)
-- [Product](https://www.cvent.com/en/hospitality-cloud/passkey)
-- [Postman Collection](collections/cvent-hospitality-cloud.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cvent-hospitality-cloud.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Migration](https://developers.cvent.com/docs/passkey/REST/migration)
+- [Webhooks](https://developers.cvent.com/docs/passkey/REST/callbacks)
+- [Webhooks](asyncapi/cvent-hospitality-cloud-webhooks.yml)
+- [Agent Skill](skills/cvent-hospitality-cloud-reglink-room-block-booking.md)
+- [Agent Skill](skills/cvent-hospitality-cloud-housing-reservation-management.md)
+- [Data Model](https://developers.cvent.com/docs/platform/data-models/housing)
+- [Product](https://www.cvent.com/en/supplier-venue/passkey)
 
 ### Cvent Platform REST API (Hospitality)
 
-The unified Cvent Platform REST API also covers hospitality use cases including event-driven integrations, contact and attendee data exchange, and webhook-based notifications that can be wired into hotel and venue workflows. OAuth 2.0 client credentials.
+The unified Cvent REST API at https://api-platform.cvent.com/ea (and its EMEA peer https://api-platform-eur.cvent.com/ea) is one OpenAPI 3.0.2 document of 356 paths and 469 operations across 56 tags; 87 of those operations are the hospitality surface split into this repository. Authentication is OAuth 2.0 — client credentials for machine-to-machine applications, authorization code for web applications — with 238 named scopes, 60-minute tokens, cursor pagination on paging.currentToken, a {code, message, details[]} error envelope, X-RateLimit-* headers and a per-account usage tier readable at GET /usage/tier.
 
 - **Human URL:** [https://developers.cvent.com/docs/rest-api/overview](https://developers.cvent.com/docs/rest-api/overview)
-- **Base URL:** `https://api-platform.cvent.com`
+- **Base URL:** `https://api-platform.cvent.com/ea`
 
 #### Tags
 
-- Events
-- OAuth 2.0
+- Event
+- Authentication
 - REST
-- Webhooks
+- Webhook
+- Platform
 
 #### Properties
 
+- [Open API](openapi/cvent-hospitality-cloud-authentication-openapi.yml)
+- [Overlay](overlays/cvent-hospitality-cloud-authentication-overlay.yaml)
 - [Documentation](https://developers.cvent.com/docs/rest-api/overview)
-- [Concepts](https://developers.cvent.com/docs/rest-api)
-- [O Auth Token Endpoint](https://api-platform.cvent.com/ea/oauth2/token)
-- [Postman Collection](collections/cvent-hospitality-cloud.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cvent-hospitality-cloud.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [API Reference](https://developers.cvent.com/documentation)
+- [Getting Started](https://developers.cvent.com/docs/rest-api/tutorials/developer-quickstart)
+- [Concepts](https://developers.cvent.com/docs/rest-api/explanation/concepts)
+- [Change Log](https://developers.cvent.com/docs/rest-api/changelog)
+- [Authentication](authentication/cvent-hospitality-cloud-authentication.yml)
+- [OAuth Scopes](scopes/cvent-hospitality-cloud-scopes.yml)
+- [Rate Limits](rate-limits/cvent-hospitality-cloud-rate-limits.yml)
+- [Agent Skill](skills/cvent-hospitality-cloud-authentication-and-quota.md)
+- [OAuth Token Endpoint](https://api-platform.cvent.com/ea/oauth2/token)
+
+### Cvent SOAP Web Services API (V200611)
+
+Cvent's legacy SOAP 1.1 / WSDL 1.1 / WS-I Basic Profile 1.1 Web Services API, still served and still documented. 51 operations and 390 complex types under targetNamespace http://api.cvent.com/2006-11, including the hospitality calls CreateRFP, CreateMeetingRequest, UpdateMeetingRequest and the approver operations. Authentication is a session ticket obtained from its own Login call — not OAuth. Quota is 10,000 calls per organization per 24 hours (Eastern Time), introspectable via DescribeGlobal. Cvent files it under legacy-api and publishes a call-by-call REST migration guide, but has announced no sunset.
+
+- **Human URL:** [https://developers.cvent.com/docs/legacy-api/soap-api/framework](https://developers.cvent.com/docs/legacy-api/soap-api/framework)
+- **Base URL:** `https://api.cvent.com/soap/V200611.ASMX`
+
+#### Tags
+
+- SOAP
+- Legacy
+- RFP
+- Meeting Requests
+
+#### Properties
+
+- [W S D L](wsdl/cvent-hospitality-cloud-soap-v200611.wsdl)
+- [Documentation](https://developers.cvent.com/docs/legacy-api/soap-api/framework)
+- [API Reference](https://developers.cvent.com/docs/legacy-api/soap-api/call-definitions/overview)
+- [Error Catalog](https://developers.cvent.com/docs/legacy-api/soap-api/error-codes)
+- [Change Log](https://developers.cvent.com/docs/legacy-api/soap-api/changelog)
+- [Migration](https://developers.cvent.com/docs/rest-api/migration-guide/calls-and-methods)
+
+### Cvent RFP Management API
+
+Read a Cvent Supplier Network RFP and its lead sources. Delivered as the RFP Management tag of the unified Cvent REST API — 3 operation(s) at https://api-platform.cvent.com/ea, OAuth 2.0 secured.
+
+- **Human URL:** [https://developers.cvent.com/documentation](https://developers.cvent.com/documentation)
+- **Base URL:** `https://api-platform.cvent.com/ea`
+
+#### Tags
+
+- RFP
+- Sourcing
+- Supplier Network
+
+#### Properties
+
+- [Open API](openapi/cvent-hospitality-cloud-rfp-management-openapi.yml)
+- [Overlay](overlays/cvent-hospitality-cloud-rfp-management-overlay.yaml)
+- [API Reference](https://developers.cvent.com/documentation)
+- [Documentation](https://developers.cvent.com/docs/rest-api/overview)
+
+### Cvent RFP Requirements API
+
+The requirements attached to an RFP — agenda items and schedules, guest rooms, questions, custom-field answers, attachments and internal documents. Delivered as the RFP Requirements tag of the unified Cvent REST API — 7 operation(s) at https://api-platform.cvent.com/ea, OAuth 2.0 secured.
+
+- **Human URL:** [https://developers.cvent.com/documentation](https://developers.cvent.com/documentation)
+- **Base URL:** `https://api-platform.cvent.com/ea`
+
+#### Tags
+
+- RFP
+- Sourcing
+- Guest Rooms
+
+#### Properties
+
+- [Open API](openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml)
+- [Overlay](overlays/cvent-hospitality-cloud-rfp-requirements-overlay.yaml)
+- [API Reference](https://developers.cvent.com/documentation)
+- [Documentation](https://developers.cvent.com/docs/rest-api/overview)
+
+### Cvent RFP Suppliers API
+
+The suppliers an RFP was sent to and the history of those recipients. Delivered as the RFP Suppliers tag of the unified Cvent REST API — 2 operation(s) at https://api-platform.cvent.com/ea, OAuth 2.0 secured.
+
+- **Human URL:** [https://developers.cvent.com/documentation](https://developers.cvent.com/documentation)
+- **Base URL:** `https://api-platform.cvent.com/ea`
+
+#### Tags
+
+- RFP
+- Supplier Network
+- Hotels
+
+#### Properties
+
+- [Open API](openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml)
+- [Overlay](overlays/cvent-hospitality-cloud-rfp-suppliers-overlay.yaml)
+- [API Reference](https://developers.cvent.com/documentation)
+- [Documentation](https://developers.cvent.com/docs/rest-api/overview)
+
+### Cvent RFP Additional Details API
+
+A planner’s past-event history for an RFP. Delivered as the RFP Additional Details tag of the unified Cvent REST API — 1 operation(s) at https://api-platform.cvent.com/ea, OAuth 2.0 secured.
+
+- **Human URL:** [https://developers.cvent.com/documentation](https://developers.cvent.com/documentation)
+- **Base URL:** `https://api-platform.cvent.com/ea`
+
+#### Tags
+
+- RFP
+- Sourcing
+
+#### Properties
+
+- [Open API](openapi/cvent-hospitality-cloud-rfp-additional-details-openapi.yml)
+- [Overlay](overlays/cvent-hospitality-cloud-rfp-additional-details-overlay.yaml)
+- [API Reference](https://developers.cvent.com/documentation)
+- [Documentation](https://developers.cvent.com/docs/rest-api/overview)
+
+### Cvent Proposal Draft API
+
+Create a draft proposal in response to an RFP. Delivered as the Proposal Draft tag of the unified Cvent REST API — 1 operation(s) at https://api-platform.cvent.com/ea, OAuth 2.0 secured.
+
+- **Human URL:** [https://developers.cvent.com/documentation](https://developers.cvent.com/documentation)
+- **Base URL:** `https://api-platform.cvent.com/ea`
+
+#### Tags
+
+- Proposals
+- Supplier Network
+- Hotels
+
+#### Properties
+
+- [Open API](openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml)
+- [Overlay](overlays/cvent-hospitality-cloud-proposal-drafts-overlay.yaml)
+- [API Reference](https://developers.cvent.com/documentation)
+- [Documentation](https://developers.cvent.com/docs/rest-api/overview)
+
+### Cvent Venue Profiles API
+
+Maintain a venue profile — type, contact, address and facility details. Both replace (PUT) and merge (PATCH) are offered. Delivered as the Venue Profiles tag of the unified Cvent REST API — 5 operation(s) at https://api-platform.cvent.com/ea, OAuth 2.0 secured.
+
+- **Human URL:** [https://developers.cvent.com/documentation](https://developers.cvent.com/documentation)
+- **Base URL:** `https://api-platform.cvent.com/ea`
+
+#### Tags
+
+- Venues
+- Hotels
+- Sourcing
+
+#### Properties
+
+- [Open API](openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml)
+- [Overlay](overlays/cvent-hospitality-cloud-venue-profiles-overlay.yaml)
+- [API Reference](https://developers.cvent.com/documentation)
+- [Documentation](https://developers.cvent.com/docs/rest-api/overview)
+
+### Cvent Venue Meeting Rooms API
+
+Create and maintain a venue’s meeting rooms, their capacities and amenities, and the images associated with them. Delivered as the Venue Meeting Rooms tag of the unified Cvent REST API — 8 operation(s) at https://api-platform.cvent.com/ea, OAuth 2.0 secured.
+
+- **Human URL:** [https://developers.cvent.com/documentation](https://developers.cvent.com/documentation)
+- **Base URL:** `https://api-platform.cvent.com/ea`
+
+#### Tags
+
+- Venues
+- Meeting Rooms
+- Catering
+
+#### Properties
+
+- [Open API](openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml)
+- [Overlay](overlays/cvent-hospitality-cloud-venue-meeting-rooms-overlay.yaml)
+- [API Reference](https://developers.cvent.com/documentation)
+- [Documentation](https://developers.cvent.com/docs/rest-api/overview)
+
+### Cvent Meeting Request API
+
+Meeting request forms and the requests submitted against them, plus the documents attached to a request. Delivered as the Meeting Request tag of the unified Cvent REST API — 8 operation(s) at https://api-platform.cvent.com/ea, OAuth 2.0 secured.
+
+- **Human URL:** [https://developers.cvent.com/documentation](https://developers.cvent.com/documentation)
+- **Base URL:** `https://api-platform.cvent.com/ea`
+
+#### Tags
+
+- Meeting Requests
+- Sourcing
+- Event
+
+#### Properties
+
+- [Open API](openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml)
+- [Overlay](overlays/cvent-hospitality-cloud-meeting-requests-overlay.yaml)
+- [API Reference](https://developers.cvent.com/documentation)
+- [Documentation](https://developers.cvent.com/docs/rest-api/overview)
+
+### Cvent Travel RFPs API
+
+Business-transient travel programs, their questions, and the proposals and bids submitted against them. Delivered as the Travel RFPs tag of the unified Cvent REST API — 9 operation(s) at https://api-platform.cvent.com/ea, OAuth 2.0 secured.
+
+- **Human URL:** [https://developers.cvent.com/documentation](https://developers.cvent.com/documentation)
+- **Base URL:** `https://api-platform.cvent.com/ea`
+
+#### Tags
+
+- Business Travel
+- RFP
+- Hotels
+
+#### Properties
+
+- [Open API](openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml)
+- [Overlay](overlays/cvent-hospitality-cloud-travel-rfps-overlay.yaml)
+- [API Reference](https://developers.cvent.com/documentation)
+- [Documentation](https://developers.cvent.com/docs/rest-api/overview)
+
+### Cvent Travel Suppliers API
+
+The hotel supplier directory behind business travel sourcing — chains, brands, properties and property rooms. Delivered as the Travel Suppliers tag of the unified Cvent REST API — 8 operation(s) at https://api-platform.cvent.com/ea, OAuth 2.0 secured.
+
+- **Human URL:** [https://developers.cvent.com/documentation](https://developers.cvent.com/documentation)
+- **Base URL:** `https://api-platform.cvent.com/ea`
+
+#### Tags
+
+- Business Travel
+- Hotels
+- Supplier Network
+
+#### Properties
+
+- [Open API](openapi/cvent-hospitality-cloud-travel-suppliers-openapi.yml)
+- [Overlay](overlays/cvent-hospitality-cloud-travel-suppliers-overlay.yaml)
+- [API Reference](https://developers.cvent.com/documentation)
+- [Documentation](https://developers.cvent.com/docs/rest-api/overview)
+
+### Cvent Travel Accounts API
+
+Travel accounts and the supplier accounts beneath them. Delivered as the Travel Accounts tag of the unified Cvent REST API — 4 operation(s) at https://api-platform.cvent.com/ea, OAuth 2.0 secured.
+
+- **Human URL:** [https://developers.cvent.com/documentation](https://developers.cvent.com/documentation)
+- **Base URL:** `https://api-platform.cvent.com/ea`
+
+#### Tags
+
+- Business Travel
+- Accounts
+
+#### Properties
+
+- [Open API](openapi/cvent-hospitality-cloud-travel-accounts-openapi.yml)
+- [Overlay](overlays/cvent-hospitality-cloud-travel-accounts-overlay.yaml)
+- [API Reference](https://developers.cvent.com/documentation)
+- [Documentation](https://developers.cvent.com/docs/rest-api/overview)
+
+### Cvent Event Travel API
+
+Air requests and actuals, hotel requests and housing reservation requests attached to an event. Delivered as the Event Travel tag of the unified Cvent REST API — 5 operation(s) at https://api-platform.cvent.com/ea, OAuth 2.0 secured.
+
+- **Human URL:** [https://developers.cvent.com/documentation](https://developers.cvent.com/documentation)
+- **Base URL:** `https://api-platform.cvent.com/ea`
+
+#### Tags
+
+- Event
+- Travel
+- Housing
+
+#### Properties
+
+- [Open API](openapi/cvent-hospitality-cloud-event-travel-openapi.yml)
+- [Overlay](overlays/cvent-hospitality-cloud-event-travel-overlay.yaml)
+- [API Reference](https://developers.cvent.com/documentation)
+- [Documentation](https://developers.cvent.com/docs/rest-api/overview)
+
+### Cvent Signatures API
+
+Signature documents produced by the onsite/contracting surface. Delivered as the Signatures tag of the unified Cvent REST API — 1 operation(s) at https://api-platform.cvent.com/ea, OAuth 2.0 secured.
+
+- **Human URL:** [https://developers.cvent.com/documentation](https://developers.cvent.com/documentation)
+- **Base URL:** `https://api-platform.cvent.com/ea`
+
+#### Tags
+
+- Contracts
+- Signatures
+
+#### Properties
+
+- [Open API](openapi/cvent-hospitality-cloud-signatures-openapi.yml)
+- [Overlay](overlays/cvent-hospitality-cloud-signatures-overlay.yaml)
+- [API Reference](https://developers.cvent.com/documentation)
+- [Documentation](https://developers.cvent.com/docs/rest-api/overview)
 
 ## Common Properties
 
-- [GitHub Organization](https://github.com/cvent)
-- [Website](https://www.cvent.com/en/hospitality-cloud)
-- [Supplier Network](https://www.cvent.com/en/hospitality-cloud/event-management/cvent-supplier-network)
-- [Passkey](https://www.cvent.com/en/hospitality-cloud/passkey)
+- [Agentic Access](agentic-access/cvent-hospitality-cloud-agentic-access.yml)
+- [Trust Center](security/cvent-hospitality-cloud-trust-center.yml)
+- [Domain Security](security/cvent-hospitality-cloud-domain-security.yml)
+- [Authentication](authentication/cvent-hospitality-cloud-authentication.yml)
+- [OAuth Scopes](scopes/cvent-hospitality-cloud-scopes.yml)
+- [Git Hub Organization](https://github.com/cvent)
 - [Developer Portal](https://developers.cvent.com/)
 - [Support](https://support.cvent.com/)
 - [Status Page](https://status.cvent.com/)
-- [Terms of Service](https://www.cvent.com/en/terms-of-service)
 - [Privacy Policy](https://www.cvent.com/en/privacy-policy)
-- [L L Ms Txt](https://www.cvent.com/llms.txt)
+- [Blog](https://www.cvent.com/en/blog/feed.xml)
+- [Website](https://www.cvent.com/en/supplier-venue)
+- [Supplier Network](https://www.cvent.com/venues)
+- [Passkey](https://www.cvent.com/en/supplier-venue/passkey)
+- [Terms Of Service](https://www.cvent.com/en/product-terms-of-use)
+- [Documentation](https://developers.cvent.com/docs)
+- [API Reference](https://developers.cvent.com/documentation)
+- [Getting Started](https://developers.cvent.com/docs/rest-api/tutorials/developer-quickstart)
+- [Sign Up](https://developers.cvent.com/signup)
+- [Login](https://developers.cvent.com/login)
+- [Blog](https://www.cvent.com/en/blog/latest)
+- [Trust Center](https://trust.cvent.com/)
+- [Compliance](conformance/cvent-hospitality-cloud-conformance.yml)
+- [Conformance](conformance/cvent-hospitality-cloud-conformance.yml)
+- [M C P Server](mcp/cvent-hospitality-cloud-mcp.yml)
+- [Tool Crosswalk](mcp/cvent-hospitality-cloud-tool-crosswalk.yml)
+- [Packages](packages/cvent-hospitality-cloud-packages.yml)
+- [SDKs](packages/cvent-hospitality-cloud-packages.yml)
+- [Well Known](well-known/cvent-hospitality-cloud-well-known.yml)
+- [L L Ms Txt](llms/cvent-hospitality-cloud-llms.txt)
+- [Llms Text](https://www.cvent.com/llms.txt)
+- [W S D L](wsdl/cvent-hospitality-cloud-soap-v200611.wsdl)
+- [Error Catalog](errors/cvent-hospitality-cloud-problem-types.yml)
+- [Lifecycle](lifecycle/cvent-hospitality-cloud-lifecycle.yml)
+- [Change Log](changelog/cvent-hospitality-cloud-changelog.yml)
+- [Conventions](conventions/cvent-hospitality-cloud-conventions.yml)
+- [Data Model](data-model/cvent-hospitality-cloud-data-model.yml)
+- [Sandbox](sandbox/cvent-hospitality-cloud-sandbox.yml)
+- [Webhooks](asyncapi/cvent-hospitality-cloud-webhooks.yml)
+- [Agent Skill](skills/_index.yml)
+- [Rate Limits](rate-limits/cvent-hospitality-cloud-rate-limits.yml)
+- [Plans](plans/cvent-hospitality-cloud-plans-pricing.yml)
+- [Support](https://www.cvent.com/en/contact/support)
 
 ## Maintainers
 

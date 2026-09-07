@@ -1,0 +1,58 @@
+generated: '2026-09-07'
+method: searched
+source: >-
+  https://developers.cvent.com/docs/passkey/REST/getting-started,
+  https://developers.cvent.com/docs/rest-api/tutorials/developer-quickstart
+available: true
+access: partner-provisioned
+self_serve: false
+note: >-
+  Cvent runs a real test environment for RegLink integrators, but nobody can self-provision into it.
+  There is no public test mode, no test-vs-live key prefix, no published test data set and no time
+  simulation. What exists is a licensed UAT environment the Passkey RegLink API team stands up for you,
+  plus a simulated walkthrough on the docs site. Both are recorded below and neither is overstated.
+environments:
+  - name: Passkey UAT
+    kind: sandbox
+    access: >-
+      Provisioned by the Cvent Passkey RegLink API team as part of onboarding — "This guide covers
+      obtaining API credentials, implementing workflows, testing in a sandbox environment, and deploying
+      to production."
+    host_evidence: >-
+      uat-manage.passkey.com appears as the Host header in the callback example Cvent publishes at
+      https://developers.cvent.com/docs/passkey/REST/callbacks, which is the only public sighting of the
+      UAT host.
+    go_live: >-
+      After testing, the event owner must authorize the integration on each event before it can be used
+      in production.
+    source: https://developers.cvent.com/docs/passkey/REST/getting-started
+  - name: Production
+    kind: production
+    rest: https://api-platform.cvent.com/ea
+    rest_eu: https://api-platform-eur.cvent.com/ea
+test_credentials:
+  published: false
+  note: >-
+    No test client_id/client_secret, no test-mode key prefix, and no distinguishing marker between test
+    and live credentials is published. Credentials are issued per application inside a workspace and
+    carry no environment prefix.
+test_data:
+  published: false
+  note: >-
+    No magic identifiers, no test hotels, no test room blocks and no fixture data are published — which
+    is the material gap for anyone trying to write an integration test against the Housing surface.
+time_simulation:
+  supported: false
+  note: >-
+    No test clock. This matters on this surface specifically: reservationAccessDate and hotelCloseDate
+    gate when a room block can be booked, and there is no published way to move past them in a test.
+docs_simulator:
+  present: true
+  url: https://developers.cvent.com/docs/rest-api/tutorials/developer-quickstart
+  note: >-
+    "The interactive panel alongside each step simulates the requests with sample credentials so you can
+    see the exact format before using your own." This is a documentation aid, not a callable console —
+    it does not reach the API.
+runtime_self_check:
+  - GET /token-validation — validateToken, verifies a presented token is valid
+  - GET /usage/tier — getUsageTier, returns the account's quota, burst and per-second rate

@@ -1,0 +1,66 @@
+generated: '2026-09-07'
+method: searched
+source: https://developers.cvent.com/docs/rest-api/sdks
+note: >-
+  Cvent publishes three first-party SDKs for the Cvent REST API — the same contract that carries the
+  Hospitality Cloud surface (Housing / Passkey RegLink, RFPs, Venues, Travel). The SDK page links each
+  package directly, and all three are generated from one monorepo, github.com/cvent/rest-sdks. Cvent's
+  own page labels them "early adopter release". Versions and dates below were read from each registry's
+  metadata endpoint on 2026-09-07; all three shipped 1.6.1 on the same day, which is what a
+  single-source generated SDK family looks like when it is being maintained in step with the contract.
+docs: https://developers.cvent.com/docs/rest-api/sdks
+source_code: https://github.com/cvent/rest-sdks
+packages:
+  - name: '@cvent/sdk'
+    language: typescript
+    registry: npm
+    url: https://www.npmjs.com/package/@cvent/sdk
+    official: true
+    version: 1.6.1
+    published: '2026-08-21'
+    first_published: '2025-12-15'
+    license: MIT
+    repository: https://github.com/cvent/rest-sdks
+    metadata_source: https://registry.npmjs.org/@cvent%2Fsdk
+  - name: Cvent.SDK
+    language: dotnet
+    registry: nuget
+    url: https://www.nuget.org/packages/Cvent.SDK
+    official: true
+    version: 1.6.1
+    published: '2026-08-21'
+    release_count: 23
+    repository: https://github.com/cvent/rest-sdks
+    metadata_source: https://api.nuget.org/v3/registration5-semver1/cvent.sdk/index.json
+  - name: com.cvent:sdk
+    language: java
+    registry: maven-central
+    url: https://central.sonatype.com/artifact/com.cvent/sdk/overview
+    official: true
+    version: 1.6.1
+    published: '2026-08-21'
+    release_count: 24
+    repository: https://github.com/cvent/rest-sdks
+    metadata_source: https://repo1.maven.org/maven2/com/cvent/sdk/maven-metadata.xml
+capabilities:
+  - Type safety
+  - Automatic authentication (OAuth 2.0 client credentials and authorization code)
+  - Built-in pagination
+  - Retry handling
+  - File upload streaming
+  - Structured error classes
+maturity: early-adopter
+maturity_source: >-
+  "These SDKs are in early adopter release. Review the package release notes for breaking changes
+  before upgrading." — https://developers.cvent.com/docs/rest-api/sdks
+not_found:
+  - registry: pypi
+    note: No first-party Cvent Python SDK is published or linked from the SDK page.
+  - registry: rubygems
+    note: No first-party Cvent Ruby SDK found.
+  - registry: pkg.go.dev
+    note: No first-party Cvent Go SDK found.
+  - registry: packagist
+    note: No first-party Cvent PHP SDK found.
+  - registry: crates.io
+    note: No first-party Cvent Rust SDK found.

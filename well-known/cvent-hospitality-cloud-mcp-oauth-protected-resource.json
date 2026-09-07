@@ -1,0 +1,9 @@
+{
+ "resource": "https://mcp.cvent.com/mcp",
+ "bearer_methods_supported": [
+  "header"
+ ],
+ "authorization_servers": [
+  "https://mcp.cvent.com"
+ ]
+}

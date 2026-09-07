@@ -1,0 +1,277 @@
+generated: '2026-09-07'
+method: searched
+source: https://developers.cvent.com/docs/rest-api/changelog
+note: 'Cvent publishes a dated changelog for the whole /ea REST contract on a roughly two-week cadence, 71 entries
+  deep, running back to September 2022. Only the ten most recent releases are captured here — this is a recent-window
+  artifact, not a mirror. Items are the operations, schemas, enums and scopes each release names, transcribed
+  from the page. Hospitality-relevant rows (Housing, RFP Management, Venue Profiles, Venue Meeting Rooms, Travel
+  RFPs, Event Travel) appear throughout, which is the useful signal: the hospitality surface is actively shipping,
+  not parked.'
+scheme: dated release notes, no semantic version
+current_version: ea
+cadence: biweekly
+total_entries_published: 71
+window: 10 most recent
+oldest_published_entry: REST API Updates (September 2022)
+entries:
+- release: REST API Updates (August 19–20, 2026)
+  sections:
+  - section: Added
+    items: []
+  - section: New APIs
+    items:
+    - Orders
+    - List Account Orders
+    - GET /orders
+    - Get Order
+    - GET /orders/{orderId}
+    - List Account Order Items
+    - GET /orders/{orderId}/items
+    - Get Order Item
+    - GET /orders/{orderId}/items/{orderItemId}
+    - Transactions
+    - List Account Transactions
+    - GET /transactions
+    - Get Transaction
+    - GET /transactions/{transactionId}
+  - section: New Tags
+    items:
+    - 'Orders: Orders represent a collection of order items purchased by an attendee. Use these APIs to get information
+      about orders and order items.'
+    - 'Transactions: Transactions represent the financial exchanges that occur within your account. Use these
+      APIs to retrieve and manage transaction data, including charges, refunds, and adjustments associated with
+      your events and attendees.'
+  - section: Updated
+    items:
+    - Attendees
+    - Update Attendee
+    - PUT /attendees/{id}
+    - AttendeeStatus
+    - Pending Approval -> Cancelled
+    - Compliance
+    - List Communication
+    - GET /logs/communications/messages
+    - POST /logs/communications/messages/filter
+    - chat
+    - Event Travel
+    - Get Air Requests
+    - GET /events/{id}/event-travel/air-requests
+    - TicketType
+- release: REST API Updates (August 5–6, 2026)
+  sections:
+  - section: Updated
+    items:
+    - Budget
+    - Create Budget Item
+    - POST /events/{id}/budget-items
+    - BudgetVendor
+    - vendor.type
+    - REPOSITE
+    - Update Budget Item
+    - PUT /events/{id}/budget-items/{budgetItemId}
+    - List Event Budget Items
+    - GET /events/{id}/budget-items
+    - List Budget Items
+    - GET /budget-items
+    - Event Travel
+    - Get Air Actual
+- release: REST API Updates (July 22-23)
+  sections:
+  - section: Added
+    items: []
+  - section: New APIs
+    items:
+    - PUT /venues/{venueId}/details
+    - PATCH /venues/{venueId}/details
+    - GET /venues/{venueId}/details/overview
+    - PUT /venues/{venueId}/facility
+    - PATCH /venues/{venueId}/facility
+    - POST /venues/{venueId}/meeting-rooms
+    - GET /venues/{venueId}/meeting-rooms/overviews
+    - PUT /venues/{venueId}/meeting-rooms/{meetingRoomId}
+    - PATCH /venues/{venueId}/meeting-rooms/{meetingRoomId}
+    - GET /venues/{venueId}/meeting-rooms/{meetingRoomId}/overview
+  - section: New Tags
+    items:
+    - 'Venue Profiles: Manage venue profile details including type, contact information, address, and other venue
+      properties.'
+    - 'Venue Meeting Rooms: Manage meeting rooms for a venue, including creating and updating room details, configuring
+      capacities and amenities, and associating images.'
+  - section: Updated
+    items:
+    - business-travel/proposals:read
+    - business-transient/proposals:read
+    - GET /travel-proposals/{id}/bids
+    - GET /travel-proposals/{id}/bids/{bidId}
+    - business-travel/bids:read
+    - business-transient/bids:read
+    - bid-item-status-type
+    - not_available
+    - not_offered
+    - GET /travel-proposals/{id}
+    - GET /bulk-jobs/{id}/results
+    - 207 Multi-Status
+    - failed
+    - data
+- release: REST API Updates (July 7–8, 2026)
+  sections:
+  - section: Updated
+    items:
+    - Authentication
+    - Get Authorization Code
+    - GET /oauth2/authorize
+    - '400'
+    - Get Token
+    - POST /oauth2/token
+    - '401'
+    - Attendees
+    - Update Attendee
+    - PUT /attendees/{id}
+    - AttendeeUpdateStatus
+    - Waitlisted
+    - Waitlisted -> Accepted
+    - List Attendees
+- release: REST API Updates (June 17–18, 2026)
+  sections:
+  - section: Added
+    items:
+    - Events
+    - List Event Vouchers
+    - GET /events/{id}/vouchers
+    - List Event Vouchers (Filter)
+    - POST /events/{id}/vouchers/filter
+    - List Voucher Attendees
+    - GET /events/{id}/vouchers/{voucherId}/attendees
+  - section: Updated
+    items:
+    - Exhibitor
+    - List Exhibitor Questions
+    - GET /events/{id}/exhibitor-questions
+    - AdditionalChoice
+    - notApplicableAnswer
+    - otherAnswer
+    - shortText
+    - Attendee Insights
+    - List Engagement Scores
+    - GET /attendee-insights
+    - engagement-score-point
+    - durationObtainedFrom
+    - MANUAL
+    - IMPORT
+- release: REST API Updates (June 3–4, 2026)
+  sections:
+  - section: Added
+    items:
+    - Events
+    - List Taxes
+    - GET /events/{id}/taxes
+  - section: Updated
+    items:
+    - Sessions
+    - Create Session
+    - POST /sessions
+    - Get Session
+    - GET /sessions/{id}
+    - Update Session
+    - PUT /sessions/{id}
+    - List Sessions
+    - GET /sessions
+    - session
+    - group
+    - object
+    - string
+    - event
+- release: REST API Updates (May 20–21, 2026)
+  sections:
+  - section: Added
+    items:
+    - Audience Segments
+    - List Associated Segments
+    - GET /attendees/{attendeeId}/audience-segments
+    - POST /attendees/{attendeeId}/audience-segments/filter
+    - Events
+    - List Membership Items
+    - POST /events/{id}/membership-items/filter
+  - section: Updated
+    items:
+    - Event Role
+    - List Event Role Assignments
+    - GET /event-roles/assignments
+    - after
+    - before
+    - Event Features
+    - Update Event Feature
+    - PUT /events/{id}/features/{type}
+    - CreditsAndCertificates
+    - featureType
+    - EventCredits
+    - Meeting Request
+    - Create MR (Bulk)
+    - POST /meeting-request-forms/{id}/requests
+- release: REST API Updates (May 6–7, 2026)
+  sections:
+  - section: Updated
+    items:
+    - Attendees
+    - List Attendees
+    - GET /attendees
+    - POST /attendees/filter
+    - Get Attendee
+    - GET /attendees/{id}
+    - Update Attendee
+    - PUT /attendees/{id}
+    - unsubscribed
+    - PUT /attendees/{id}/email-subscriptions
+    - contact.customFields[].value
+    - Sessions
+    - List Session Categories
+    - GET /session-categories
+- release: REST API Updates (April 22–23, 2026)
+  sections:
+  - section: Added
+    items:
+    - Budget
+    - List Account Vendors
+    - GET /budget-vendors
+    - RFP Management
+    - Get RFP
+    - GET /rfps/{rfpId}
+    - Get RFP Lead Source
+    - GET /rfps/lead-sources/{leadSourceId}
+    - Get RFP Lead Source Section
+    - GET /rfps/lead-sources/{leadSourceId}/sections/{leadSourceSectionId}
+    - RFP Requirements
+    - List RFP Agenda Items
+    - GET /rfps/{rfpId}/agenda-items
+    - List RFP Agenda Item Schedules
+  - section: Updated
+    items:
+    - Exhibitors
+    - List Registration Pack
+    - GET /events/{id}/exhibitors/{exhibitorId}/registration-packs
+    - data
+    - Surveys
+    - Filter parameter descriptions for multiple Survey endpoints have been reformatted as tables for improved
+      readability. No functional changes.
+    - Virtual Cards
+    - Virtual Card
+    - last7
+    - '''0000000'''
+- release: REST API Updates (April 8–9, 2026)
+  sections:
+  - section: Updated
+    items:
+    - Event Features
+    - List Event Features
+    - GET /events/{id}/features
+    - Update Event Feature
+    - PUT /events/{id}/features
+    - featureType
+    - EventAds
+    - EventCredits
+    - Meeting Request
+    - Create MR (Bulk)
+    - POST /meeting-request-forms/{id}/requests
+    - Update MR (Bulk)
+    - PUT /meeting-request-forms/{id}/requests
+    - Complex Questions Guide

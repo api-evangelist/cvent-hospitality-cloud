@@ -1,0 +1,73 @@
+generated: '2026-09-07'
+method: probed
+source: https://mcp.cvent.com/mcp
+name: Cvent MCP Server
+status: live
+note: >-
+  Cvent operates a first-party remote MCP server at https://mcp.cvent.com/mcp. It was found by direct
+  probe, not by a docs link — Cvent's developer portal does not yet document it and web search returns
+  only third-party Cvent connectors (CData, Zapier), none of which is this server. Ownership is not in
+  question: the endpoint is on cvent.com, and its RFC 8414 metadata declares issuer
+  https://mcp.cvent.com. This is the Cvent platform MCP server, so it is shared with the rest of the
+  Cvent product lines rather than being hospitality-specific; it is recorded here because this record
+  already registers the shared api-platform.cvent.com contract that carries the Hospitality Cloud
+  surface.
+deployment:
+  mode: remote
+  endpoint: https://mcp.cvent.com/mcp
+  auth: oauth
+  verified: probed
+transport: streamable-http
+authorization:
+  scheme: OAuth 2.1 authorization code + PKCE
+  challenge: 'Bearer realm="mcp", resource_metadata="https://mcp.cvent.com/.well-known/oauth-protected-resource/mcp"'
+  protected_resource_metadata: https://mcp.cvent.com/.well-known/oauth-protected-resource/mcp
+  authorization_server_metadata: https://mcp.cvent.com/.well-known/oauth-authorization-server
+  issuer: https://mcp.cvent.com
+  authorization_endpoint: https://mcp.cvent.com/oauth2/authorize
+  token_endpoint: https://mcp.cvent.com/oauth2/token
+  grant_types_supported:
+    - authorization_code
+    - refresh_token
+  code_challenge_methods_supported:
+    - S256
+  token_endpoint_auth_methods_supported:
+    - client_secret_basic
+    - client_secret_post
+  dynamic_client_registration: false
+  dynamic_client_registration_note: >-
+    The authorization-server metadata declares no registration_endpoint, so clients cannot self-register;
+    credentials must be obtained from Cvent.
+tools:
+  status: gated
+  note: >-
+    POST {"jsonrpc":"2.0","id":1,"method":"tools/list"} to https://mcp.cvent.com/mcp returns HTTP 401
+    with an empty body and the WWW-Authenticate challenge above — anonymous introspection is refused,
+    so the real tool list and per-tool inputSchema require an authenticated session. No tool list is
+    published in the docs or in www.cvent.com/llms.txt either, so nothing is recorded here rather than
+    guessing. Re-run this probe with a token to populate tools[] and the tool crosswalk.
+  probed: '2026-09-07'
+  http_status: 401
+x-evidence:
+  - url: https://mcp.cvent.com/mcp
+    method: POST
+    http_status: 401
+    www_authenticate: 'Bearer realm="mcp", resource_metadata="https://mcp.cvent.com/.well-known/oauth-protected-resource/mcp"'
+    fetched: '2026-09-07'
+  - url: https://mcp.cvent.com/.well-known/oauth-protected-resource/mcp
+    method: GET
+    http_status: 200
+    fetched: '2026-09-07'
+  - url: https://mcp.cvent.com/.well-known/oauth-authorization-server
+    method: GET
+    http_status: 200
+    fetched: '2026-09-07'
+third_party_servers:
+  - name: CData MCP Server for Cvent
+    url: https://github.com/CDataSoftware/cvent-mcp-server-by-cdata
+    official: false
+    note: Third-party, JDBC-driver backed, local stdio. Not a Cvent-operated surface.
+  - name: Zapier MCP (Cvent)
+    url: https://zapier.com/mcp/cvent
+    official: false
+    note: Third-party integration broker, not a Cvent-operated surface.

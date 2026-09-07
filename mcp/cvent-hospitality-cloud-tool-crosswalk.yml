@@ -1,0 +1,565 @@
+generated: '2026-09-07'
+method: derived
+source: openapi/ (16 tag-split documents harvested from developers.cvent.com) + probe of https://mcp.cvent.com/mcp
+note: 'Cvent ships BOTH a 469-operation REST contract and a remote MCP server, but the MCP tool list is OAuth-gated:
+  an anonymous tools/list against https://mcp.cvent.com/mcp returns HTTP 401 with an empty body, and neither the
+  developer portal nor www.cvent.com/llms.txt publishes the tool names. With no tool names in hand there is nothing
+  to bind, so crosswalk[] and mcp_only[] are deliberately EMPTY rather than guessed. What this file does record
+  is the REST side of the eventual mapping — every hospitality operation an MCP tool could be backed by — so an
+  authenticated re-run has one job: fetch tools/list and bind. Emitting a name-matched crosswalk here would assert
+  bindings nobody has observed.'
+surfaces:
+  openapi:
+    documents: 16
+    operations: 87
+    source: https://developers.cvent.com/documentation (getPublicSpec via https://developers.cvent.com/api/graphql)
+    gated: false
+    note: Public and anonymously fetchable. 87 of the 469 platform operations are the hospitality surface split
+      into this repo.
+  mcp:
+    url: https://mcp.cvent.com/mcp
+    gated: true
+    http_status: 401
+    note: Live remote MCP server. tools/list requires an OAuth bearer token.
+  graphql:
+    url: https://developers.cvent.com/api/graphql
+    gated: false
+    note: This is the developer PORTAL GraphQL API, not a product API. It is how the docs site loads its own OpenAPI
+      document (query getPublicSpec) and is the discovery path that produced the specs in openapi/. It exposes
+      no Cvent business data and is not a customer integration surface, so it is not crosswalked.
+  soap:
+    url: https://api.cvent.com/soap/V200611.asmx?WSDL
+    gated: false
+    note: Legacy SOAP contract, 51 operations, captured under wsdl/. Superseded by the REST platform.
+crosswalk: []
+mcp_only: []
+rest_only:
+- operationId: oauth2Authorize
+  method: GET
+  path: /oauth2/authorize
+  tag: Authentication
+  summary: Get Authorization Code
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: oauth2Token
+  method: POST
+  path: /oauth2/token
+  tag: Authentication
+  summary: Get Token
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: validateToken
+  method: GET
+  path: /token-validation
+  tag: Authentication
+  summary: Validate Token
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getAirActualDetail
+  method: GET
+  path: /events/{id}/event-travel/air-actuals
+  tag: Event Travel
+  summary: Get Air Actual
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getAirRequests
+  method: GET
+  path: /events/{id}/event-travel/air-requests
+  tag: Event Travel
+  summary: Get Air Requests
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getAlternateTravelAnswers
+  method: GET
+  path: /events/{id}/event-travel/alternate-answers
+  tag: Event Travel
+  summary: Get Alternate Travel Answers
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getHotelRequests
+  method: GET
+  path: /events/{id}/event-travel/hotel-requests
+  tag: Event Travel
+  summary: Get Hotel Requests
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getHousingReservationRequests
+  method: GET
+  path: /events/{id}/event-travel/housing-reservation-requests
+  tag: Event Travel
+  summary: Get Housing Requests
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: createConnection
+  method: POST
+  path: /connections
+  tag: Housing
+  summary: Create Connection
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getHousingEventsSummaries
+  method: GET
+  path: /housing-events/summaries
+  tag: Housing
+  summary: Get Housing Events Summaries
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getHousingEventInfo
+  method: GET
+  path: /housing-events/{housingEventId}
+  tag: Housing
+  summary: Get Housing Event Info
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getHousingEventHotels
+  method: GET
+  path: /housing-events/{housingEventId}/hotels
+  tag: Housing
+  summary: Get Housing Event Hotels
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getHousingEventHotel
+  method: GET
+  path: /housing-events/{housingEventId}/hotels/{hotelId}
+  tag: Housing
+  summary: Get Housing Event Hotel
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getHousingEventHotelAvailability
+  method: GET
+  path: /housing-events/{housingEventId}/hotels/{hotelId}/available-nights
+  tag: Housing
+  summary: Get Event Hotel Availability
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getHousingEventRoomTypes
+  method: GET
+  path: /housing-events/{housingEventId}/hotels/{hotelId}/room-types
+  tag: Housing
+  summary: Get Housing Event Room Types
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getRoomTypeDetails
+  method: GET
+  path: /housing-events/{housingEventId}/hotels/{hotelId}/room-types/{roomTypeId}
+  tag: Housing
+  summary: Get Room Type Details
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getRoomTypeInventory
+  method: GET
+  path: /housing-events/{housingEventId}/hotels/{hotelId}/room-types/{roomTypeId}/inventory
+  tag: Housing
+  summary: Get Room Type Inventory
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getHousingEventInventory
+  method: GET
+  path: /housing-events/{housingEventId}/inventory
+  tag: Housing
+  summary: Get Housing Event Inventory
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getHousingEventReservations
+  method: GET
+  path: /housing-events/{housingEventId}/reservations
+  tag: Housing
+  summary: Get Housing Event Reservations
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: createReservationRequest
+  method: POST
+  path: /reservation-requests
+  tag: Housing
+  summary: Create Reservation Request
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: cancelReservationRequest
+  method: DELETE
+  path: /reservation-requests/{reservationRequestsId}
+  tag: Housing
+  summary: Cancel Reservation Request
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getReservationRequest
+  method: GET
+  path: /reservation-requests/{reservationRequestsId}
+  tag: Housing
+  summary: Get Reservation Request
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: updateReservationRequest
+  method: PUT
+  path: /reservation-requests/{reservationRequestsId}
+  tag: Housing
+  summary: Update Reservation Request
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: unlinkReservation
+  method: DELETE
+  path: /reservation-requests/{reservationRequestsId}/reservations/{reservationId}
+  tag: Housing
+  summary: Unlink Reservation
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: linkReservation
+  method: POST
+  path: /reservation-requests/{reservationRequestsId}/reservations/{reservationId}
+  tag: Housing
+  summary: Link Reservation
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: createReservation
+  method: POST
+  path: /reservations
+  tag: Housing
+  summary: Create Reservation
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: cancelReservation
+  method: DELETE
+  path: /reservations/{reservationId}
+  tag: Housing
+  summary: Cancel Reservation
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getReservation
+  method: GET
+  path: /reservations/{reservationId}
+  tag: Housing
+  summary: Get Reservation
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: updateReservationSync
+  method: PUT
+  path: /reservations/{reservationId}
+  tag: Housing
+  summary: Update Reservation
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: updateHotelRoomRates
+  method: PUT
+  path: /housing-hotels/{hotelCode}/rooms/{roomCode}/rates
+  tag: Housing Hotels
+  summary: Update Hotel Room Rates
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getMeetingRequestByEventId
+  method: GET
+  path: /events/{id}/meeting-requests
+  tag: Meeting Request
+  summary: Get MR by Event ID
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: listMRF
+  method: GET
+  path: /meeting-request-forms
+  tag: Meeting Request
+  summary: List MR Forms
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getMRFById
+  method: GET
+  path: /meeting-request-forms/{id}
+  tag: Meeting Request
+  summary: Get MR Form
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: listMeetingRequest
+  method: GET
+  path: /meeting-request-forms/{id}/requests
+  tag: Meeting Request
+  summary: List MR
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: createMeetingRequest
+  method: POST
+  path: /meeting-request-forms/{id}/requests
+  tag: Meeting Request
+  summary: Create MR (Bulk)
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: updateMeetingRequest
+  method: PUT
+  path: /meeting-request-forms/{id}/requests
+  tag: Meeting Request
+  summary: Update MR (Bulk)
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getMeetingRequestById
+  method: GET
+  path: /meeting-request-forms/{id}/requests/{requestId}
+  tag: Meeting Request
+  summary: Get MR
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: listMeetingRequestDocuments
+  method: GET
+  path: /meeting-requests/{requestId}/documents
+  tag: Meeting Request
+  summary: List MR Documents
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: createProposalDraft
+  method: POST
+  path: /proposal-drafts
+  tag: Proposal Draft
+  summary: Beta - Create Proposal Draft
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: listRfpPastEvents
+  method: GET
+  path: /rfps/{rfpId}/past-events
+  tag: RFP Additional Details
+  summary: List RFP Past Events
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getRfpLeadSource
+  method: GET
+  path: /rfps/lead-sources/{leadSourceId}
+  tag: RFP Management
+  summary: Get RFP Lead Source
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getRfpLeadSourceSection
+  method: GET
+  path: /rfps/lead-sources/{leadSourceId}/sections/{leadSourceSectionId}
+  tag: RFP Management
+  summary: Get RFP Lead Source Section
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getRFP
+  method: GET
+  path: /rfps/{rfpId}
+  tag: RFP Management
+  summary: Get RFP
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: listRfpAgendaItems
+  method: GET
+  path: /rfps/{rfpId}/agenda-items
+  tag: RFP Requirements
+  summary: List RFP Agenda Items
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: listRfpAgendaItemSchedules
+  method: GET
+  path: /rfps/{rfpId}/agenda-items/schedules
+  tag: RFP Requirements
+  summary: List RFP Agenda Item Schedules
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: listRfpAttachments
+  method: GET
+  path: /rfps/{rfpId}/attachments
+  tag: RFP Requirements
+  summary: List RFP Attachments
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: listRfpCustomFields
+  method: GET
+  path: /rfps/{rfpId}/custom-fields/answers
+  tag: RFP Requirements
+  summary: List RFP Custom Fields Answers
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getRfpGuestRooms
+  method: GET
+  path: /rfps/{rfpId}/guest-rooms
+  tag: RFP Requirements
+  summary: Get RFP Guest Rooms
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: listRfpInternalDocuments
+  method: GET
+  path: /rfps/{rfpId}/internal-documents
+  tag: RFP Requirements
+  summary: List RFP Internal Documents
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: listRfpQuestions
+  method: GET
+  path: /rfps/{rfpId}/questions
+  tag: RFP Requirements
+  summary: List RFP Questions
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: listRfpRecipientsHistory
+  method: GET
+  path: /rfps/{rfpId}/recipients/history
+  tag: RFP Suppliers
+  summary: List RFP Recipients History
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getRfpSuppliers
+  method: GET
+  path: /rfps/{rfpId}/suppliers
+  tag: RFP Suppliers
+  summary: List RFP Suppliers
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getSignatures
+  method: GET
+  path: /signatures
+  tag: Signatures
+  summary: List Signatures
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: ListTravelAccounts
+  method: GET
+  path: /travel-accounts
+  tag: Travel Accounts
+  summary: List Travel Accounts
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: ListSupplierAccounts
+  method: GET
+  path: /travel-accounts/supplier-accounts
+  tag: Travel Accounts
+  summary: List Supplier Accounts
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getTravelAccount
+  method: GET
+  path: /travel-accounts/{travelAccountId}
+  tag: Travel Accounts
+  summary: Get Travel Account
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getSupplierAccount
+  method: GET
+  path: /travel-accounts/{travelAccountId}/supplier-accounts
+  tag: Travel Accounts
+  summary: Get Supplier Account
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: ListTravelPrograms
+  method: GET
+  path: /travel-programs
+  tag: Travel RFPs
+  summary: List Travel Programs
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: ListTravelProgramsQuestions
+  method: GET
+  path: /travel-programs/questions
+  tag: Travel RFPs
+  summary: List Travel Programs Questions
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getTravelProgram
+  method: GET
+  path: /travel-programs/{programId}
+  tag: Travel RFPs
+  summary: Get Travel Program
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: ListTravelProgramQuestions
+  method: GET
+  path: /travel-programs/{programId}/questions
+  tag: Travel RFPs
+  summary: List Travel Program Questions
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getTravelProgramQuestion
+  method: GET
+  path: /travel-programs/{programId}/questions/{questionId}
+  tag: Travel RFPs
+  summary: Get Travel Program Question
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: ListTravelProposals
+  method: GET
+  path: /travel-proposals
+  tag: Travel RFPs
+  summary: List Travel Proposals
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: ListTravelProposalBids
+  method: GET
+  path: /travel-proposals/bids
+  tag: Travel RFPs
+  summary: List Travel Proposal Bids
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: GetTravelProposalBid
+  method: GET
+  path: /travel-proposals/bids/{travelProposalBidId}
+  tag: Travel RFPs
+  summary: Get Travel Proposal Bid
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: GetTravelProposal
+  method: GET
+  path: /travel-proposals/{travelProposalId}
+  tag: Travel RFPs
+  summary: Get Travel Proposal
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: PropertyApiListBrands
+  method: GET
+  path: /travel-suppliers/brands
+  tag: Travel Suppliers
+  summary: List Supplier Brands
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: PropertyApiGetBrand
+  method: GET
+  path: /travel-suppliers/brands/{brandId}
+  tag: Travel Suppliers
+  summary: Get Supplier Brand
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: PropertyApiListChains
+  method: GET
+  path: /travel-suppliers/chains
+  tag: Travel Suppliers
+  summary: List Supplier Chains
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: PropertyApiGetChain
+  method: GET
+  path: /travel-suppliers/chains/{chainId}
+  tag: Travel Suppliers
+  summary: Get Supplier Chain
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: PropertyApiListProperties
+  method: GET
+  path: /travel-suppliers/properties
+  tag: Travel Suppliers
+  summary: List Supplier Properties
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: PropertyApiGetProperty
+  method: GET
+  path: /travel-suppliers/properties/{propertyId}
+  tag: Travel Suppliers
+  summary: Get Supplier Property
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: BtApiGetPropertyRooms
+  method: GET
+  path: /travel-suppliers/property-rooms
+  tag: Travel Suppliers
+  summary: List Supplier Property Rooms
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: PropertyApiGetPropertyRoom
+  method: GET
+  path: /travel-suppliers/property-rooms/{roomId}
+  tag: Travel Suppliers
+  summary: Get Supplier Property Room
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: createMeetingRoom
+  method: POST
+  path: /venues/{venueId}/meeting-rooms
+  tag: Venue Meeting Rooms
+  summary: Create Meeting Room
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: listMeetingRoomsOverviews
+  method: GET
+  path: /venues/{venueId}/meeting-rooms/overviews
+  tag: Venue Meeting Rooms
+  summary: List Meeting Rooms Overviews
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: patchMeetingRoom
+  method: PATCH
+  path: /venues/{venueId}/meeting-rooms/{meetingRoomId}
+  tag: Venue Meeting Rooms
+  summary: Patch Meeting Room
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: updateMeetingRoom
+  method: PUT
+  path: /venues/{venueId}/meeting-rooms/{meetingRoomId}
+  tag: Venue Meeting Rooms
+  summary: Update Meeting Room
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: listMeetingRoomImages
+  method: GET
+  path: /venues/{venueId}/meeting-rooms/{meetingRoomId}/images
+  tag: Venue Meeting Rooms
+  summary: List Meeting Room Images
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: associateMeetingRoomImage
+  method: PUT
+  path: /venues/{venueId}/meeting-rooms/{meetingRoomId}/images
+  tag: Venue Meeting Rooms
+  summary: Associate Meeting Room Image
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: disassociateMeetingRoomImage
+  method: DELETE
+  path: /venues/{venueId}/meeting-rooms/{meetingRoomId}/images/{imageId}
+  tag: Venue Meeting Rooms
+  summary: Remove Meeting Room Image
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getMeetingRoomOverview
+  method: GET
+  path: /venues/{venueId}/meeting-rooms/{meetingRoomId}/overview
+  tag: Venue Meeting Rooms
+  summary: Get Meeting Room Overview
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: patchVenueDetails
+  method: PATCH
+  path: /venues/{venueId}/details
+  tag: Venue Profiles
+  summary: Patch Venue Details
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: updateVenueDetails
+  method: PUT
+  path: /venues/{venueId}/details
+  tag: Venue Profiles
+  summary: Update Venue Details
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: getVenueDetailsOverview
+  method: GET
+  path: /venues/{venueId}/details/overview
+  tag: Venue Profiles
+  summary: Get Venue Details Overview
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: patchVenueFacility
+  method: PATCH
+  path: /venues/{venueId}/facility
+  tag: Venue Profiles
+  summary: Patch Venue Facility
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+- operationId: updateVenueFacility
+  method: PUT
+  path: /venues/{venueId}/facility
+  tag: Venue Profiles
+  summary: Update Venue Facility
+  reason: MCP tool list is auth-gated; no tool could be bound to this operation
+coverage:
+  rest_operations: 87
+  mcp_tools: null
+  bound: 0
+  mcp_only: 0
+  rest_only: 87
+  confidence: unbindable-until-authenticated

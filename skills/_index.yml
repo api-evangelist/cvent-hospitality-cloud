@@ -1,0 +1,47 @@
+generated: '2026-09-07'
+method: generated
+source: >-
+  openapi/ (16 tag-split documents harvested from https://developers.cvent.com/documentation) plus the
+  Cvent developer portal guides for Passkey RegLink, rate limits, concepts and the quickstart
+note: >-
+  Five packaged Agent Skills for the Cvent Hospitality Cloud surface. Every operationId, path, scope and
+  status code was read out of the harvested contract or quoted from a Cvent docs page — none was
+  invented. Cvent publishes no skills or AGENTS.md of its own; these are API Evangelist's.
+skills:
+  - name: cvent-reglink-room-block-booking
+    file: cvent-hospitality-cloud-reglink-room-block-booking.md
+    surface: Housing (Passkey RegLink)
+    flow: Guest-booked room block via a pre-populated bridge link, reconciled by callback
+    operations: 8
+  - name: cvent-housing-reservation-management
+    file: cvent-hospitality-cloud-housing-reservation-management.md
+    surface: Housing (Passkey RegLink)
+    flow: Application-owned availability, booking, modification and the three-way cancel/unlink dance
+    operations: 11
+  - name: cvent-rfp-intake
+    file: cvent-hospitality-cloud-rfp-intake.md
+    surface: RFP Management, RFP Requirements, RFP Suppliers, Proposal Draft
+    flow: Mirror a Supplier Network RFP and its requirements into a sourcing or CRM system
+    operations: 14
+  - name: cvent-venue-profile-maintenance
+    file: cvent-hospitality-cloud-venue-profile-maintenance.md
+    surface: Venue Profiles, Venue Meeting Rooms
+    flow: Keep venue details, facility and meeting-room inventory current from a PMS or CMS
+    operations: 13
+  - name: cvent-authentication-and-quota
+    file: cvent-hospitality-cloud-authentication-and-quota.md
+    surface: Authentication, Usage
+    flow: Token acquisition, the 50-scope HTTP 431 trap, quota introspection and 429 recovery
+    operations: 3
+cross_cutting:
+  conventions: conventions/cvent-hospitality-cloud-conventions.yml
+  errors: errors/cvent-hospitality-cloud-problem-types.yml
+  rate_limits: rate-limits/cvent-hospitality-cloud-rate-limits.yml
+  authentication: authentication/cvent-hospitality-cloud-authentication.yml
+  scopes: scopes/cvent-hospitality-cloud-scopes.yml
+  webhooks: asyncapi/cvent-hospitality-cloud-webhooks.yml
+provider_published_skills:
+  found: false
+  note: >-
+    No /skills, no AGENTS.md and no llms-full.txt on developers.cvent.com or www.cvent.com. The only
+    machine-readable agent artifact Cvent publishes is www.cvent.com/llms.txt, captured under llms/.

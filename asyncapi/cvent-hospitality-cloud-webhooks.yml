@@ -1,0 +1,170 @@
+generated: '2026-09-07'
+method: searched
+source: >-
+  https://developers.cvent.com/docs/webhooks/overview,
+  https://developers.cvent.com/docs/webhooks/technical-requirements,
+  https://developers.cvent.com/docs/passkey/REST/callbacks
+asyncapi_published: false
+asyncapi_note: >-
+  Cvent publishes no AsyncAPI document. Probed the API hosts and the docs host for /asyncapi.json and
+  /asyncapi.yaml — the gateway returns its JSON 404 and the docs site returns its 404 shell. The event
+  surface below is real and fully documented in prose; it simply has no machine-readable event contract,
+  which is the honest finding.
+surfaces:
+  - name: Cvent Platform Webhooks
+    kind: webhooks
+    docs: https://developers.cvent.com/docs/webhooks/overview
+    configuration: Per event and per session, configured in the Cvent UI by an account administrator; not self-serve via API.
+    subscriber_requirements:
+      transport: HTTPS (SSL-secured endpoint required)
+      validation: >-
+        Cvent sends a GET to the subscriber endpoint on activation and expects HTTP 200. If no response
+        is returned it retries the GET every ten minutes.
+      delivery: 'POST /<your-endpoint-path>/<EventType>/<IdOfWebhookMessage> with Content-Type: application/json'
+      headers:
+        - authorization
+        - request-id
+        - 'user-agent: Cvent-Webhooks'
+      authentication:
+        - method: token
+          note: A subscriber-supplied token echoed in the Authorization header. Maximum 150 characters.
+        - method: salesforce-oauth
+          note: >-
+            Authorization endpoint, client ID, client secret, plus Technical Account ID and Organization
+            ID. The subscriber endpoint itself does not have to be Salesforce-based. Cvent attempts
+            automated auth recovery on failure and may temporarily disable the integration, emailing the
+            configured contacts.
+      contract_schemes: >-
+        The OpenAPI contract declares CallbackApiKeyAuth and CallbackBasicAuth — these describe how
+        Cvent authenticates TO a subscriber, not how a client authenticates to Cvent.
+    message_groups:
+      - group: Attendees
+        messages:
+          - registered-for-event
+          - registration-modified
+          - registration-cancelled
+          - abandons-registration
+          - substituted-into-event-registration
+          - registered-for-session
+          - session-registration-cancelled
+          - marked-as-no-show
+          - marked-session-no-show
+          - marked-event-participant
+          - marked-session-participant
+          - invitee-guest-order-created
+      - group: Attendee emails
+        messages:
+          - email-sent
+          - email-opened
+          - email-bounces
+          - added-to-invitation-list
+          - declines-invitation
+          - unsubscribed-from-event-email
+          - resubscribes-to-event-email
+      - group: Contacts
+        messages:
+          - contact-created
+          - contact-edited
+          - contact-deleted
+          - contact-opts-out-of-emails
+          - opts-back-in-to-emails
+          - confirm-email-opt-in
+      - group: Events
+        messages:
+          - event-modified
+          - event-cancelled
+          - event-deleted
+      - group: Event sessions
+        messages:
+          - session-created
+          - session-modified
+          - session-deleted
+      - group: Event speakers
+        messages:
+          - speaker-created
+          - speaker-modified
+          - speaker-deleted
+      - group: Meeting requests
+        hospitality: true
+        messages:
+          - meeting-request-submitted
+          - meeting-request-modified
+      - group: Manual sync
+        messages:
+          - manual-event
+          - manual-session
+          - manual-speaker
+          - manual-attendee
+          - manual-attendee-abandoned
+    message_count: 41
+    reference:
+      - https://developers.cvent.com/docs/webhooks/messages/messages
+      - https://developers.cvent.com/docs/webhooks/reference/email-type-ids
+      - https://developers.cvent.com/docs/webhooks/reference/timezone-names
+      - https://developers.cvent.com/docs/webhooks/reference/troubleshooting
+  - name: Passkey RegLink Callback Service
+    kind: callbacks
+    hospitality: true
+    docs: https://developers.cvent.com/docs/passkey/REST/callbacks
+    description: >-
+      The housing-specific event surface. Cvent Passkey POSTs a message to a third-party URL when a
+      reservation is created, modified or cancelled. Each action is enabled independently, so any
+      combination is possible. Cvent Passkey supports default callback URLs at the partner level that
+      apply automatically to every event where the integration is active.
+    triggers:
+      - reservation created
+      - reservation modified
+      - reservation cancelled
+    delivery:
+      method: POST
+      content_type: application/x-www-form-urlencoded
+      expected_response: HTTP 200
+      failure_behavior: >-
+        "Cvent Passkey expects an HTTP 200 (OK) response on any Callback messages sent and won't process
+        errors or other messaging." Any other response is discarded — there is no retry and no dead
+        letter. The receiving system owns the message once it is sent.
+      asynchronous: true
+    configuration: >-
+      Event planners enter callback URLs into the Cvent Passkey UI at the event level; partner-level
+      default URLs cover multiple events.
+    url_template_tags:
+      - tag: '[[eventId]]'
+        description: The Event ID for the event associated with the attendee record.
+      - tag: '[[reservationRequestId]]'
+        description: >-
+          The identifier Cvent Passkey assigns when attendee information reaches a third-party
+          application via the Reservation Request API; returned in that API's response.
+      - tag: '[[sourceId]]'
+        description: >-
+          An attendee-specific identifier assigned by the external system, passed to Passkey in the
+          sourceID field of the Reservation Request API. This is the caller's correlation key.
+      - tag: '[[reservationId]]'
+        description: The reservation acknowledgement (confirmation) number for the housing reservation in Cvent Passkey.
+      - tag: '[[bookingContactId]]'
+        description: Applies to room-list reservations or Group Bookings; the same number applies to every reservation in one room list.
+      - tag: '[[hotelConfNumber]]'
+        description: The confirmation number in the hotel's Property Management System — only available once reservations begin transferring to the hotel.
+      - tag: '[[status]]'
+        description: >-
+          Reservation status in Cvent Passkey — 0 New, 1 Cancelled, 2 Modified, 3 Modified and
+          Cancelled, 5 No Show, 7 No Show, 8 Waitlist/Pending.
+      - tag: '[[lastName]]'
+        description: Last name of the primary attendee on the reservation.
+      - tag: '[[homePhone]]'
+        description: Phone number of the primary attendee on the reservation.
+    example_template: >-
+      http://www.myreg.com/newres.asp?eventId=[[eventId]]&sourceId=[[sourceId]]&reservationRequestId=[[reservationRequestId]]&reservationId=[[reservationId]]&status=[[status]]
+    note: >-
+      Parameter names in the template are customizable. The callback mechanism is explicitly unchanged
+      from the legacy XML/browser RegLink APIs, so it is the one part of a legacy integration that does
+      not need rewriting on migration.
+outbound_hooks_api:
+  note: >-
+    The contract exposes a small Hooks surface for contact-level hooks — ListContactHooks,
+    createContactHook, updateContactHook, deleteContactHook. It is scoped to contacts and is not the
+    configuration API for the event webhooks or the Passkey callbacks above.
+  scopes:
+    - account/hooks:read
+    - account/hooks:write
+    - account/hooks:delete
+  docs: https://developers.cvent.com/docs/platform/data-models/hooks

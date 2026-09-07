@@ -1,19 +1,13 @@
 aid: cvent-hospitality-cloud
 name: Cvent Hospitality Cloud
 kind: company
-description: >-
-  Cvent Hospitality Cloud is the hotel and venue product line of the
-  Cvent Platform. It includes the Cvent Supplier Network (the marketplace
-  connecting event planners with hotels and venues for RFPs and bookings),
-  Passkey (hotel room block and housing management), Venue Sourcing
-  (venue search and discovery), and Sales & Catering (booking management,
-  catering, and contracts). Programmatic access is delivered primarily
-  through the Passkey RegLink REST APIs (with legacy SOAP and URL-based
-  options) and the unified Cvent Platform REST API. Authentication uses
-  OAuth 2.0 client credentials with the token endpoint at
-  api-platform.cvent.com/ea/oauth2/token.
-url: >-
-  https://raw.githubusercontent.com/api-evangelist/cvent-hospitality-cloud/refs/heads/main/apis.yml
+description: Cvent Hospitality Cloud is the hotel and venue product line of the Cvent Platform. It includes the
+  Cvent Supplier Network (the marketplace connecting event planners with hotels and venues for RFPs and bookings),
+  Passkey (hotel room block and housing management), Venue Sourcing (venue search and discovery), and Sales &
+  Catering (booking management, catering, and contracts). Programmatic access is delivered primarily through the
+  Passkey RegLink REST APIs (with legacy SOAP and URL-based options) and the unified Cvent Platform REST API.
+  Authentication uses OAuth 2.0 client credentials with the token endpoint at api-platform.cvent.com/ea/oauth2/token.
+url: https://raw.githubusercontent.com/api-evangelist/cvent-hospitality-cloud/refs/heads/main/apis.yml
 deliveryModel:
   model: saas
   open_source: false
@@ -44,195 +38,521 @@ type: Index
 access: 3rd-Party
 position: Consuming
 created: '2024-01-01'
-modified: '2026-04-28'
+modified: '2026-09-07'
 specificationVersion: '0.23'
 tags:
-  - Catering
-  - Group Bookings
-  - Hospitality
-  - Hospitality Cloud
-  - Hotels
-  - Housing
-  - Authentication
-  - Passkey
-  - Reservations
-  - RFP
-  - Room Blocks
-  - Sales
-  - Sourcing
-  - Supplier Network
-  - Venues
+- Catering
+- Group Bookings
+- Hospitality
+- Hospitality Cloud
+- Hotels
+- Housing
+- Authentication
+- Passkey
+- Reservations
+- RFP
+- Room Blocks
+- Sales
+- Sourcing
+- Supplier Network
+- Venues
 tags_raw:
-  - Catering
-  - Group Bookings
-  - Hospitality
-  - Hospitality Cloud
-  - Hotels
-  - Housing
-  - OAuth 2.0
-  - Passkey
-  - Reservations
-  - RFP
-  - Room Blocks
-  - Sales
-  - Sourcing
-  - Supplier Network
-  - Venues
+- Catering
+- Group Bookings
+- Hospitality
+- Hospitality Cloud
+- Hotels
+- Housing
+- OAuth 2.0
+- Passkey
+- Reservations
+- RFP
+- Room Blocks
+- Sales
+- Sourcing
+- Supplier Network
+- Venues
 apis:
 - aid: cvent-hospitality-cloud:passkey-reglink
   name: Cvent Passkey RegLink API
-  description: >-
-    Passkey RegLink APIs are RESTful JSON APIs (with legacy URL-based and SOAP options) that connect Cvent
-    registration with Passkey hotel reservations. Primary functions include sending registrant information
-    to Passkey to streamline hotel reservations, fetching Passkey event and hotel availability, retrieving
-    reservation information, and creating, updating, and cancelling registrant reservations.
+  description: 'Passkey RegLink is the hotel room-block and housing surface of the Cvent platform. It connects
+    an external registration system to Passkey events and hotel inventory: fetch housing events, hotels, room
+    types, availability and inventory; create a reservation request (the "bridge") that pre-populates a registrant
+    and hands them a unique booking link; then create, update, cancel, link and unlink the resulting reservations.
+    Cvent''s own migration guide maps every legacy XML and browser RegLink call onto these operations. It is delivered
+    as the Housing and Housing Hotels tags of the unified Cvent REST API at https://api-platform.cvent.com/ea,
+    secured with OAuth 2.0 and 15 housing/* scopes, with an optional callback service that POSTs on reservation
+    create, modify and cancel. Passkey is an add-on licence.'
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://developers.cvent.com/docs/passkey/REST/overview
-  baseURL: https://api-platform.cvent.com
+  baseURL: https://api-platform.cvent.com/ea
   tags:
   - Group Bookings
   - Hotel
   - Passkey
   - Reservations
   - Room Blocks
+  - Housing
   properties:
+  - type: OpenAPI
+    url: openapi/cvent-hospitality-cloud-housing-openapi.yml
+  - type: OpenAPI
+    url: openapi/cvent-hospitality-cloud-housing-hotels-openapi.yml
+  - type: Overlay
+    url: overlays/cvent-hospitality-cloud-housing-overlay.yaml
   - type: Documentation
     url: https://developers.cvent.com/docs/passkey/REST/overview
   - type: GettingStarted
     url: https://developers.cvent.com/docs/passkey/REST/getting-started
-  - type: PasskeyDocs
-    url: https://developers.cvent.com/doc/passkey/
+  - type: Migration
+    url: https://developers.cvent.com/docs/passkey/REST/migration
+  - type: Webhooks
+    url: https://developers.cvent.com/docs/passkey/REST/callbacks
+  - type: Webhooks
+    url: asyncapi/cvent-hospitality-cloud-webhooks.yml
+  - type: AgentSkill
+    url: skills/cvent-hospitality-cloud-reglink-room-block-booking.md
+  - type: AgentSkill
+    url: skills/cvent-hospitality-cloud-housing-reservation-management.md
+  - type: DataModel
+    url: https://developers.cvent.com/docs/platform/data-models/housing
   - type: Product
-    url: https://www.cvent.com/en/hospitality-cloud/passkey
+    url: https://www.cvent.com/en/supplier-venue/passkey
 - aid: cvent-hospitality-cloud:rest-api
   name: Cvent Platform REST API (Hospitality)
-  description: >-
-    The unified Cvent Platform REST API also covers hospitality use cases including event-driven integrations,
-    contact and attendee data exchange, and webhook-based notifications that can be wired into hotel and
-    venue workflows. OAuth 2.0 client credentials.
+  description: The unified Cvent REST API at https://api-platform.cvent.com/ea (and its EMEA peer https://api-platform-eur.cvent.com/ea)
+    is one OpenAPI 3.0.2 document of 356 paths and 469 operations across 56 tags; 87 of those operations are the
+    hospitality surface split into this repository. Authentication is OAuth 2.0 — client credentials for machine-to-machine
+    applications, authorization code for web applications — with 238 named scopes, 60-minute tokens, cursor pagination
+    on paging.currentToken, a {code, message, details[]} error envelope, X-RateLimit-* headers and a per-account
+    usage tier readable at GET /usage/tier.
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://developers.cvent.com/docs/rest-api/overview
-  baseURL: https://api-platform.cvent.com
+  baseURL: https://api-platform.cvent.com/ea
   tags:
   - Event
   - Authentication
   - REST
   - Webhook
+  - Platform
   tags_raw:
   - Events
   - OAuth 2.0
   - REST
   - Webhooks
+  - Platform
   properties:
+  - type: OpenAPI
+    url: openapi/cvent-hospitality-cloud-authentication-openapi.yml
+  - type: Overlay
+    url: overlays/cvent-hospitality-cloud-authentication-overlay.yaml
   - type: Documentation
     url: https://developers.cvent.com/docs/rest-api/overview
+  - type: APIReference
+    url: https://developers.cvent.com/documentation
+  - type: GettingStarted
+    url: https://developers.cvent.com/docs/rest-api/tutorials/developer-quickstart
   - type: Concepts
-    url: https://developers.cvent.com/docs/rest-api
-  - type: OAuthTokenEndpoint
-    url: https://api-platform.cvent.com/ea/oauth2/token
-- aid: cvent-hospitality-cloud:cvent-hospitality-cloud-authentication-api
-  name: Cvent Hospitality Cloud Authentication API
-  description: The Authentication API from Cvent Hospitality Cloud — 1 operation(s) for authentication.
-  humanURL: https://developers.cvent.com/docs/passkey/REST/overview
-  baseURL: https://api-platform.cvent.com
-  tags:
-  - Authentication
-  properties:
-  - type: OpenAPI
-    url: openapi/cvent-hospitality-cloud-authentication-api-openapi.yml
-- aid: cvent-hospitality-cloud:cvent-hospitality-cloud-connections-api
-  name: Cvent Hospitality Cloud Connections API
-  description: The Connections API from Cvent Hospitality Cloud — 1 operation(s) for connections.
-  humanURL: https://developers.cvent.com/docs/passkey/REST/overview
-  baseURL: https://api-platform.cvent.com
-  tags:
-  - Connections
-  properties:
-  - type: OpenAPI
-    url: openapi/cvent-hospitality-cloud-connections-api-openapi.yml
-- aid: cvent-hospitality-cloud:cvent-hospitality-cloud-events-api
-  name: Cvent Hospitality Cloud Events API
-  description: The Events API from Cvent Hospitality Cloud — 2 operation(s) for events.
-  humanURL: https://developers.cvent.com/docs/passkey/REST/overview
-  baseURL: https://api-platform.cvent.com
-  tags:
-  - Event
-  tags_raw:
-  - Events
-  properties:
-  - type: OpenAPI
-    url: openapi/cvent-hospitality-cloud-events-api-openapi.yml
-- aid: cvent-hospitality-cloud:cvent-hospitality-cloud-hotels-api
-  name: Cvent Hospitality Cloud Hotels API
-  description: The Hotels API from Cvent Hospitality Cloud — 1 operation(s) for hotels.
-  humanURL: https://developers.cvent.com/docs/passkey/REST/overview
-  baseURL: https://api-platform.cvent.com
-  tags:
-  - Hotels
-  properties:
-  - type: OpenAPI
-    url: openapi/cvent-hospitality-cloud-hotels-api-openapi.yml
-- aid: cvent-hospitality-cloud:cvent-hospitality-cloud-reservationrequests-api
-  name: Cvent Hospitality Cloud ReservationRequests API
-  description: >-
-    The ReservationRequests API from Cvent Hospitality Cloud — 2 operation(s) for reservationrequests.
-  humanURL: https://developers.cvent.com/docs/passkey/REST/overview
-  baseURL: https://api-platform.cvent.com
-  tags:
-  - ReservationRequests
-  properties:
-  - type: OpenAPI
-    url: openapi/cvent-hospitality-cloud-reservationrequests-api-openapi.yml
-- aid: cvent-hospitality-cloud:cvent-hospitality-cloud-roomtypes-api
-  name: Cvent Hospitality Cloud RoomTypes API
-  description: The RoomTypes API from Cvent Hospitality Cloud — 1 operation(s) for roomtypes.
-  humanURL: https://developers.cvent.com/docs/passkey/REST/overview
-  baseURL: https://api-platform.cvent.com
-  tags:
-  - Room Types
-  tags_raw:
-  - RoomTypes
-  properties:
-  - type: OpenAPI
-    url: openapi/cvent-hospitality-cloud-roomtypes-api-openapi.yml
-common:
-  - type: CapabilityMap
-    url: capabilities/cvent-hospitality-cloud-capability-edges.yml
-    name: Cvent Hospitality Cloud Business Capability Map
-  - type: AgenticAccess
-    url: agentic-access/cvent-hospitality-cloud-agentic-access.yml
-  - type: TrustCenter
-    url: security/cvent-hospitality-cloud-trust-center.yml
-  - type: DomainSecurity
-    url: security/cvent-hospitality-cloud-domain-security.yml
+    url: https://developers.cvent.com/docs/rest-api/explanation/concepts
+  - type: ChangeLog
+    url: https://developers.cvent.com/docs/rest-api/changelog
   - type: Authentication
     url: authentication/cvent-hospitality-cloud-authentication.yml
   - type: OAuthScopes
     url: scopes/cvent-hospitality-cloud-scopes.yml
-  - type: GitHubOrganization
-    url: https://github.com/cvent
-  - type: Website
-    url: https://www.cvent.com/en/hospitality-cloud
-  - type: SupplierNetwork
-    url: https://www.cvent.com/en/hospitality-cloud/event-management/cvent-supplier-network
-  - type: Passkey
-    url: https://www.cvent.com/en/hospitality-cloud/passkey
-  - type: DeveloperPortal
-    url: https://developers.cvent.com/
-  - type: Support
-    url: https://support.cvent.com/
-  - type: StatusPage
-    url: https://status.cvent.com/
-  - type: TermsOfService
-    url: https://www.cvent.com/en/terms-of-service
-  - type: PrivacyPolicy
-    url: https://www.cvent.com/en/privacy-policy
-  - type: LlmsText
-    url: https://www.cvent.com/llms.txt
-  - url: https://www.cvent.com/en/blog/feed.xml
-    type: Blog
+  - type: RateLimits
+    url: rate-limits/cvent-hospitality-cloud-rate-limits.yml
+  - type: AgentSkill
+    url: skills/cvent-hospitality-cloud-authentication-and-quota.md
+  - type: OAuthTokenEndpoint
+    url: https://api-platform.cvent.com/ea/oauth2/token
+- aid: cvent-hospitality-cloud:soap-v200611
+  name: Cvent SOAP Web Services API (V200611)
+  description: Cvent's legacy SOAP 1.1 / WSDL 1.1 / WS-I Basic Profile 1.1 Web Services API, still served and
+    still documented. 51 operations and 390 complex types under targetNamespace http://api.cvent.com/2006-11,
+    including the hospitality calls CreateRFP, CreateMeetingRequest, UpdateMeetingRequest and the approver operations.
+    Authentication is a session ticket obtained from its own Login call — not OAuth. Quota is 10,000 calls per
+    organization per 24 hours (Eastern Time), introspectable via DescribeGlobal. Cvent files it under legacy-api
+    and publishes a call-by-call REST migration guide, but has announced no sunset.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.cvent.com/docs/legacy-api/soap-api/framework
+  baseURL: https://api.cvent.com/soap/V200611.ASMX
+  tags:
+  - SOAP
+  - Legacy
+  - RFP
+  - Meeting Requests
+  properties:
+  - type: WSDL
+    url: wsdl/cvent-hospitality-cloud-soap-v200611.wsdl
+  - type: Documentation
+    url: https://developers.cvent.com/docs/legacy-api/soap-api/framework
+  - type: APIReference
+    url: https://developers.cvent.com/docs/legacy-api/soap-api/call-definitions/overview
+  - type: ErrorCatalog
+    url: https://developers.cvent.com/docs/legacy-api/soap-api/error-codes
+  - type: ChangeLog
+    url: https://developers.cvent.com/docs/legacy-api/soap-api/changelog
+  - type: Migration
+    url: https://developers.cvent.com/docs/rest-api/migration-guide/calls-and-methods
+- aid: cvent-hospitality-cloud:rfp-management
+  name: Cvent RFP Management API
+  description: Read a Cvent Supplier Network RFP and its lead sources. Delivered as the RFP Management tag of
+    the unified Cvent REST API — 3 operation(s) at https://api-platform.cvent.com/ea, OAuth 2.0 secured.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.cvent.com/documentation
+  baseURL: https://api-platform.cvent.com/ea
+  tags:
+  - RFP
+  - Sourcing
+  - Supplier Network
+  properties:
+  - type: OpenAPI
+    url: openapi/cvent-hospitality-cloud-rfp-management-openapi.yml
+  - type: Overlay
+    url: overlays/cvent-hospitality-cloud-rfp-management-overlay.yaml
+  - type: APIReference
+    url: https://developers.cvent.com/documentation
+  - type: Documentation
+    url: https://developers.cvent.com/docs/rest-api/overview
+- aid: cvent-hospitality-cloud:rfp-requirements
+  name: Cvent RFP Requirements API
+  description: The requirements attached to an RFP — agenda items and schedules, guest rooms, questions, custom-field
+    answers, attachments and internal documents. Delivered as the RFP Requirements tag of the unified Cvent REST
+    API — 7 operation(s) at https://api-platform.cvent.com/ea, OAuth 2.0 secured.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.cvent.com/documentation
+  baseURL: https://api-platform.cvent.com/ea
+  tags:
+  - RFP
+  - Sourcing
+  - Guest Rooms
+  properties:
+  - type: OpenAPI
+    url: openapi/cvent-hospitality-cloud-rfp-requirements-openapi.yml
+  - type: Overlay
+    url: overlays/cvent-hospitality-cloud-rfp-requirements-overlay.yaml
+  - type: APIReference
+    url: https://developers.cvent.com/documentation
+  - type: Documentation
+    url: https://developers.cvent.com/docs/rest-api/overview
+- aid: cvent-hospitality-cloud:rfp-suppliers
+  name: Cvent RFP Suppliers API
+  description: The suppliers an RFP was sent to and the history of those recipients. Delivered as the RFP Suppliers
+    tag of the unified Cvent REST API — 2 operation(s) at https://api-platform.cvent.com/ea, OAuth 2.0 secured.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.cvent.com/documentation
+  baseURL: https://api-platform.cvent.com/ea
+  tags:
+  - RFP
+  - Supplier Network
+  - Hotels
+  properties:
+  - type: OpenAPI
+    url: openapi/cvent-hospitality-cloud-rfp-suppliers-openapi.yml
+  - type: Overlay
+    url: overlays/cvent-hospitality-cloud-rfp-suppliers-overlay.yaml
+  - type: APIReference
+    url: https://developers.cvent.com/documentation
+  - type: Documentation
+    url: https://developers.cvent.com/docs/rest-api/overview
+- aid: cvent-hospitality-cloud:rfp-additional-details
+  name: Cvent RFP Additional Details API
+  description: A planner’s past-event history for an RFP. Delivered as the RFP Additional Details tag of the unified
+    Cvent REST API — 1 operation(s) at https://api-platform.cvent.com/ea, OAuth 2.0 secured.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.cvent.com/documentation
+  baseURL: https://api-platform.cvent.com/ea
+  tags:
+  - RFP
+  - Sourcing
+  properties:
+  - type: OpenAPI
+    url: openapi/cvent-hospitality-cloud-rfp-additional-details-openapi.yml
+  - type: Overlay
+    url: overlays/cvent-hospitality-cloud-rfp-additional-details-overlay.yaml
+  - type: APIReference
+    url: https://developers.cvent.com/documentation
+  - type: Documentation
+    url: https://developers.cvent.com/docs/rest-api/overview
+- aid: cvent-hospitality-cloud:proposal-drafts
+  name: Cvent Proposal Draft API
+  description: Create a draft proposal in response to an RFP. Delivered as the Proposal Draft tag of the unified
+    Cvent REST API — 1 operation(s) at https://api-platform.cvent.com/ea, OAuth 2.0 secured.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.cvent.com/documentation
+  baseURL: https://api-platform.cvent.com/ea
+  tags:
+  - Proposals
+  - Supplier Network
+  - Hotels
+  properties:
+  - type: OpenAPI
+    url: openapi/cvent-hospitality-cloud-proposal-drafts-openapi.yml
+  - type: Overlay
+    url: overlays/cvent-hospitality-cloud-proposal-drafts-overlay.yaml
+  - type: APIReference
+    url: https://developers.cvent.com/documentation
+  - type: Documentation
+    url: https://developers.cvent.com/docs/rest-api/overview
+- aid: cvent-hospitality-cloud:venue-profiles
+  name: Cvent Venue Profiles API
+  description: Maintain a venue profile — type, contact, address and facility details. Both replace (PUT) and
+    merge (PATCH) are offered. Delivered as the Venue Profiles tag of the unified Cvent REST API — 5 operation(s)
+    at https://api-platform.cvent.com/ea, OAuth 2.0 secured.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.cvent.com/documentation
+  baseURL: https://api-platform.cvent.com/ea
+  tags:
+  - Venues
+  - Hotels
+  - Sourcing
+  properties:
+  - type: OpenAPI
+    url: openapi/cvent-hospitality-cloud-venue-profiles-openapi.yml
+  - type: Overlay
+    url: overlays/cvent-hospitality-cloud-venue-profiles-overlay.yaml
+  - type: APIReference
+    url: https://developers.cvent.com/documentation
+  - type: Documentation
+    url: https://developers.cvent.com/docs/rest-api/overview
+- aid: cvent-hospitality-cloud:venue-meeting-rooms
+  name: Cvent Venue Meeting Rooms API
+  description: Create and maintain a venue’s meeting rooms, their capacities and amenities, and the images associated
+    with them. Delivered as the Venue Meeting Rooms tag of the unified Cvent REST API — 8 operation(s) at https://api-platform.cvent.com/ea,
+    OAuth 2.0 secured.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.cvent.com/documentation
+  baseURL: https://api-platform.cvent.com/ea
+  tags:
+  - Venues
+  - Meeting Rooms
+  - Catering
+  properties:
+  - type: OpenAPI
+    url: openapi/cvent-hospitality-cloud-venue-meeting-rooms-openapi.yml
+  - type: Overlay
+    url: overlays/cvent-hospitality-cloud-venue-meeting-rooms-overlay.yaml
+  - type: APIReference
+    url: https://developers.cvent.com/documentation
+  - type: Documentation
+    url: https://developers.cvent.com/docs/rest-api/overview
+- aid: cvent-hospitality-cloud:meeting-requests
+  name: Cvent Meeting Request API
+  description: Meeting request forms and the requests submitted against them, plus the documents attached to a
+    request. Delivered as the Meeting Request tag of the unified Cvent REST API — 8 operation(s) at https://api-platform.cvent.com/ea,
+    OAuth 2.0 secured.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.cvent.com/documentation
+  baseURL: https://api-platform.cvent.com/ea
+  tags:
+  - Meeting Requests
+  - Sourcing
+  - Event
+  properties:
+  - type: OpenAPI
+    url: openapi/cvent-hospitality-cloud-meeting-requests-openapi.yml
+  - type: Overlay
+    url: overlays/cvent-hospitality-cloud-meeting-requests-overlay.yaml
+  - type: APIReference
+    url: https://developers.cvent.com/documentation
+  - type: Documentation
+    url: https://developers.cvent.com/docs/rest-api/overview
+- aid: cvent-hospitality-cloud:travel-rfps
+  name: Cvent Travel RFPs API
+  description: Business-transient travel programs, their questions, and the proposals and bids submitted against
+    them. Delivered as the Travel RFPs tag of the unified Cvent REST API — 9 operation(s) at https://api-platform.cvent.com/ea,
+    OAuth 2.0 secured.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.cvent.com/documentation
+  baseURL: https://api-platform.cvent.com/ea
+  tags:
+  - Business Travel
+  - RFP
+  - Hotels
+  properties:
+  - type: OpenAPI
+    url: openapi/cvent-hospitality-cloud-travel-rfps-openapi.yml
+  - type: Overlay
+    url: overlays/cvent-hospitality-cloud-travel-rfps-overlay.yaml
+  - type: APIReference
+    url: https://developers.cvent.com/documentation
+  - type: Documentation
+    url: https://developers.cvent.com/docs/rest-api/overview
+- aid: cvent-hospitality-cloud:travel-suppliers
+  name: Cvent Travel Suppliers API
+  description: The hotel supplier directory behind business travel sourcing — chains, brands, properties and property
+    rooms. Delivered as the Travel Suppliers tag of the unified Cvent REST API — 8 operation(s) at https://api-platform.cvent.com/ea,
+    OAuth 2.0 secured.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.cvent.com/documentation
+  baseURL: https://api-platform.cvent.com/ea
+  tags:
+  - Business Travel
+  - Hotels
+  - Supplier Network
+  properties:
+  - type: OpenAPI
+    url: openapi/cvent-hospitality-cloud-travel-suppliers-openapi.yml
+  - type: Overlay
+    url: overlays/cvent-hospitality-cloud-travel-suppliers-overlay.yaml
+  - type: APIReference
+    url: https://developers.cvent.com/documentation
+  - type: Documentation
+    url: https://developers.cvent.com/docs/rest-api/overview
+- aid: cvent-hospitality-cloud:travel-accounts
+  name: Cvent Travel Accounts API
+  description: Travel accounts and the supplier accounts beneath them. Delivered as the Travel Accounts tag of
+    the unified Cvent REST API — 4 operation(s) at https://api-platform.cvent.com/ea, OAuth 2.0 secured.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.cvent.com/documentation
+  baseURL: https://api-platform.cvent.com/ea
+  tags:
+  - Business Travel
+  - Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/cvent-hospitality-cloud-travel-accounts-openapi.yml
+  - type: Overlay
+    url: overlays/cvent-hospitality-cloud-travel-accounts-overlay.yaml
+  - type: APIReference
+    url: https://developers.cvent.com/documentation
+  - type: Documentation
+    url: https://developers.cvent.com/docs/rest-api/overview
+- aid: cvent-hospitality-cloud:event-travel
+  name: Cvent Event Travel API
+  description: Air requests and actuals, hotel requests and housing reservation requests attached to an event.
+    Delivered as the Event Travel tag of the unified Cvent REST API — 5 operation(s) at https://api-platform.cvent.com/ea,
+    OAuth 2.0 secured.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.cvent.com/documentation
+  baseURL: https://api-platform.cvent.com/ea
+  tags:
+  - Event
+  - Travel
+  - Housing
+  properties:
+  - type: OpenAPI
+    url: openapi/cvent-hospitality-cloud-event-travel-openapi.yml
+  - type: Overlay
+    url: overlays/cvent-hospitality-cloud-event-travel-overlay.yaml
+  - type: APIReference
+    url: https://developers.cvent.com/documentation
+  - type: Documentation
+    url: https://developers.cvent.com/docs/rest-api/overview
+- aid: cvent-hospitality-cloud:signatures
+  name: Cvent Signatures API
+  description: Signature documents produced by the onsite/contracting surface. Delivered as the Signatures tag
+    of the unified Cvent REST API — 1 operation(s) at https://api-platform.cvent.com/ea, OAuth 2.0 secured.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developers.cvent.com/documentation
+  baseURL: https://api-platform.cvent.com/ea
+  tags:
+  - Contracts
+  - Signatures
+  properties:
+  - type: OpenAPI
+    url: openapi/cvent-hospitality-cloud-signatures-openapi.yml
+  - type: Overlay
+    url: overlays/cvent-hospitality-cloud-signatures-overlay.yaml
+  - type: APIReference
+    url: https://developers.cvent.com/documentation
+  - type: Documentation
+    url: https://developers.cvent.com/docs/rest-api/overview
+common:
+- type: AgenticAccess
+  url: agentic-access/cvent-hospitality-cloud-agentic-access.yml
+- type: TrustCenter
+  url: security/cvent-hospitality-cloud-trust-center.yml
+- type: DomainSecurity
+  url: security/cvent-hospitality-cloud-domain-security.yml
+- type: Authentication
+  url: authentication/cvent-hospitality-cloud-authentication.yml
+- type: OAuthScopes
+  url: scopes/cvent-hospitality-cloud-scopes.yml
+- type: GitHubOrganization
+  url: https://github.com/cvent
+- type: DeveloperPortal
+  url: https://developers.cvent.com/
+- type: Support
+  url: https://support.cvent.com/
+- type: StatusPage
+  url: https://status.cvent.com/
+- type: PrivacyPolicy
+  url: https://www.cvent.com/en/privacy-policy
+- url: https://www.cvent.com/en/blog/feed.xml
+  type: Blog
+- type: Website
+  url: https://www.cvent.com/en/supplier-venue
+- type: SupplierNetwork
+  url: https://www.cvent.com/venues
+- type: Passkey
+  url: https://www.cvent.com/en/supplier-venue/passkey
+- type: TermsOfService
+  url: https://www.cvent.com/en/product-terms-of-use
+- type: Documentation
+  url: https://developers.cvent.com/docs
+- type: APIReference
+  url: https://developers.cvent.com/documentation
+- type: GettingStarted
+  url: https://developers.cvent.com/docs/rest-api/tutorials/developer-quickstart
+- type: SignUp
+  url: https://developers.cvent.com/signup
+- type: Login
+  url: https://developers.cvent.com/login
+- type: Blog
+  url: https://www.cvent.com/en/blog/latest
+- type: TrustCenter
+  url: https://trust.cvent.com/
+- type: Compliance
+  url: conformance/cvent-hospitality-cloud-conformance.yml
+- type: Conformance
+  url: conformance/cvent-hospitality-cloud-conformance.yml
+- type: MCPServer
+  url: mcp/cvent-hospitality-cloud-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/cvent-hospitality-cloud-tool-crosswalk.yml
+- type: Packages
+  url: packages/cvent-hospitality-cloud-packages.yml
+- type: SDKs
+  url: packages/cvent-hospitality-cloud-packages.yml
+- type: WellKnown
+  url: well-known/cvent-hospitality-cloud-well-known.yml
+- type: LLMsTxt
+  url: llms/cvent-hospitality-cloud-llms.txt
+- type: LlmsText
+  url: https://www.cvent.com/llms.txt
+- type: WSDL
+  url: wsdl/cvent-hospitality-cloud-soap-v200611.wsdl
+- type: ErrorCatalog
+  url: errors/cvent-hospitality-cloud-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/cvent-hospitality-cloud-lifecycle.yml
+- type: ChangeLog
+  url: changelog/cvent-hospitality-cloud-changelog.yml
+- type: Conventions
+  url: conventions/cvent-hospitality-cloud-conventions.yml
+- type: DataModel
+  url: data-model/cvent-hospitality-cloud-data-model.yml
+- type: Sandbox
+  url: sandbox/cvent-hospitality-cloud-sandbox.yml
+- type: Webhooks
+  url: asyncapi/cvent-hospitality-cloud-webhooks.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: RateLimits
+  url: rate-limits/cvent-hospitality-cloud-rate-limits.yml
+- type: Plans
+  url: plans/cvent-hospitality-cloud-plans-pricing.yml
+- type: Support
+  url: https://www.cvent.com/en/contact/support
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
 x-parent: cvent
 x-relationship: product
+x-enrichment:
+  date: '2026-09-07'
+  status: enriched
+  artifacts_added: 56
+  pass: local-v3

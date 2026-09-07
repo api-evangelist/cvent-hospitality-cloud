@@ -1,0 +1,146 @@
+generated: '2026-09-07'
+method: probed
+source: live GET probes of /.well-known/* on every host this record knows
+note: >-
+  Probed the registrable domain (cvent.com + www), the API host (api-platform.cvent.com and the EMEA
+  peer api-platform-eur.cvent.com named in the OpenAPI servers[]), the developer/docs host
+  (developers.cvent.com), the support host, the status page host, and mcp.cvent.com — the MCP host
+  discovered in this pass. Three real documents are served. status.cvent.com answers HTTP 200 with the
+  same HTML application shell on every /.well-known/* path, so those are recorded as misses, not hits.
+hosts:
+  - host: mcp.cvent.com
+    note: >-
+      Cvent's remote MCP server host. Serves RFC 8414 authorization-server metadata at the root and
+      RFC 9728 protected-resource metadata under the resource path, which is the pair an MCP client
+      needs to complete the OAuth handshake. The 401 on the bare
+      /.well-known/oauth-protected-resource path is correct — the document lives at the
+      resource-qualified path the WWW-Authenticate challenge names.
+    documents:
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        file: cvent-hospitality-cloud-mcp-oauth-authorization-server.json
+      - path: /.well-known/oauth-protected-resource/mcp
+        status: 200
+        file: cvent-hospitality-cloud-mcp-oauth-protected-resource.json
+      - path: /.well-known/oauth-protected-resource
+        status: 401
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: support.cvent.com
+    note: >-
+      The Cvent support community runs on Salesforce Experience Cloud under Cvent's own domain, and
+      serves a complete OpenID Connect discovery document with issuer https://support.cvent.com. It
+      is a real, provider-hosted document, but it authenticates the support community — it is NOT the
+      authorization server for the Cvent REST API, whose token endpoint is
+      https://api-platform.cvent.com/ea/oauth2/token.
+    documents:
+      - path: /.well-known/openid-configuration
+        status: 200
+        file: cvent-hospitality-cloud-support-openid-configuration.json
+      - path: /.well-known/security.txt
+        status: 401
+      - path: /.well-known/oauth-authorization-server
+        status: 401
+      - path: /.well-known/api-catalog
+        status: 401
+      - path: /.well-known/ai-plugin.json
+        status: 401
+      - path: /.well-known/agent-card.json
+        status: 401
+      - path: /.well-known/agent.json
+        status: 401
+  - host: api-platform.cvent.com
+    note: >-
+      The production API host. Every /.well-known/* path returns the gateway's own JSON 404
+      ("Unrecognized request URL"), which confirms the host is live and simply publishes no
+      well-known documents.
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: api-platform-eur.cvent.com
+    note: EMEA peer of the API host, named in the OpenAPI servers[] block. Same JSON 404 on every path.
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: developers.cvent.com
+    note: Developer portal (Next.js). All well-known paths return the 404 page shell.
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: www.cvent.com
+    note: >-
+      Marketing/registrable domain. No well-known documents. cvent.com (apex) 301s to www for every
+      path probed. www.cvent.com DOES serve /llms.txt (200) — captured separately under llms/.
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: status.cvent.com
+    note: >-
+      FALSE POSITIVE GUARD — every /.well-known/* path returns HTTP 200 with the status page's HTML
+      application shell, not a document. Recorded as misses.
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        file: null
+      - path: /.well-known/api-catalog
+        status: 200
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 200
+        file: null
