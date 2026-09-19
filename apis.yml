@@ -48,7 +48,7 @@ tags:
 - Hotels
 - Housing
 - Authentication
-- Passkey
+- Passkeys
 - Reservations
 - RFP
 - Room Blocks
@@ -574,6 +574,8 @@ apis:
   humanURL: https://developers.cvent.com/docs/passkey/REST/overview
   baseURL: https://api-platform.cvent.com/ea
   tags:
+  - Budgets
+  tags_raw:
   - Budget
   properties:
   - type: OpenAPI
@@ -978,6 +980,8 @@ apis:
   humanURL: https://developers.cvent.com/docs/passkey/REST/overview
   baseURL: https://api-platform.cvent.com/ea
   tags:
+  - Email
+  tags_raw:
   - Emails
   properties:
   - type: OpenAPI
@@ -1201,6 +1205,8 @@ apis:
   humanURL: https://developers.cvent.com/docs/passkey/REST/overview
   baseURL: https://api-platform.cvent.com/ea
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
@@ -1767,6 +1773,8 @@ apis:
   humanURL: https://developers.cvent.com/docs/passkey/REST/overview
   baseURL: https://api-platform.cvent.com/ea
   tags:
+  - Order
+  tags_raw:
   - Orders
   properties:
   - type: OpenAPI
@@ -2302,6 +2310,8 @@ apis:
   humanURL: https://developers.cvent.com/docs/passkey/REST/overview
   baseURL: https://api-platform.cvent.com/ea
   tags:
+  - Transaction
+  tags_raw:
   - Transactions
   properties:
   - type: OpenAPI
@@ -2570,6 +2580,8 @@ apis:
   humanURL: https://developers.cvent.com/docs/passkey/REST/overview
   baseURL: https://api-platform.cvent.com/ea
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
