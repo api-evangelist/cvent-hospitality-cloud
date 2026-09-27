@@ -224,115 +224,29 @@ paths:
       deprecated: false
 components:
   schemas:
-    CreateUpdateDiscountCode:
-      title: Create Update Discount Code
-      description: Representation of a discount code to be created or updated.
-      type: object
+    existing-discount-paginated-response:
+      title: Discounts Paginated Response
       required:
-      - type
-      allOf:
-      - $ref: '#/components/schemas/DiscountCodeBase'
-      properties:
-        type:
-          type: string
-          description: 'The type of discount. For account-level discounts, all discounts are of type DISCOUNT_CODE. `DISCOUNT_CODE`: A code the user or system applies to induce a discount. `VOLUME_DISCOUNT`: A discount that applies when a certain volume of items are purchased.'
-          enum:
-          - DISCOUNT_CODE
-          example: DISCOUNT_CODE
-        capacity:
-          $ref: '#/components/schemas/DiscountCapacityInput'
-    VolumeDiscount:
-      title: Volume Discount
-      description: Representation of a volume based discount.
+      - data
+      - paging
       type: object
-      required:
-      - thresholdLimit
-      allOf:
-      - $ref: '#/components/schemas/DiscountBase'
+      description: Returns a paginated list of all discounts used in an event, including both event-specific and account-level discount codes used in an event.
       properties:
-        thresholdType:
-          $ref: '#/components/schemas/VolumeDiscountThresholdType'
-        thresholdLimit:
-          type: integer
-          description: Defines the threshold limit for the volume discount.
-          example: 10
-        interval:
-          type: integer
-          description: Defines the interval for the volume discount when threshold type is EVERY_NTH_REGISTRANT. Every Nth registration counting from the threshold receives a discount.
-          default: 1
-          minimum: 1
-          maximum: 10
-          example: 1
-        includePrimaryRegistrant:
-          type: boolean
-          description: True indicates if the primary registrant is included in evaluating if threshold is met for the volume discount when threshold type is BEFORE_THRESHOLD_LIMIT.
-          default: false
-          example: true
-    Paging:
-      title: Paging
-      required:
-      - _links
-      type: object
-      description: Represents pagination information for a collection of resources.
-      properties:
-        previousToken:
-          type: string
-          description: The pagination token for the previous page, if one exists. You can use this token to navigate to the previous page of data.
-          example: 1a2b3c4d5e6f7g8h9i10j11k
-        nextToken:
-          type: string
-          description: The pagination token for the next page. If this value is present in the response, there is another page of data you can fetch.
-          example: 1a2b3c4d5e6f7g8h9i10j11k
-        currentToken:
-          type: string
-          description: The pagination token for the current page.
-          example: 1a2b3c4d5e6f7g8h9i10j11k
-        limit:
-          type: integer
-          description: The number of records to return on the page. Not to exceed 200.
-          example: 100
-        totalCount:
-          type: integer
-          description: The total number of records available. This field may return blank, even if there are more records. To confirm if there are more records, check the `nextToken` field.
-          example: 2
-        _links:
-          $ref: '#/components/schemas/PaginationLinks'
-    DiscountMethodType:
-      title: DiscountMethodType
-      type: string
-      description: 'The method of the discount. All methods use the `value` field to determine the amount discounted. `BY_PERCENTAGE`: Discounts the item by a percentage. `BY_AMOUNT`: Discount the item by a specific amount. `FLAT_PRICE`: Set the price of the item to a specific value.'
-      enum:
-      - BY_AMOUNT
-      - BY_PERCENTAGE
-      - FLAT_PRICE
-      example: BY_PERCENTAGE
-      default: BY_AMOUNT
-    PaginationLinks:
-      title: PaginationLinks
-      type: object
-      description: Represents pagination links for navigating between pages of data.
-      properties:
-        next:
-          $ref: '#/components/schemas/Link'
-        self:
-          $ref: '#/components/schemas/Link'
-        prev:
-          $ref: '#/components/schemas/Link'
-    CreateUpdateDiscountCodeResponse:
-      title: Create Update Discount Code Response
-      description: Representation of an existing discount code response.
-      type: object
-      required:
-      - type
-      allOf:
-      - $ref: '#/components/schemas/DiscountCode'
-      properties:
-        type:
-          type: string
-          description: 'The type of discount. For account-level discounts, all discounts are of type DISCOUNT_CODE. `DISCOUNT_CODE`: A code the user or system applies to induce a discount. `VOLUME_DISCOUNT`: A discount that applies when a certain volume of items are purchased.'
-          enum:
-          - DISCOUNT_CODE
-          example: DISCOUNT_CODE
+        paging:
+          $ref: '#/components/schemas/Paging'
+        data:
+          maxItems: 200
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/ExistingDiscountCode'
+            - $ref: '#/components/schemas/ExistingVolumeDiscount'
+            discriminator:
+              propertyName: type
+              mapping:
+                DISCOUNT_CODE: '#/components/schemas/ExistingDiscountCode'
+                VOLUME_DISCOUNT: '#/components/schemas/ExistingVolumeDiscount'
+          description: Collection of discounts.
     ExistingDiscountCode:
       title: Existing Discount Code
       description: Representation of an existing discount code.
@@ -372,30 +286,232 @@ components:
           type: string
           description: The target resource of the error.
           example: example target
-    create-update-discount:
-      title: Create Update Discount
-      description: Representation of an existing discount that can be created or updated for an event.
-      type: object
-      oneOf:
-      - $ref: '#/components/schemas/CreateUpdateDiscountCode'
-      - $ref: '#/components/schemas/CreateUpdateVolumeDiscount'
-      discriminator:
-        propertyName: type
-        mapping:
-          DISCOUNT_CODE: '#/components/schemas/CreateUpdateDiscountCode'
-          VOLUME_DISCOUNT: '#/components/schemas/CreateUpdateVolumeDiscount'
-    UUIDProperty:
-      title: UUID Property
-      description: A string that has to be a format matching the industry standard uuid
-      type: string
-      format: uuid
-      example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
     uuid-property:
       title: UUID Property
       description: A string that has to be a format matching the industry standard uuid
       type: string
       format: uuid
       example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
+    DiscountMethod:
+      title: Discount method
+      type: object
+      required:
+      - value
+      description: Details about how the discount applies.
+      properties:
+        type:
+          $ref: '#/components/schemas/DiscountMethodType'
+        value:
+          type: number
+          description: The method value of the discount.
+          example: 10
+    create-update-discount-response:
+      title: Create Update Discount Response
+      description: Representation of an existing discount response
+      type: object
+      oneOf:
+      - $ref: '#/components/schemas/CreateUpdateDiscountCodeResponse'
+      - $ref: '#/components/schemas/ExistingVolumeDiscount'
+      discriminator:
+        propertyName: type
+        mapping:
+          DISCOUNT_CODE: '#/components/schemas/CreateUpdateDiscountCodeResponse'
+          VOLUME_DISCOUNT: '#/components/schemas/ExistingVolumeDiscount'
+    EntityType1:
+      title: Entity Type
+      description: Specifies the type of agenda item that a discount is associated with.
+      type: string
+      format: enum
+      enum:
+      - AdmissionItem
+      - MembershipItem
+      - QuantityItem
+      - Session
+      - SessionBundle
+      example: Session
+    VolumeDiscount:
+      title: Volume Discount
+      description: Representation of a volume based discount.
+      type: object
+      required:
+      - thresholdLimit
+      allOf:
+      - $ref: '#/components/schemas/DiscountBase'
+      properties:
+        thresholdType:
+          $ref: '#/components/schemas/VolumeDiscountThresholdType'
+        thresholdLimit:
+          type: integer
+          description: Defines the threshold limit for the volume discount.
+          example: 10
+        interval:
+          type: integer
+          description: Defines the interval for the volume discount when threshold type is EVERY_NTH_REGISTRANT. Every Nth registration counting from the threshold receives a discount.
+          default: 1
+          minimum: 1
+          maximum: 10
+          example: 1
+        includePrimaryRegistrant:
+          type: boolean
+          description: True indicates if the primary registrant is included in evaluating if threshold is met for the volume discount when threshold type is BEFORE_THRESHOLD_LIMIT.
+          default: false
+          example: true
+    AgendaItem2:
+      title: Agenda Item
+      description: Represents the associated agenda item of a discount.
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: A unique identifier of the agenda item.
+          example: 14ca6ae2-0dc3-487b-953e-86d6abbdf6d4
+          readOnly: true
+        type:
+          $ref: '#/components/schemas/EntityType1'
+        discount:
+          $ref: '#/components/schemas/UUID'
+    UUIDProperty:
+      title: UUID Property
+      description: A string that has to be a format matching the industry standard uuid
+      type: string
+      format: uuid
+      example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
+    ErrorResponse-12:
+      title: ErrorResponse
+      description: Represents an error response with additional details of cascading error messages.
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponseBase1'
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorResponseBase1'
+          description: Additional details of cascading error messages.
+    ExistingVolumeDiscount:
+      title: Existing Volume Discount
+      description: Representation of an existing volume based discount.
+      type: object
+      required:
+      - type
+      allOf:
+      - $ref: '#/components/schemas/VolumeDiscount'
+      properties:
+        type:
+          type: string
+          description: 'The type of discount. For account-level discounts, all discounts are of type DISCOUNT_CODE. `DISCOUNT_CODE`: A code the user or system applies to induce a discount. `VOLUME_DISCOUNT`: A discount that applies when a certain volume of items are purchased.'
+          enum:
+          - VOLUME_DISCOUNT
+          example: VOLUME_DISCOUNT
+        id:
+          type: string
+          format: uuid
+          description: A unique identifier of the discount.
+          example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
+          readOnly: true
+        level:
+          type: string
+          description: Whether the discount is created at event level or account level.
+          enum:
+          - EVENT
+          - ACCOUNT
+          example: EVENT
+          readOnly: true
+    discount-agenda-items-paginated-response:
+      title: Discount Agenda Items Paginated Response
+      required:
+      - data
+      - paging
+      type: object
+      description: A paginated response containing a list of agenda items associated with a discount.
+      properties:
+        paging:
+          $ref: '#/components/schemas/Paging'
+        data:
+          maxItems: 200
+          type: array
+          items:
+            $ref: '#/components/schemas/AgendaItem2'
+          description: Collection of associated agenda items for a discount.
+    DiscountCode:
+      title: Discount Code
+      description: Representation of a code based discount.
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/DiscountCodeBase'
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: A unique identifier of the discount.
+          example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
+          readOnly: true
+        level:
+          type: string
+          description: Whether the discount is created at event level or account level.
+          enum:
+          - EVENT
+          - ACCOUNT
+          example: EVENT
+          readOnly: true
+        capacity:
+          $ref: '#/components/schemas/DiscountCapacity'
+    CreateUpdateDiscountCodeResponse:
+      title: Create Update Discount Code Response
+      description: Representation of an existing discount code response.
+      type: object
+      required:
+      - type
+      allOf:
+      - $ref: '#/components/schemas/DiscountCode'
+      properties:
+        type:
+          type: string
+          description: 'The type of discount. For account-level discounts, all discounts are of type DISCOUNT_CODE. `DISCOUNT_CODE`: A code the user or system applies to induce a discount. `VOLUME_DISCOUNT`: A discount that applies when a certain volume of items are purchased.'
+          enum:
+          - DISCOUNT_CODE
+          example: DISCOUNT_CODE
+    DiscountAudienceType:
+      title: DiscountAudienceType
+      type: string
+      description: 'Audiences which are eligible for the discount.`PRIMARY`: All attendees. Includes primary registrants and their guests. `GUEST`: Any attendee invited to the event. `ALL`: An attendee who''s the guest of a primary registrant.'
+      enum:
+      - PRIMARY
+      - GUEST
+      - ALL
+      example: ALL
+      default: ALL
+    DiscountCapacity:
+      title: Discount Capacity
+      type: object
+      description: Details about the discount capacity.
+      properties:
+        total:
+          type: integer
+          description: The total number of instances the discount can be used event wide. Default value of -1 indicates unlimited capacity.
+          example: 100
+        used:
+          type: integer
+          description: The used capacity of the discount.
+          example: 10
+    DiscountCapacityInput:
+      title: Discount Capacity Input
+      type: object
+      description: Details about the discount capacity.
+      default:
+        total: -1
+      properties:
+        total:
+          type: integer
+          description: The total number of instances the discount can be used event wide. Default value of -1 indicates unlimited capacity.
+          default: -1
+          example: 100
+          minimum: -1
+          maximum: 32767
     DiscountBase:
       title: Discount Base
       description: Representation of a base discount.
@@ -438,42 +554,15 @@ components:
           description: Note about the discount.
           example: 10% off for early birds.
           maxLength: 300
-    EntityType1:
-      title: Entity Type
-      description: Specifies the type of agenda item that a discount is associated with.
-      type: string
-      format: enum
-      enum:
-      - AdmissionItem
-      - MembershipItem
-      - QuantityItem
-      - Session
-      - SessionBundle
-      example: Session
-    DiscountMethod:
-      title: Discount method
-      type: object
+    UUID:
+      title: UUID
+      description: The reference to the related entity. Contains only the ID of the related entity.
       required:
-      - value
-      description: Details about how the discount applies.
-      properties:
-        type:
-          $ref: '#/components/schemas/DiscountMethodType'
-        value:
-          type: number
-          description: The method value of the discount.
-          example: 10
-    Link:
-      title: Link
-      required:
-      - href
+      - id
       type: object
-      description: Represents a link to a related resource.
       properties:
-        href:
-          type: string
-          description: A url provided that can be followed for linking
-          example: ?token=90c5f062-76ad-4ea4-aa53-00eb698d9262
+        id:
+          $ref: '#/components/schemas/UUIDProperty'
     VolumeDiscountThresholdType:
       title: VolumeDiscountThresholdType
       type: string
@@ -485,44 +574,6 @@ components:
       - EVERY_NTH_REGISTRANT
       example: ALL
       default: AFTER_THRESHOLD_LIMIT
-    CreateUpdateVolumeDiscount:
-      title: Create Update Volume Discount
-      description: Representation of a volume based discount to be created or updated.
-      type: object
-      required:
-      - type
-      allOf:
-      - $ref: '#/components/schemas/VolumeDiscount'
-      properties:
-        type:
-          type: string
-          description: 'The type of discount. For account-level discounts, all discounts are of type DISCOUNT_CODE. `DISCOUNT_CODE`: A code the user or system applies to induce a discount. `VOLUME_DISCOUNT`: A discount that applies when a certain volume of items are purchased.'
-          enum:
-          - VOLUME_DISCOUNT
-          example: VOLUME_DISCOUNT
-    UUID:
-      title: UUID
-      description: The reference to the related entity. Contains only the ID of the related entity.
-      required:
-      - id
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/UUIDProperty'
-    DiscountCapacityInput:
-      title: Discount Capacity Input
-      type: object
-      description: Details about the discount capacity.
-      default:
-        total: -1
-      properties:
-        total:
-          type: integer
-          description: The total number of instances the discount can be used event wide. Default value of -1 indicates unlimited capacity.
-          default: -1
-          example: 100
-          minimum: -1
-          maximum: 32767
     Audit:
       title: Audit
       description: Audit information
@@ -550,91 +601,68 @@ components:
           description: The identifier of the user that last updated this record.
           readOnly: true
           example: hporter
-    discount-agenda-items-paginated-response:
-      title: Discount Agenda Items Paginated Response
+    Link:
+      title: Link
       required:
-      - data
-      - paging
+      - href
       type: object
-      description: A paginated response containing a list of agenda items associated with a discount.
+      description: Represents a link to a related resource.
       properties:
-        paging:
-          $ref: '#/components/schemas/Paging'
-        data:
-          maxItems: 200
-          type: array
-          items:
-            $ref: '#/components/schemas/AgendaItem2'
-          description: Collection of associated agenda items for a discount.
-    ExistingVolumeDiscount:
-      title: Existing Volume Discount
-      description: Representation of an existing volume based discount.
-      type: object
+        href:
+          type: string
+          description: A url provided that can be followed for linking
+          example: ?token=90c5f062-76ad-4ea4-aa53-00eb698d9262
+    Paging:
+      title: Paging
       required:
-      - type
-      allOf:
-      - $ref: '#/components/schemas/VolumeDiscount'
-      properties:
-        type:
-          type: string
-          description: 'The type of discount. For account-level discounts, all discounts are of type DISCOUNT_CODE. `DISCOUNT_CODE`: A code the user or system applies to induce a discount. `VOLUME_DISCOUNT`: A discount that applies when a certain volume of items are purchased.'
-          enum:
-          - VOLUME_DISCOUNT
-          example: VOLUME_DISCOUNT
-        id:
-          type: string
-          format: uuid
-          description: A unique identifier of the discount.
-          example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
-          readOnly: true
-        level:
-          type: string
-          description: Whether the discount is created at event level or account level.
-          enum:
-          - EVENT
-          - ACCOUNT
-          example: EVENT
-          readOnly: true
-    ErrorResponse-12:
-      title: ErrorResponse
-      description: Represents an error response with additional details of cascading error messages.
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponseBase1'
+      - _links
       type: object
-      required:
-      - code
-      - message
+      description: Represents pagination information for a collection of resources.
       properties:
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorResponseBase1'
-          description: Additional details of cascading error messages.
-    create-update-discount-response:
-      title: Create Update Discount Response
-      description: Representation of an existing discount response
+        previousToken:
+          type: string
+          description: The pagination token for the previous page, if one exists. You can use this token to navigate to the previous page of data.
+          example: 1a2b3c4d5e6f7g8h9i10j11k
+        nextToken:
+          type: string
+          description: The pagination token for the next page. If this value is present in the response, there is another page of data you can fetch.
+          example: 1a2b3c4d5e6f7g8h9i10j11k
+        currentToken:
+          type: string
+          description: The pagination token for the current page.
+          example: 1a2b3c4d5e6f7g8h9i10j11k
+        limit:
+          type: integer
+          description: The number of records to return on the page. Not to exceed 200.
+          example: 100
+        totalCount:
+          type: integer
+          description: The total number of records available. This field may return blank, even if there are more records. To confirm if there are more records, check the `nextToken` field.
+          example: 2
+        _links:
+          $ref: '#/components/schemas/PaginationLinks'
+    create-update-discount:
+      title: Create Update Discount
+      description: Representation of an existing discount that can be created or updated for an event.
       type: object
       oneOf:
-      - $ref: '#/components/schemas/CreateUpdateDiscountCodeResponse'
-      - $ref: '#/components/schemas/ExistingVolumeDiscount'
+      - $ref: '#/components/schemas/CreateUpdateDiscountCode'
+      - $ref: '#/components/schemas/CreateUpdateVolumeDiscount'
       discriminator:
         propertyName: type
         mapping:
-          DISCOUNT_CODE: '#/components/schemas/CreateUpdateDiscountCodeResponse'
-          VOLUME_DISCOUNT: '#/components/schemas/ExistingVolumeDiscount'
-    DiscountCapacity:
-      title: Discount Capacity
-      type: object
-      description: Details about the discount capacity.
-      properties:
-        total:
-          type: integer
-          description: The total number of instances the discount can be used event wide. Default value of -1 indicates unlimited capacity.
-          example: 100
-        used:
-          type: integer
-          description: The used capacity of the discount.
-          example: 10
+          DISCOUNT_CODE: '#/components/schemas/CreateUpdateDiscountCode'
+          VOLUME_DISCOUNT: '#/components/schemas/CreateUpdateVolumeDiscount'
+    DiscountMethodType:
+      title: DiscountMethodType
+      type: string
+      description: 'The method of the discount. All methods use the `value` field to determine the amount discounted. `BY_PERCENTAGE`: Discounts the item by a percentage. `BY_AMOUNT`: Discount the item by a specific amount. `FLAT_PRICE`: Set the price of the item to a specific value.'
+      enum:
+      - BY_AMOUNT
+      - BY_PERCENTAGE
+      - FLAT_PRICE
+      example: BY_PERCENTAGE
+      default: BY_AMOUNT
     DiscountCodeBase:
       title: Discount Code Base
       description: Base Representation/Model of a discount to be created or updated.
@@ -666,90 +694,59 @@ components:
           description: True indicates that the discount is applied to all agenda items and requires at least one item to be associated. False indicates that the discount is applied to the final total. this is specific to event level discount.
           default: false
           example: false
-    existing-discount-paginated-response:
-      title: Discounts Paginated Response
+    CreateUpdateDiscountCode:
+      title: Create Update Discount Code
+      description: Representation of a discount code to be created or updated.
+      type: object
       required:
-      - data
-      - paging
-      type: object
-      description: Returns a paginated list of all discounts used in an event, including both event-specific and account-level discount codes used in an event.
-      properties:
-        paging:
-          $ref: '#/components/schemas/Paging'
-        data:
-          maxItems: 200
-          type: array
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/ExistingDiscountCode'
-            - $ref: '#/components/schemas/ExistingVolumeDiscount'
-            discriminator:
-              propertyName: type
-              mapping:
-                DISCOUNT_CODE: '#/components/schemas/ExistingDiscountCode'
-                VOLUME_DISCOUNT: '#/components/schemas/ExistingVolumeDiscount'
-          description: Collection of discounts.
-    DiscountCode:
-      title: Discount Code
-      description: Representation of a code based discount.
-      type: object
+      - type
       allOf:
       - $ref: '#/components/schemas/DiscountCodeBase'
       properties:
-        id:
-          type: string
-          format: uuid
-          description: A unique identifier of the discount.
-          example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
-          readOnly: true
-        level:
-          type: string
-          description: Whether the discount is created at event level or account level.
-          enum:
-          - EVENT
-          - ACCOUNT
-          example: EVENT
-          readOnly: true
-        capacity:
-          $ref: '#/components/schemas/DiscountCapacity'
-    AgendaItem2:
-      title: Agenda Item
-      description: Represents the associated agenda item of a discount.
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: A unique identifier of the agenda item.
-          example: 14ca6ae2-0dc3-487b-953e-86d6abbdf6d4
-          readOnly: true
         type:
-          $ref: '#/components/schemas/EntityType1'
-        discount:
-          $ref: '#/components/schemas/UUID'
-    DiscountAudienceType:
-      title: DiscountAudienceType
-      type: string
-      description: 'Audiences which are eligible for the discount.`PRIMARY`: All attendees. Includes primary registrants and their guests. `GUEST`: Any attendee invited to the event. `ALL`: An attendee who''s the guest of a primary registrant.'
-      enum:
-      - PRIMARY
-      - GUEST
-      - ALL
-      example: ALL
-      default: ALL
+          type: string
+          description: 'The type of discount. For account-level discounts, all discounts are of type DISCOUNT_CODE. `DISCOUNT_CODE`: A code the user or system applies to induce a discount. `VOLUME_DISCOUNT`: A discount that applies when a certain volume of items are purchased.'
+          enum:
+          - DISCOUNT_CODE
+          example: DISCOUNT_CODE
+        capacity:
+          $ref: '#/components/schemas/DiscountCapacityInput'
+    CreateUpdateVolumeDiscount:
+      title: Create Update Volume Discount
+      description: Representation of a volume based discount to be created or updated.
+      type: object
+      required:
+      - type
+      allOf:
+      - $ref: '#/components/schemas/VolumeDiscount'
+      properties:
+        type:
+          type: string
+          description: 'The type of discount. For account-level discounts, all discounts are of type DISCOUNT_CODE. `DISCOUNT_CODE`: A code the user or system applies to induce a discount. `VOLUME_DISCOUNT`: A discount that applies when a certain volume of items are purchased.'
+          enum:
+          - VOLUME_DISCOUNT
+          example: VOLUME_DISCOUNT
+    PaginationLinks:
+      title: PaginationLinks
+      type: object
+      description: Represents pagination links for navigating between pages of data.
+      properties:
+        next:
+          $ref: '#/components/schemas/Link'
+        self:
+          $ref: '#/components/schemas/Link'
+        prev:
+          $ref: '#/components/schemas/Link'
   parameters:
-    limit:
-      name: limit
+    before:
+      name: before
+      required: false
       in: query
-      description: The maximum number of records to return per page.
-      style: form
-      explode: true
+      description: Used to query records that have been added or updated before this time point.
       schema:
-        maximum: 200
-        minimum: 1
-        type: integer
-        default: 100
-        example: 100
+        type: string
+        format: date-time
+        example: '2017-01-02T02:00:00Z'
     discountAgendaItemFilter:
       name: filter
       in: query
@@ -792,30 +789,6 @@ components:
         type: string
         format: date-time
         example: '2017-01-02T02:00:00Z'
-    discountSort:
-      name: sort
-      required: false
-      in: query
-      description: "The sort order passed as a parameter, used to control the order of the\nsearch results as a priority ordered list of sorts.\n\nThere are two orders:\n  * ascending: ASC\n  * descending: DESC\n\nThe following fields are sortable:\n  * name\n  * code\n  * method.type\n  * effectiveTo\n  * effectiveFrom\n  * type\n  * level\n"
-      schema:
-        type: string
-        example: name:DESC,code:ASC
-    agendaItemId1:
-      in: path
-      name: agendaItemId
-      description: Unique ID of an agenda item.
-      required: true
-      schema:
-        $ref: '#/components/schemas/uuid-property'
-    before:
-      name: before
-      required: false
-      in: query
-      description: Used to query records that have been added or updated before this time point.
-      schema:
-        type: string
-        format: date-time
-        example: '2017-01-02T02:00:00Z'
     token:
       name: token
       in: query
@@ -829,10 +802,37 @@ components:
       schema:
         type: string
         example: 0e28af57-511f-47ab-ae46-46cd1ca51a1a
+    discountSort:
+      name: sort
+      required: false
+      in: query
+      description: "The sort order passed as a parameter, used to control the order of the\nsearch results as a priority ordered list of sorts.\n\nThere are two orders:\n  * ascending: ASC\n  * descending: DESC\n\nThe following fields are sortable:\n  * name\n  * code\n  * method.type\n  * effectiveTo\n  * effectiveFrom\n  * type\n  * level\n"
+      schema:
+        type: string
+        example: name:DESC,code:ASC
+    limit:
+      name: limit
+      in: query
+      description: The maximum number of records to return per page.
+      style: form
+      explode: true
+      schema:
+        maximum: 200
+        minimum: 1
+        type: integer
+        default: 100
+        example: 100
     discountId:
       in: path
       name: discountId
       description: Unique ID of a discount.
+      required: true
+      schema:
+        $ref: '#/components/schemas/uuid-property'
+    agendaItemId1:
+      in: path
+      name: agendaItemId
+      description: Unique ID of an agenda item.
       required: true
       schema:
         $ref: '#/components/schemas/uuid-property'
@@ -881,24 +881,6 @@ components:
         type: string
         example: id in ('1b01ae34-6970-41f2-a4e8-b4f39185dc15', '1b01ae34-6970-41f2-a4e8-b4f39185dc16') and method.type eq 'PERCENTAGE'
   responses:
-    Unauthorized1:
-      description: Bad or expired token
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 401
-            message: Unauthorized
-    BadRequest1:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 400
-            message: Bad Request
     Forbidden1:
       description: You do not have access to the resource
       content:
@@ -926,6 +908,24 @@ components:
           example:
             code: 404
             message: Not found
+    Unauthorized1:
+      description: Bad or expired token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 401
+            message: Unauthorized
+    BadRequest1:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 400
+            message: Bad Request
   securitySchemes:
     OAuth2.authorizationCode:
       type: oauth2

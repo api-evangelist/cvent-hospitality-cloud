@@ -54,56 +54,26 @@ paths:
           $ref: '#/components/responses/TooManyRequests1'
 components:
   schemas:
-    currency.json:
-      description: ISO 4217 currency code.
-      title: Currency
-      type: string
-      example: USD
-      default: USD
-    HotelRoomRatesRequest:
-      description: Represents hotel room rates request.
-      title: HotelRoomRatesRequest
+    ErrorResponseBase1:
+      title: ErrorResponseBase
       type: object
-      required:
-      - startDate
-      - endDate
-      - roomRate
-      properties:
-        rateCode:
-          type: string
-          description: The rate code.
-          example: VIPRATE
-        startDate:
-          description: The start of the date range the rate applies. Date is in ISO 8601 format.
-          type: string
-          example: '2025-03-25'
-          format: date
-        endDate:
-          description: The end of the date range the rate applies. Date is in ISO 8601 format.
-          type: string
-          example: '2025-03-25'
-          format: date
-        roomRate:
-          description: Cost of room per night.
-          type: number
-          example: 150
-        currencyCode:
-          $ref: '#/components/schemas/currency.json'
-    ErrorResponse-12:
-      title: ErrorResponse
-      description: Represents an error response with additional details of cascading error messages.
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponseBase1'
-      type: object
+      description: Represents an error response with no additional details.
       required:
       - code
       - message
       properties:
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorResponseBase1'
-          description: Additional details of cascading error messages.
+        code:
+          type: integer
+          description: The HTTP status code representing the error.
+          example: 400
+        message:
+          type: string
+          description: A brief description of the error.
+          example: Bad Request
+        target:
+          type: string
+          description: The target resource of the error.
+          example: example target
     HotelRoomRatesResponse:
       description: Represents hotel room rates response.
       title: HotelRoomRatesResponse
@@ -153,36 +123,57 @@ components:
           type: string
           description: The room code.
           example: VLR
-    ErrorResponseBase1:
-      title: ErrorResponseBase
+    ErrorResponse-12:
+      title: ErrorResponse
+      description: Represents an error response with additional details of cascading error messages.
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponseBase1'
       type: object
-      description: Represents an error response with no additional details.
       required:
       - code
       - message
       properties:
-        code:
-          type: integer
-          description: The HTTP status code representing the error.
-          example: 400
-        message:
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorResponseBase1'
+          description: Additional details of cascading error messages.
+    HotelRoomRatesRequest:
+      description: Represents hotel room rates request.
+      title: HotelRoomRatesRequest
+      type: object
+      required:
+      - startDate
+      - endDate
+      - roomRate
+      properties:
+        rateCode:
           type: string
-          description: A brief description of the error.
-          example: Bad Request
-        target:
+          description: The rate code.
+          example: VIPRATE
+        startDate:
+          description: The start of the date range the rate applies. Date is in ISO 8601 format.
           type: string
-          description: The target resource of the error.
-          example: example target
+          example: '2025-03-25'
+          format: date
+        endDate:
+          description: The end of the date range the rate applies. Date is in ISO 8601 format.
+          type: string
+          example: '2025-03-25'
+          format: date
+        roomRate:
+          description: Cost of room per night.
+          type: number
+          example: 150
+        currencyCode:
+          $ref: '#/components/schemas/currency.json'
+    currency.json:
+      description: ISO 4217 currency code.
+      title: Currency
+      type: string
+      example: USD
+      default: USD
   responses:
-    TooManyRequests1:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 429
-            message: Limit Exceeded
     Forbidden1:
       description: You do not have access to the resource
       content:
@@ -201,6 +192,15 @@ components:
           example:
             code: 401
             message: Unauthorized
+    TooManyRequests1:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 429
+            message: Limit Exceeded
     BadRequest1:
       description: Bad request
       content:

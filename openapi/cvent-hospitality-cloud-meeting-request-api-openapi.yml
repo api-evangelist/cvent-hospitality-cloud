@@ -400,208 +400,234 @@ paths:
       deprecated: false
 components:
   schemas:
-    meeting-request:
-      title: MeetingRequest
-      description: A meeting request.
+    meeting-request-bulk-create:
+      title: MeetingRequestBulkCreate
+      description: Meeting requests to create.
+      type: array
+      items:
+        $ref: '#/components/schemas/MeetingRequestCreate'
+    ErrorResponseBase1:
+      title: ErrorResponseBase
+      type: object
+      description: Represents an error response with no additional details.
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: integer
+          description: The HTTP status code representing the error.
+          example: 400
+        message:
+          type: string
+          description: A brief description of the error.
+          example: Bad Request
+        target:
+          type: string
+          description: The target resource of the error.
+          example: example target
+    uuid-property:
+      title: UUID Property
+      description: A string that has to be a format matching the industry standard uuid
+      type: string
+      format: uuid
+      example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
+    MeetingRoomSetupType:
+      title: MeetingRoomSetupType
+      description: Defines the setup types of a meeting room requirement.
+      example: Classroom
+      readOnly: true
+      enum:
+      - 10x10
+      - 8x10
+      - Buffet
+      - Cabaret
+      - Chevron
+      - Classroom
+      - Conference
+      - Crescent Rounds
+      - Flow
+      - Herringbone
+      - Hollow Square
+      - Island
+      - Other
+      - Peninsula
+      - Plated
+      - Reception
+      - Rounds
+      - Rounds of 10
+      - Rounds of 6
+      - Rounds of 8
+      - School Room
+      - Tabletop
+      - Theater
+      - T-Shaped
+      - U-Shaped
+    error-response:
+      title: ErrorResponse
+      description: Represents an error response with additional details of cascading error messages.
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponseBase1'
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorResponseBase1'
+          description: Additional details of cascading error messages.
+    meeting-request-form:
+      title: MeetingRequestForm
+      description: A meeting request form.
       required:
       - id
       - name
-      - meetingRequestForm
       type: object
-      allOf:
-      - $ref: '#/components/schemas/Audit'
       properties:
         id:
           type: string
-          description: The unique ID representing the meeting request.
+          description: The ID of the meeting request form.
           readOnly: true
-          example: 017f1149-0f3a-4531-b1aa-6f66a6cb04f3
+          example: 9c97eb50-9f88-4972-a603-f617fc3258dd
         name:
           type: string
-          description: The name of the specific meeting request.
-          example: Limited MR
-        status:
-          $ref: '#/components/schemas/MeetingRequestStatus'
-        statusNote:
-          type: string
-          description: The note about the status.
-          example: The status indicates that the request is submitted to accounting
-        meetingRequestForm:
-          type: object
-          description: The meeting request form the request is associated with.
-          properties:
-            id:
-              type: string
-              format: uuid
-              description: Meeting Request form ID.
-            name:
-              type: string
-              description: The name of the meeting request form.
-              example: Annual Sales Meeting Request Form
+          description: User-defined name of the meeting request form.
+          example: Request for Medical Meetups
+        statuses:
+          type: array
+          items:
+            type: string
+            example: Declined
+          description: User-defined list of statuses for the meeting request form.
+        active:
+          type: boolean
+          description: A boolean indicating a meeting request form's active status. When true, the meeting request form is available for new request submissions. When false, only updates can be made to existing requests for this form
+          example: true
         questions:
           type: array
           items:
-            $ref: '#/components/schemas/MeetingRequestQuestion'
-          description: The list of possible answers to a question.
-        event:
-          type: object
-          properties:
-            id:
-              type: string
-              format: uuid
-              description: Event ID. This field may be absent immediately after creation when the meeting request form is configured to auto-create an event on submission, as event creation is processed asynchronously.
-          description: The event the request is associated with.
-        sourceId:
-          type: string
-          description: 'The ID for the meeting request in an external system. NOTE: This value is expected to be unique for each meeting request within an account. Consider adding the external system name as part of the ID.'
-          example: sourceId12
-        code:
-          type: string
-          description: The meeting request code for reference.
-          example: VPNH3JGMTND
-        archiveDate:
-          type: string
-          description: The ISO 8601 zoned date time when this request was archived.
-          example: '2017-01-02T02:00:00Z'
-    meeting-request-form-paginated-response:
-      title: MeetingRequestFormResponse
-      description: The response from a request to get the list of meeting request forms. This includes the paging object as well as the collection of meeting request forms.
-      required:
-      - paging
-      - data
+            $ref: '#/components/schemas/MeetingRequestCustomField'
+          description: The list of questions that will need to be answered by someone creating a meeting request from this form.
+    CustomField:
+      title: CustomField
+      description: A Custom Field
       type: object
+      allOf:
+      - $ref: '#/components/schemas/CustomFieldBase'
       properties:
-        paging:
-          $ref: '#/components/schemas/Paging'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/meeting-request-form'
-          description: Collection of meeting request form objects.
-    MeetingRoomRequirement:
-      title: MeetingRoomRequirement
-      description: The requirement of a meeting room on the specified date.
-      required:
-      - date
-      properties:
-        date:
+        type:
+          description: The type of data collected by a custom field.
           type: string
-          description: The date for the meeting room, in format of YYYY-MM-DD.
-          example: '2099-12-11'
-        startTime:
-          type: string
-          description: The start time for the meeting room, in format of HH:MM:SS.
-          example: 09:30:00
-        endTime:
-          type: string
-          description: The end time for the meeting room, in format of HH:MM:SS.
-          example: '14:45:00'
-        agendaItem:
-          type: string
-          description: The agenda item for the meeting room.
-          example: Meeting Room Agenda point 1.
-        agendaItemType:
-          type: array
-          description: For the meeting requests, this is the selection of agenda item type. In this case, up to one agenda item type is allowed. For the meeting request forms, this is the list of all the available agenda item types.
-          items:
-            $ref: '#/components/schemas/MeetingRoomAgendaItemType'
-        setupType:
-          type: array
-          description: For the meeting requests, this is the selection of setup type. In this case, up to one setup type is allowed. For the meeting request forms, this is the list of all the available setup types.
-          items:
-            $ref: '#/components/schemas/MeetingRoomSetupType'
-        roomSize:
-          type: number
-          description: The size of the meeting room. It can be in any measurement the user chooses, e.g., square feet, number of seats, number of tables, etc.
-          example: 100
-        numberOfPeople:
-          type: integer
-          description: The number of people for the meeting room.
-          example: 250
-        twentyFourHourHold:
-          type: boolean
-          description: True indicates the meeting room is held for 24 hours.
-          example: false
-        note:
-          type: string
-          description: The meeting room requirement note.
-          example: Meeting room note.
+          allOf:
+          - $ref: '#/components/schemas/CustomFieldType'
+          - readOnly: true
+            example: MultiSelect
+    CustomFieldType:
+      title: CustomFieldType
+      enum:
+      - AutoIncrement
+      - ConsentQuestion
+      - Currency
+      - Decimal
+      - Date
+      - DateTime
+      - Email
+      - FileUpload
+      - FreeText
+      - General
+      - MultiChoice
+      - MultiSelect
+      - Number
+      - OpenEndedDateTime
+      - OpenEndedText
+      - SingleChoice
+      - SingleSelect
+      - USPhoneNumber
+      - Unknown
+      type: string
+      description: The type of data collected by a custom field.
+      example: General
     meeting-request-bulk-response:
       title: MeetingRequestBulkResponse
       description: Created meeting requests.
       type: array
       items:
         $ref: '#/components/schemas/MeetingRequestBulkResponseItem'
-    Paging:
-      title: Paging
-      required:
-      - _links
-      type: object
-      description: Represents pagination information for a collection of resources.
-      properties:
-        previousToken:
-          type: string
-          description: The pagination token for the previous page, if one exists. You can use this token to navigate to the previous page of data.
-          example: 1a2b3c4d5e6f7g8h9i10j11k
-        nextToken:
-          type: string
-          description: The pagination token for the next page. If this value is present in the response, there is another page of data you can fetch.
-          example: 1a2b3c4d5e6f7g8h9i10j11k
-        currentToken:
-          type: string
-          description: The pagination token for the current page.
-          example: 1a2b3c4d5e6f7g8h9i10j11k
-        limit:
-          type: integer
-          description: The number of records to return on the page. Not to exceed 200.
-          example: 100
-        totalCount:
-          type: integer
-          description: The total number of records available. This field may return blank, even if there are more records. To confirm if there are more records, check the `nextToken` field.
-          example: 2
-        _links:
-          $ref: '#/components/schemas/PaginationLinks'
-    MeetingRequestUpdate:
-      title: MeetingRequestUpdate
-      description: An updated meeting request.
+    MeetingRequestBulkResponseItem:
+      title: MeetingRequestBulkResponseItem
+      description: Represents a single meeting request that's returned as part of a bulk request call.
       type: object
       required:
-      - id
+      - status
+      - data
       properties:
-        id:
+        data:
+          $ref: '#/components/schemas/meeting-request'
+        status:
+          type: integer
+          description: HTTP status code representing the processing status of a single item.
+          example: 200
+        message:
           type: string
-          description: The ID of a meeting request.
-          example: 017f1149-0f3a-4531-b1aa-6f66a6cb04f3
-        name:
-          type: string
-          description: The name of the specific meeting request.
-          example: Limited MR
-        questions:
-          description: Questions for the meeting request.
+          description: Quick description of what happened during processing.
+          example: Successful
+        request:
+          description: The processed request tied to this response. This field is only sent when processing fails.
+          example: Example request information.
+          anyOf:
+          - type: object
+          - type: string
+          - type: number
+          - type: integer
+          - type: boolean
+      additionalProperties: false
+    ErrorResponse-12:
+      title: ErrorResponse
+      description: Represents an error response with additional details of cascading error messages.
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponseBase1'
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        details:
           type: array
           items:
-            $ref: '#/components/schemas/MeetingRequestQuestion'
-        status:
-          $ref: '#/components/schemas/MeetingRequestStatus'
-        sourceId:
-          type: string
-          description: 'The ID for the meeting request in an external system. NOTE: This value is expected to be unique for each meeting request within an account. Consider adding the external system name as part of the ID.'
-          example: sourceId12
-        statusNote:
-          type: string
-          description: The note about the status.
-          example: The status indicates that the request is submitted to accounting
-    PaginationLinks:
-      title: PaginationLinks
-      type: object
-      description: Represents pagination links for navigating between pages of data.
-      properties:
-        next:
-          $ref: '#/components/schemas/Link'
-        self:
-          $ref: '#/components/schemas/Link'
-        prev:
-          $ref: '#/components/schemas/Link'
+            $ref: '#/components/schemas/ErrorResponseBase1'
+          description: Additional details of cascading error messages.
+    MeetingRoomAgendaItemType:
+      title: MeetingRoomAgendaItemType
+      description: Defines the agenda item types of a meeting room requirement.
+      example: Breakout
+      readOnly: true
+      enum:
+      - Break
+      - Breakfast
+      - Breakout
+      - Dinner
+      - Exhibit
+      - General Session
+      - Hospitality Desk
+      - Hospitality Suite
+      - Lunch
+      - Meeting
+      - Office
+      - Other
+      - Reception
+      - Registration
+      - Setup
+      - Snack
+      - Speaker Room
+      - Storage Room
+      - Teardown
+    MeetingRequestStatus:
+      title: MeetingRequestStatus
+      description: The user-defined status of the meeting request. Possible statuses for requests are defined by the user at meeting request form creation.
+      type: string
+      example: Submitted to Accounting
     SleepingRoomRequirement:
       title: SleepingRoomRequirement
       description: The requirements of a sleeping room on the specified date.
@@ -632,6 +658,56 @@ components:
           type: integer
           description: The number of sleeping rooms for staff.
           example: 10
+    meeting-request-document-paginated-response:
+      title: MeetingRequestDocumentPaginatedResponse
+      description: Paginated collection of meeting request documents.
+      required:
+      - data
+      - paging
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/Paging'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/MeetingRequestDocument'
+          description: Collection of meeting request object documents.
+    MeetingRequestDocumentReferenceLink:
+      title: MeetingRequestDocumentReferenceLink
+      description: A reference link contains the URL that provides direct access to download the file for the document. The expiration of the URL can be included if applicable.
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          description: The URL to download the file resource for the document. This URL will expire after the time indicated by the field expiration. If not provided, the URL is considered dynamic and not guaranteed to remain constant. Clients should always retrieve the latest URL before attempting to download the file, as it may change over time.
+          example: https://custom.cvent.com/4B31940730B6475A8D6A7785748A67EE/files/smm/8cfc2168a00342f5ba9e13f7a808df8e/78ce60fbf1da4cf5af139a65f59aed60.pdf
+        expiration:
+          type: string
+          format: date-time
+          description: The ISO 8601 formatted date and time at which the reference document will expire if an explicit expiration is defined.
+          example: '2025-12-31T23:59:59Z'
+    BudgetCostType:
+      title: BudgetCostType
+      enum:
+      - FIXED
+      - VARIABLE
+      type: string
+      description: Denotes the cost type of a budget item. FIXED costs stay the same regardless of quantity. VARIABLE costs are based on a quantity.
+      example: FIXED
+    BudgetSubCategory:
+      title: BudgetSubCategory
+      type: object
+      description: This is used to denote the sub category for a budget.
+      properties:
+        id:
+          $ref: '#/components/schemas/uuid-property'
+        name:
+          type: string
+          description: Name of the budget subcategory assigned to the budget item.
+          readOnly: true
+          example: utilities
     CustomFieldBase:
       title: CustomFieldBase
       description: Base schema for Custom Field - allows type to be customized by extending schemas
@@ -665,6 +741,27 @@ components:
           description: The order of this question in the bigger list of questions.
           example: 1
           readOnly: true
+    BudgetCostDetail1:
+      title: BudgetCostDetail
+      description: The budget entry in detail, which consists of the budget category or sub-category, the number of units, the cost per unit, and the total amount.
+      properties:
+        category:
+          $ref: '#/components/schemas/BudgetCategory'
+        subCategory:
+          $ref: '#/components/schemas/BudgetSubCategory'
+        units:
+          type: number
+          description: The number of units associated with a budget item. This field can be any number if the budget item is a *Variable* cost type. If the budget item uses a *Fixed* cost type, set this field to 1.
+          example: 5.2
+        cost:
+          type: number
+          description: The cost amount of the budget item. If the budget item uses a *Fixed* cost type, the value of this field won't be applied to the creation or update of a Meeting Request.
+          example: 100.5
+        totalCost:
+          type: number
+          description: The total cost of the budget item. If the budget item uses a *Variable* cost type, this field will be set as the result of units times cost. The value of this field will be applied to the creation or update of a Meeting Request only if the cost type is *Fixed*.
+          example: 100.5
+          readOnly: true
     MeetingRequestCreate:
       title: MeetingRequestCreate
       description: A meeting request to create.
@@ -686,55 +783,39 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MeetingRequestQuestion'
-    BudgetSubCategory:
-      title: BudgetSubCategory
+    meeting-request-bulk-update:
+      title: MeetingRequestBulkUpdate
+      description: Meeting requests to update.
+      type: array
+      items:
+        $ref: '#/components/schemas/MeetingRequestUpdate'
+    Audit:
+      title: Audit
+      description: Audit information
       type: object
-      description: This is used to denote the sub category for a budget.
       properties:
-        id:
-          $ref: '#/components/schemas/uuid-property'
-        name:
+        created:
           type: string
-          description: Name of the budget subcategory assigned to the budget item.
+          format: date-time
+          description: The ISO 8601 zoned date time when this record was created.
           readOnly: true
-          example: utilities
-    MeetingRoomSetupType:
-      title: MeetingRoomSetupType
-      description: Defines the setup types of a meeting room requirement.
-      example: Classroom
-      readOnly: true
-      enum:
-      - 10x10
-      - 8x10
-      - Buffet
-      - Cabaret
-      - Chevron
-      - Classroom
-      - Conference
-      - Crescent Rounds
-      - Flow
-      - Herringbone
-      - Hollow Square
-      - Island
-      - Other
-      - Peninsula
-      - Plated
-      - Reception
-      - Rounds
-      - Rounds of 10
-      - Rounds of 6
-      - Rounds of 8
-      - School Room
-      - Tabletop
-      - Theater
-      - T-Shaped
-      - U-Shaped
-    uuid-property:
-      title: UUID Property
-      description: A string that has to be a format matching the industry standard uuid
-      type: string
-      format: uuid
-      example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
+          example: '2017-01-02T02:00:00Z'
+        createdBy:
+          type: string
+          description: The identifier of the user that created this record.
+          readOnly: true
+          example: hporter
+        lastModified:
+          type: string
+          format: date-time
+          description: The ISO 8601 zoned date time when this record was updated.
+          readOnly: true
+          example: '2019-02-12T03:00:00Z'
+        lastModifiedBy:
+          type: string
+          description: The identifier of the user that last updated this record.
+          readOnly: true
+          example: hporter
     Link:
       title: Link
       required:
@@ -805,6 +886,173 @@ components:
           uniqueItems: true
           items:
             $ref: '#/components/schemas/AnswerType1'
+    meeting-request:
+      title: MeetingRequest
+      description: A meeting request.
+      required:
+      - id
+      - name
+      - meetingRequestForm
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Audit'
+      properties:
+        id:
+          type: string
+          description: The unique ID representing the meeting request.
+          readOnly: true
+          example: 017f1149-0f3a-4531-b1aa-6f66a6cb04f3
+        name:
+          type: string
+          description: The name of the specific meeting request.
+          example: Limited MR
+        status:
+          $ref: '#/components/schemas/MeetingRequestStatus'
+        statusNote:
+          type: string
+          description: The note about the status.
+          example: The status indicates that the request is submitted to accounting
+        meetingRequestForm:
+          type: object
+          description: The meeting request form the request is associated with.
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: Meeting Request form ID.
+            name:
+              type: string
+              description: The name of the meeting request form.
+              example: Annual Sales Meeting Request Form
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/MeetingRequestQuestion'
+          description: The list of possible answers to a question.
+        event:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: Event ID. This field may be absent immediately after creation when the meeting request form is configured to auto-create an event on submission, as event creation is processed asynchronously.
+          description: The event the request is associated with.
+        sourceId:
+          type: string
+          description: 'The ID for the meeting request in an external system. NOTE: This value is expected to be unique for each meeting request within an account. Consider adding the external system name as part of the ID.'
+          example: sourceId12
+        code:
+          type: string
+          description: The meeting request code for reference.
+          example: VPNH3JGMTND
+        archiveDate:
+          type: string
+          description: The ISO 8601 zoned date time when this request was archived.
+          example: '2017-01-02T02:00:00Z'
+    Paging:
+      title: Paging
+      required:
+      - _links
+      type: object
+      description: Represents pagination information for a collection of resources.
+      properties:
+        previousToken:
+          type: string
+          description: The pagination token for the previous page, if one exists. You can use this token to navigate to the previous page of data.
+          example: 1a2b3c4d5e6f7g8h9i10j11k
+        nextToken:
+          type: string
+          description: The pagination token for the next page. If this value is present in the response, there is another page of data you can fetch.
+          example: 1a2b3c4d5e6f7g8h9i10j11k
+        currentToken:
+          type: string
+          description: The pagination token for the current page.
+          example: 1a2b3c4d5e6f7g8h9i10j11k
+        limit:
+          type: integer
+          description: The number of records to return on the page. Not to exceed 200.
+          example: 100
+        totalCount:
+          type: integer
+          description: The total number of records available. This field may return blank, even if there are more records. To confirm if there are more records, check the `nextToken` field.
+          example: 2
+        _links:
+          $ref: '#/components/schemas/PaginationLinks'
+    AnswerType1:
+      title: AnswerType
+      description: 'Indicates the type of the answer, which determines how the `value` and `secondaryValue` fields are interpreted.
+
+
+        Set to **"Other"** when the question has the **"Other"** choice option enabled, indicating the answer in the **"secondaryValue"** field is a free-text response to that option.
+
+
+        Set to **"NA"** when the question has the **"N/A"** choice option enabled, to indicate an N/A type answer; in this case, `value` is omitted.
+
+
+        In all other cases, `answerType` is not expected to be set.'
+      type: string
+      enum:
+      - Other
+      - NA
+      example: Other
+    CompositeValue:
+      title: CompositeValue
+      description: 'The structured representation of a complex question answer. Contains the same data as `value`, parsed into typed objects instead of JSON-serialized strings. This field is **read-only** — to write complex question answers, use `value` instead.
+
+
+        The structure of the array depends on the question `type`.'
+      oneOf:
+      - type: array
+        title: Meeting Room Requirement Set
+        items:
+          $ref: '#/components/schemas/MeetingRoomRequirement'
+      - type: array
+        title: Sleeping Room Requirement Set
+        items:
+          $ref: '#/components/schemas/SleepingRoomRequirement'
+      - type: array
+        title: Budget Estimate Set
+        items:
+          $ref: '#/components/schemas/BudgetEstimate'
+      readOnly: true
+    Document:
+      title: document
+      description: The base model for the document metadata.
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          description: Unique identifier of the document.
+          type: string
+          format: uuid
+        name:
+          type: string
+          maxLength: 255
+          description: Name of the document.
+          example: Agenda
+        size:
+          type: integer
+          description: Size of the document in bytes
+          example: 204800
+        uploaded:
+          type: string
+          format: date-time
+          description: The ISO-8601 formatted date and time when the document was uploaded.
+          example: '2024-06-15T13:45:30Z'
+        uploadedBy:
+          type: string
+          description: The user who uploaded the document.
+          example: John Doe
+        lastModified:
+          type: string
+          format: date-time
+          description: The ISO-8601 formatted date and time when this document was last updated.
+          example: '2024-10-12T03:00:00Z'
+        lastModifiedBy:
+          type: string
+          description: The user who last updated the document.
+          example: John Doe
     MeetingRequestDocument:
       title: MeetingRequestDocument
       description: Document attached to a meeting request that can be downloaded.
@@ -826,233 +1074,54 @@ components:
                 description: Meeting Request ID.
                 type: string
                 format: uuid
-    MeetingRoomAgendaItemType:
-      title: MeetingRoomAgendaItemType
-      description: Defines the agenda item types of a meeting room requirement.
-      example: Breakout
-      readOnly: true
-      enum:
-      - Break
-      - Breakfast
-      - Breakout
-      - Dinner
-      - Exhibit
-      - General Session
-      - Hospitality Desk
-      - Hospitality Suite
-      - Lunch
-      - Meeting
-      - Office
-      - Other
-      - Reception
-      - Registration
-      - Setup
-      - Snack
-      - Speaker Room
-      - Storage Room
-      - Teardown
-    meeting-request-bulk-create:
-      title: MeetingRequestBulkCreate
-      description: Meeting requests to create.
-      type: array
-      items:
-        $ref: '#/components/schemas/MeetingRequestCreate'
-    MeetingRequestDocumentReferenceLink:
-      title: MeetingRequestDocumentReferenceLink
-      description: A reference link contains the URL that provides direct access to download the file for the document. The expiration of the URL can be included if applicable.
-      type: object
-      properties:
-        url:
-          type: string
-          format: uri
-          description: The URL to download the file resource for the document. This URL will expire after the time indicated by the field expiration. If not provided, the URL is considered dynamic and not guaranteed to remain constant. Clients should always retrieve the latest URL before attempting to download the file, as it may change over time.
-          example: https://custom.cvent.com/4B31940730B6475A8D6A7785748A67EE/files/smm/8cfc2168a00342f5ba9e13f7a808df8e/78ce60fbf1da4cf5af139a65f59aed60.pdf
-        expiration:
-          type: string
-          format: date-time
-          description: The ISO 8601 formatted date and time at which the reference document will expire if an explicit expiration is defined.
-          example: '2025-12-31T23:59:59Z'
-    Audit:
-      title: Audit
-      description: Audit information
-      type: object
-      properties:
-        created:
-          type: string
-          format: date-time
-          description: The ISO 8601 zoned date time when this record was created.
-          readOnly: true
-          example: '2017-01-02T02:00:00Z'
-        createdBy:
-          type: string
-          description: The identifier of the user that created this record.
-          readOnly: true
-          example: hporter
-        lastModified:
-          type: string
-          format: date-time
-          description: The ISO 8601 zoned date time when this record was updated.
-          readOnly: true
-          example: '2019-02-12T03:00:00Z'
-        lastModifiedBy:
-          type: string
-          description: The identifier of the user that last updated this record.
-          readOnly: true
-          example: hporter
-    MeetingRequestBulkResponseItem:
-      title: MeetingRequestBulkResponseItem
-      description: Represents a single meeting request that's returned as part of a bulk request call.
-      type: object
+    MeetingRoomRequirement:
+      title: MeetingRoomRequirement
+      description: The requirement of a meeting room on the specified date.
       required:
-      - status
-      - data
+      - date
       properties:
-        data:
-          $ref: '#/components/schemas/meeting-request'
-        status:
-          type: integer
-          description: HTTP status code representing the processing status of a single item.
-          example: 200
-        message:
+        date:
           type: string
-          description: Quick description of what happened during processing.
-          example: Successful
-        request:
-          description: The processed request tied to this response. This field is only sent when processing fails.
-          example: Example request information.
-          anyOf:
-          - type: object
-          - type: string
-          - type: number
-          - type: integer
-          - type: boolean
-      additionalProperties: false
-    meeting-request-form:
-      title: MeetingRequestForm
-      description: A meeting request form.
-      required:
-      - id
-      - name
-      type: object
-      properties:
-        id:
+          description: The date for the meeting room, in format of YYYY-MM-DD.
+          example: '2099-12-11'
+        startTime:
           type: string
-          description: The ID of the meeting request form.
-          readOnly: true
-          example: 9c97eb50-9f88-4972-a603-f617fc3258dd
-        name:
+          description: The start time for the meeting room, in format of HH:MM:SS.
+          example: 09:30:00
+        endTime:
           type: string
-          description: User-defined name of the meeting request form.
-          example: Request for Medical Meetups
-        statuses:
+          description: The end time for the meeting room, in format of HH:MM:SS.
+          example: '14:45:00'
+        agendaItem:
+          type: string
+          description: The agenda item for the meeting room.
+          example: Meeting Room Agenda point 1.
+        agendaItemType:
           type: array
+          description: For the meeting requests, this is the selection of agenda item type. In this case, up to one agenda item type is allowed. For the meeting request forms, this is the list of all the available agenda item types.
           items:
-            type: string
-            example: Declined
-          description: User-defined list of statuses for the meeting request form.
-        active:
+            $ref: '#/components/schemas/MeetingRoomAgendaItemType'
+        setupType:
+          type: array
+          description: For the meeting requests, this is the selection of setup type. In this case, up to one setup type is allowed. For the meeting request forms, this is the list of all the available setup types.
+          items:
+            $ref: '#/components/schemas/MeetingRoomSetupType'
+        roomSize:
+          type: number
+          description: The size of the meeting room. It can be in any measurement the user chooses, e.g., square feet, number of seats, number of tables, etc.
+          example: 100
+        numberOfPeople:
+          type: integer
+          description: The number of people for the meeting room.
+          example: 250
+        twentyFourHourHold:
           type: boolean
-          description: A boolean indicating a meeting request form's active status. When true, the meeting request form is available for new request submissions. When false, only updates can be made to existing requests for this form
-          example: true
-        questions:
-          type: array
-          items:
-            $ref: '#/components/schemas/MeetingRequestCustomField'
-          description: The list of questions that will need to be answered by someone creating a meeting request from this form.
-    meeting-request-bulk-update:
-      title: MeetingRequestBulkUpdate
-      description: Meeting requests to update.
-      type: array
-      items:
-        $ref: '#/components/schemas/MeetingRequestUpdate'
-    BudgetEstimate:
-      title: BudgetEstimate
-      description: The estimated budget of the Meeting Request.
-      properties:
-        currency:
+          description: True indicates the meeting room is held for 24 hours.
+          example: false
+        note:
           type: string
-          description: 'The ISO 4217 standard format currency code used for this budget. Note: the allowed currencies are configured per account. A **BAD REQUEST (400)** error will be returned if the specified currency is not allowed for the account during the creation or update of the Meeting Request.'
-          example: USD
-        costType:
-          $ref: '#/components/schemas/BudgetCostType'
-        costDetail:
-          type: array
-          title: Cost Detail
-          description: A list of budget entry details. Each entry consists of the budget category or sub-category, the number of units, the cost per unit, and the total amount.
-          items:
-            $ref: '#/components/schemas/BudgetCostDetail1'
-    error-response:
-      title: ErrorResponse
-      description: Represents an error response with additional details of cascading error messages.
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponseBase1'
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorResponseBase1'
-          description: Additional details of cascading error messages.
-    ErrorResponse-12:
-      title: ErrorResponse
-      description: Represents an error response with additional details of cascading error messages.
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponseBase1'
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorResponseBase1'
-          description: Additional details of cascading error messages.
-    BudgetCategory:
-      title: BudgetCategory
-      description: Denotes the category assigned to the budget item.
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: integer
-          description: Unique identifier of the budget category.
-          example: 3
-        name:
-          type: string
-          description: Name of the budget category assigned to the budget item.
-          example: Travel
-          readOnly: true
-    QuestionType1:
-      title: QuestionType
-      enum:
-      - AutoIncrement
-      - BudgetEstimates
-      - ConsentQuestion
-      - Country
-      - Currency
-      - Decimal
-      - Date
-      - DateTime
-      - Email
-      - FileUpload
-      - FreeText
-      - General
-      - Number
-      - MeetingRoomRequirements
-      - MultiSelect
-      - SingleSelect
-      - SleepingRoomRequirements
-      - USPhoneNumber
-      - Unknown
-      type: string
-      description: Denotes the type of data collected by a question.
-      example: SingleSelect
-      readOnly: true
+          description: The meeting room requirement note.
+          example: Meeting room note.
     MeetingRequestQuestion:
       title: MeetingRequestQuestion
       description: A question and its answer for a meeting request. Some questions have fixed, well-known IDs that are the same across all accounts. Use the `type` field or the question `id` to determine the format of the `value` array.
@@ -1106,6 +1175,22 @@ components:
           $ref: '#/components/schemas/SecondaryValue'
         compositeValue:
           $ref: '#/components/schemas/CompositeValue'
+    BudgetCategory:
+      title: BudgetCategory
+      description: Denotes the category assigned to the budget item.
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: integer
+          description: Unique identifier of the budget category.
+          example: 3
+        name:
+          type: string
+          description: Name of the budget category assigned to the budget item.
+          example: Travel
+          readOnly: true
     meeting-request-paginated-response:
       title: MeetingRequestPaginatedResponse
       description: Paginated collection of meeting requests.
@@ -1121,65 +1206,75 @@ components:
           items:
             $ref: '#/components/schemas/meeting-request'
           description: Collection of meeting request objects.
-    MeetingRequestStatus:
-      title: MeetingRequestStatus
-      description: The user-defined status of the meeting request. Possible statuses for requests are defined by the user at meeting request form creation.
+    SecondaryValue:
+      title: SecondaryValue
+      description: The secondary value of the question. This can be the other answer of choice questions which have `Other` as an answer type.
       type: string
-      example: Submitted to Accounting
-    meeting-request-document-paginated-response:
-      title: MeetingRequestDocumentPaginatedResponse
-      description: Paginated collection of meeting request documents.
-      required:
-      - data
-      - paging
+      example: The other answer for the question.
+    MeetingRequestUpdate:
+      title: MeetingRequestUpdate
+      description: An updated meeting request.
       type: object
+      required:
+      - id
       properties:
-        paging:
-          $ref: '#/components/schemas/Paging'
-        data:
+        id:
+          type: string
+          description: The ID of a meeting request.
+          example: 017f1149-0f3a-4531-b1aa-6f66a6cb04f3
+        name:
+          type: string
+          description: The name of the specific meeting request.
+          example: Limited MR
+        questions:
+          description: Questions for the meeting request.
           type: array
           items:
-            $ref: '#/components/schemas/MeetingRequestDocument'
-          description: Collection of meeting request object documents.
-    CustomField:
-      title: CustomField
-      description: A Custom Field
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/CustomFieldBase'
-      properties:
-        type:
-          description: The type of data collected by a custom field.
+            $ref: '#/components/schemas/MeetingRequestQuestion'
+        status:
+          $ref: '#/components/schemas/MeetingRequestStatus'
+        sourceId:
           type: string
-          allOf:
-          - $ref: '#/components/schemas/CustomFieldType'
-          - readOnly: true
-            example: MultiSelect
-    CompositeValue:
-      title: CompositeValue
-      description: 'The structured representation of a complex question answer. Contains the same data as `value`, parsed into typed objects instead of JSON-serialized strings. This field is **read-only** — to write complex question answers, use `value` instead.
-
-
-        The structure of the array depends on the question `type`.'
-      oneOf:
-      - type: array
-        title: Meeting Room Requirement Set
-        items:
-          $ref: '#/components/schemas/MeetingRoomRequirement'
-      - type: array
-        title: Sleeping Room Requirement Set
-        items:
-          $ref: '#/components/schemas/SleepingRoomRequirement'
-      - type: array
-        title: Budget Estimate Set
-        items:
-          $ref: '#/components/schemas/BudgetEstimate'
-      readOnly: true
-    CustomFieldType:
-      title: CustomFieldType
+          description: 'The ID for the meeting request in an external system. NOTE: This value is expected to be unique for each meeting request within an account. Consider adding the external system name as part of the ID.'
+          example: sourceId12
+        statusNote:
+          type: string
+          description: The note about the status.
+          example: The status indicates that the request is submitted to accounting
+    PaginationLinks:
+      title: PaginationLinks
+      type: object
+      description: Represents pagination links for navigating between pages of data.
+      properties:
+        next:
+          $ref: '#/components/schemas/Link'
+        self:
+          $ref: '#/components/schemas/Link'
+        prev:
+          $ref: '#/components/schemas/Link'
+    BudgetEstimate:
+      title: BudgetEstimate
+      description: The estimated budget of the Meeting Request.
+      properties:
+        currency:
+          type: string
+          description: 'The ISO 4217 standard format currency code used for this budget. Note: the allowed currencies are configured per account. A **BAD REQUEST (400)** error will be returned if the specified currency is not allowed for the account during the creation or update of the Meeting Request.'
+          example: USD
+        costType:
+          $ref: '#/components/schemas/BudgetCostType'
+        costDetail:
+          type: array
+          title: Cost Detail
+          description: A list of budget entry details. Each entry consists of the budget category or sub-category, the number of units, the cost per unit, and the total amount.
+          items:
+            $ref: '#/components/schemas/BudgetCostDetail1'
+    QuestionType1:
+      title: QuestionType
       enum:
       - AutoIncrement
+      - BudgetEstimates
       - ConsentQuestion
+      - Country
       - Currency
       - Decimal
       - Date
@@ -1188,137 +1283,33 @@ components:
       - FileUpload
       - FreeText
       - General
-      - MultiChoice
-      - MultiSelect
       - Number
-      - OpenEndedDateTime
-      - OpenEndedText
-      - SingleChoice
+      - MeetingRoomRequirements
+      - MultiSelect
       - SingleSelect
+      - SleepingRoomRequirements
       - USPhoneNumber
       - Unknown
       type: string
-      description: The type of data collected by a custom field.
-      example: General
-    SecondaryValue:
-      title: SecondaryValue
-      description: The secondary value of the question. This can be the other answer of choice questions which have `Other` as an answer type.
-      type: string
-      example: The other answer for the question.
-    AnswerType1:
-      title: AnswerType
-      description: 'Indicates the type of the answer, which determines how the `value` and `secondaryValue` fields are interpreted.
-
-
-        Set to **"Other"** when the question has the **"Other"** choice option enabled, indicating the answer in the **"secondaryValue"** field is a free-text response to that option.
-
-
-        Set to **"NA"** when the question has the **"N/A"** choice option enabled, to indicate an N/A type answer; in this case, `value` is omitted.
-
-
-        In all other cases, `answerType` is not expected to be set.'
-      type: string
-      enum:
-      - Other
-      - NA
-      example: Other
-    BudgetCostType:
-      title: BudgetCostType
-      enum:
-      - FIXED
-      - VARIABLE
-      type: string
-      description: Denotes the cost type of a budget item. FIXED costs stay the same regardless of quantity. VARIABLE costs are based on a quantity.
-      example: FIXED
-    Document:
-      title: document
-      description: The base model for the document metadata.
-      type: object
+      description: Denotes the type of data collected by a question.
+      example: SingleSelect
+      readOnly: true
+    meeting-request-form-paginated-response:
+      title: MeetingRequestFormResponse
+      description: The response from a request to get the list of meeting request forms. This includes the paging object as well as the collection of meeting request forms.
       required:
-      - id
-      properties:
-        id:
-          description: Unique identifier of the document.
-          type: string
-          format: uuid
-        name:
-          type: string
-          maxLength: 255
-          description: Name of the document.
-          example: Agenda
-        size:
-          type: integer
-          description: Size of the document in bytes
-          example: 204800
-        uploaded:
-          type: string
-          format: date-time
-          description: The ISO-8601 formatted date and time when the document was uploaded.
-          example: '2024-06-15T13:45:30Z'
-        uploadedBy:
-          type: string
-          description: The user who uploaded the document.
-          example: John Doe
-        lastModified:
-          type: string
-          format: date-time
-          description: The ISO-8601 formatted date and time when this document was last updated.
-          example: '2024-10-12T03:00:00Z'
-        lastModifiedBy:
-          type: string
-          description: The user who last updated the document.
-          example: John Doe
-    BudgetCostDetail1:
-      title: BudgetCostDetail
-      description: The budget entry in detail, which consists of the budget category or sub-category, the number of units, the cost per unit, and the total amount.
-      properties:
-        category:
-          $ref: '#/components/schemas/BudgetCategory'
-        subCategory:
-          $ref: '#/components/schemas/BudgetSubCategory'
-        units:
-          type: number
-          description: The number of units associated with a budget item. This field can be any number if the budget item is a *Variable* cost type. If the budget item uses a *Fixed* cost type, set this field to 1.
-          example: 5.2
-        cost:
-          type: number
-          description: The cost amount of the budget item. If the budget item uses a *Fixed* cost type, the value of this field won't be applied to the creation or update of a Meeting Request.
-          example: 100.5
-        totalCost:
-          type: number
-          description: The total cost of the budget item. If the budget item uses a *Variable* cost type, this field will be set as the result of units times cost. The value of this field will be applied to the creation or update of a Meeting Request only if the cost type is *Fixed*.
-          example: 100.5
-          readOnly: true
-    ErrorResponseBase1:
-      title: ErrorResponseBase
+      - paging
+      - data
       type: object
-      description: Represents an error response with no additional details.
-      required:
-      - code
-      - message
       properties:
-        code:
-          type: integer
-          description: The HTTP status code representing the error.
-          example: 400
-        message:
-          type: string
-          description: A brief description of the error.
-          example: Bad Request
-        target:
-          type: string
-          description: The target resource of the error.
-          example: example target
+        paging:
+          $ref: '#/components/schemas/Paging'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/meeting-request-form'
+          description: Collection of meeting request form objects.
   parameters:
-    after:
-      name: after
-      required: false
-      description: Used to query records that have been added or updated after this time point. Default to the beginning of time of the data store.
-      in: query
-      schema:
-        type: string
-        format: date-time
-        example: '2017-01-02T02:00:00Z'
     before:
       name: before
       required: false
@@ -1328,17 +1319,15 @@ components:
         type: string
         format: date-time
         example: '2017-01-02T02:00:00Z'
-    limit4:
-      name: limit
+    after:
+      name: after
+      required: false
+      description: Used to query records that have been added or updated after this time point. Default to the beginning of time of the data store.
       in: query
-      style: form
-      explode: true
-      description: The maximum number of requests or forms that can be fetched at once.
       schema:
-        maximum: 20
-        minimum: 1
-        type: integer
-        default: 10
+        type: string
+        format: date-time
+        example: '2017-01-02T02:00:00Z'
     token:
       name: token
       in: query
@@ -1352,25 +1341,18 @@ components:
       schema:
         type: string
         example: 0e28af57-511f-47ab-ae46-46cd1ca51a1a
+    limit4:
+      name: limit
+      in: query
+      style: form
+      explode: true
+      description: The maximum number of requests or forms that can be fetched at once.
+      schema:
+        maximum: 20
+        minimum: 1
+        type: integer
+        default: 10
   responses:
-    Unauthorized1:
-      description: Bad or expired token
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 401
-            message: Unauthorized
-    BadRequest1:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 400
-            message: Bad Request
     UnprocessableEntity13:
       description: Was not able to process the request.
       content:
@@ -1407,6 +1389,24 @@ components:
           example:
             code: 404
             message: Not found
+    BadRequest1:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 400
+            message: Bad Request
+    Unauthorized1:
+      description: Bad or expired token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 401
+            message: Unauthorized
   securitySchemes:
     OAuth2.authorizationCode:
       type: oauth2
