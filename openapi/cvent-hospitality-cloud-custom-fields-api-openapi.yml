@@ -322,174 +322,6 @@ paths:
         url: '#oauth2-auth-code-planner-admin'
 components:
   schemas:
-    ChoiceTranslation:
-      title: ChoiceTranslation
-      type: object
-      description: This is used to denote that the translation for the choice text of a custom field.
-      properties:
-        choiceId:
-          type: string
-          format: uuid
-          description: The ID of the choice that this translation is associated with.
-        translatedText:
-          type: string
-          maxLength: 300
-          description: Translation for the choice text of a custom field.
-          example: Departamento de Tecnología
-    ErrorResponseBase1:
-      title: ErrorResponseBase
-      type: object
-      description: Represents an error response with no additional details.
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: integer
-          description: The HTTP status code representing the error.
-          example: 400
-        message:
-          type: string
-          description: A brief description of the error.
-          example: Bad Request
-        target:
-          type: string
-          description: The target resource of the error.
-          example: example target
-    uuid-property:
-      title: UUID Property
-      description: A string that has to be a format matching the industry standard uuid
-      type: string
-      format: uuid
-      example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
-    PageVisibility:
-      title: PageVisibility
-      description: Visibility of the custom field on various pages/forms.
-      type: object
-      properties:
-        essentialEventCreationForm:
-          type: boolean
-          description: True indicates it's visible on the event essentials event creation form.
-          default: false
-        essentialEventDetailsForm:
-          type: boolean
-          description: True indicates it's visible on the event essentials event details form.
-          default: false
-        webinarCreationForm:
-          type: boolean
-          description: True indicates it's visible on webinar creation form.
-          default: false
-        webinarDetailsForm:
-          type: boolean
-          description: True indicates it's visible on the webinar details form.
-          default: false
-    Language1:
-      title: Language
-      enum:
-      - af-ZA
-      - ar-SA
-      - az-Latn-AZ
-      - be-BY
-      - bg-BG
-      - bn-IN
-      - bs-BA
-      - ca-ES
-      - cs-CZ
-      - da-DK
-      - de-CH
-      - de-DE
-      - el-GR
-      - en-GB
-      - en-US
-      - es-ES
-      - fi-FI
-      - fr-CA
-      - fr-FR
-      - ga-IE
-      - he-IL
-      - hi-IN
-      - hr-HR
-      - hu-HU
-      - hy-AM
-      - id-ID
-      - is-IS
-      - it-IT
-      - ja-JP
-      - kn
-      - ko-KR
-      - lb-LU
-      - lt-LT
-      - lv-LV
-      - mi-NZ
-      - ml
-      - mn-CN
-      - ms-MY
-      - mt-MT
-      - nb-NO
-      - ne-NP
-      - nl-NL
-      - pa-IN
-      - pl-PL
-      - pt-BR
-      - pt-PT
-      - ro-MO
-      - ro-RO
-      - ru-RU
-      - sk-SK
-      - sl-SI
-      - sq-AL
-      - sr-RS
-      - sv-SE
-      - ta-IN
-      - te-IN
-      - th-TH
-      - tl-PH
-      - tr-TR
-      - uk-UA
-      - vi-VN
-      - zh-CHT
-      - zh-CN
-      - zh-tw
-      type: string
-      description: IETF language code used to specify a target language for the translation.
-      example: es-ES
-    DisplayInDataTag:
-      title: DisplayInDataTag
-      enum:
-      - 'Yes'
-      - 'No'
-      - Only when answered
-      type: string
-      description: This option allows you to choose whether to display the custom field in emails. The field name and the value entered by the invitee are used in the My Agenda data tag. You can set the custom field to display always or only when answered. Only applicable to session custom fields.
-      default: 'No'
-      example: 'No'
-    ErrorResponse-12:
-      title: ErrorResponse
-      description: Represents an error response with additional details of cascading error messages.
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponseBase1'
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorResponseBase1'
-          description: Additional details of cascading error messages.
-    Choices1:
-      title: Choices
-      description: Choices for a custom field.
-      type: object
-      properties:
-        choices:
-          type: array
-          items:
-            $ref: '#/components/schemas/Choice3'
-          description: Choices of custom fields.
-        displayType:
-          $ref: '#/components/schemas/DisplayType1'
     custom-field1:
       title: CustomField
       required:
@@ -563,6 +395,93 @@ components:
           example: false
         pageVisibility:
           $ref: '#/components/schemas/PageVisibility'
+    OpenEndedCommentBox:
+      title: OpenEndedCommentBox
+      description: This is used to denote the open ended comment box type of custom field.
+      type: object
+      properties:
+        minimum:
+          type: integer
+          description: Minimum number/characters allowed.
+          example: 2
+        maximum:
+          type: integer
+          description: Maximum number/characters allowed.
+          example: 8
+    DisplayInDataTag:
+      title: DisplayInDataTag
+      enum:
+      - 'Yes'
+      - 'No'
+      - Only when answered
+      type: string
+      description: This option allows you to choose whether to display the custom field in emails. The field name and the value entered by the invitee are used in the My Agenda data tag. You can set the custom field to display always or only when answered. Only applicable to session custom fields.
+      default: 'No'
+      example: 'No'
+    ErrorResponseBase1:
+      title: ErrorResponseBase
+      type: object
+      description: Represents an error response with no additional details.
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: integer
+          description: The HTTP status code representing the error.
+          example: 400
+        message:
+          type: string
+          description: A brief description of the error.
+          example: Bad Request
+        target:
+          type: string
+          description: The target resource of the error.
+          example: example target
+    DateTimeDisplayFormat:
+      title: DateTimeDisplayFormat
+      enum:
+      - DateAndTimeMonthFirst12HourTime
+      - DateAndTimeMonthFirst24HourTime
+      - DateOnlyMonthFirst
+      - DateAndTimeDayFirst12HourTime
+      - DateAndTimeDayFirst24HourTime
+      - DateOnlyDayFirst
+      type: string
+      description: This is used to denote the display format type of date time type custom field.
+      example: DateOnlyMonthFirst
+    PageVisibility:
+      title: PageVisibility
+      description: Visibility of the custom field on various pages/forms.
+      type: object
+      properties:
+        essentialEventCreationForm:
+          type: boolean
+          description: True indicates it's visible on the event essentials event creation form.
+          default: false
+        essentialEventDetailsForm:
+          type: boolean
+          description: True indicates it's visible on the event essentials event details form.
+          default: false
+        webinarCreationForm:
+          type: boolean
+          description: True indicates it's visible on webinar creation form.
+          default: false
+        webinarDetailsForm:
+          type: boolean
+          description: True indicates it's visible on the webinar details form.
+          default: false
+    Link:
+      title: Link
+      required:
+      - href
+      type: object
+      description: Represents a link to a related resource.
+      properties:
+        href:
+          type: string
+          description: A url provided that can be followed for linking
+          example: ?token=90c5f062-76ad-4ea4-aa53-00eb698d9262
     Choice3:
       title: Choice
       type: object
@@ -580,6 +499,20 @@ components:
           description: The text for the question choice.
           example: What is your current designation?
           minLength: 1
+    ChoiceTranslation:
+      title: ChoiceTranslation
+      type: object
+      description: This is used to denote that the translation for the choice text of a custom field.
+      properties:
+        choiceId:
+          type: string
+          format: uuid
+          description: The ID of the choice that this translation is associated with.
+        translatedText:
+          type: string
+          maxLength: 300
+          description: Translation for the choice text of a custom field.
+          example: Departamento de Tecnología
     DisplayType1:
       title: DisplayType
       description: Display type indicating how to display the choices on UI. For 'Choice - Single Answer' custom field type, this defaults to Dropdown. For 'Choice - Multiple Answers' custom field type, this defaults to MultiSelectBox.
@@ -589,19 +522,142 @@ components:
       - Vertical
       - Horizontal
       - MultiSelectBox
-    existing-custom-field:
-      title: ExistingCustomField
-      description: This is used to denote an existing custom field.
+    CustomFieldCategory:
+      title: CustomFieldCategory
+      enum:
+      - Contact
+      - Session
+      - Event
+      - Survey
+      - Campaign
+      - Rfp
+      - Appointment
+      - Resource
+      - User
+      - Abstract
+      - Budget Item
+      type: string
+      description: This is used to denote the category of a custom field.
+      example: Contact
+    advanced-logic:
+      title: AdvancedLogic
       type: object
-      allOf:
-      - $ref: '#/components/schemas/custom-field1'
+      description: Describes the advanced logic for a custom field.
+      required:
+      - sourceCustomFieldId
       properties:
-        id:
+        sourceCustomFieldId:
           type: string
           format: uuid
-          description: The ID of the custom field.
-        pageVisibility:
-          $ref: '#/components/schemas/PageVisibility'
+          description: The ID of the source custom field.
+        defaultChoices:
+          type: array
+          items:
+            type: string
+            format: uuid
+            description: The ID of the choice to display.
+          description: The choices of this custom field to display by default (when no choice is selected for the source custom field), specified by choice ID. Leave empty to have no choices displayed by default.
+          minItems: 0
+          maxItems: 100
+        sourceChoices:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdvancedLogicChoices'
+          description: The choices of this custom field to display based on the choice selected for the source custom field, specified by choice ID.
+    Choices1:
+      title: Choices
+      description: Choices for a custom field.
+      type: object
+      properties:
+        choices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Choice3'
+          description: Choices of custom fields.
+        displayType:
+          $ref: '#/components/schemas/DisplayType1'
+    Language1:
+      title: Language
+      enum:
+      - af-ZA
+      - ar-SA
+      - az-Latn-AZ
+      - be-BY
+      - bg-BG
+      - bn-IN
+      - bs-BA
+      - ca-ES
+      - cs-CZ
+      - da-DK
+      - de-CH
+      - de-DE
+      - el-GR
+      - en-GB
+      - en-US
+      - es-ES
+      - fi-FI
+      - fr-CA
+      - fr-FR
+      - ga-IE
+      - he-IL
+      - hi-IN
+      - hr-HR
+      - hu-HU
+      - hy-AM
+      - id-ID
+      - is-IS
+      - it-IT
+      - ja-JP
+      - kn
+      - ko-KR
+      - lb-LU
+      - lt-LT
+      - lv-LV
+      - mi-NZ
+      - ml
+      - mn-CN
+      - ms-MY
+      - mt-MT
+      - nb-NO
+      - ne-NP
+      - nl-NL
+      - pa-IN
+      - pl-PL
+      - pt-BR
+      - pt-PT
+      - ro-MO
+      - ro-RO
+      - ru-RU
+      - sk-SK
+      - sl-SI
+      - sq-AL
+      - sr-RS
+      - sv-SE
+      - ta-IN
+      - te-IN
+      - th-TH
+      - tl-PH
+      - tr-TR
+      - uk-UA
+      - vi-VN
+      - zh-CHT
+      - zh-CN
+      - zh-tw
+      type: string
+      description: IETF language code used to specify a target language for the translation.
+      example: es-ES
+    CustomFieldType2:
+      title: CustomFieldType
+      enum:
+      - Open Ended Text - Date/Time
+      - Open Ended Text - One Line
+      - Open Ended Text - Comment Box
+      - Choice - Single Answer
+      - Choice - Multiple Answers
+      - Auto-Increment
+      type: string
+      description: This is used to denote the type of data collected by a custom field. Auto-Increment custom fields are read only.
+      example: Open Ended Text - One Line
     OpenEndedOneLine:
       title: OpenEndedOneLine
       type: object
@@ -619,44 +675,21 @@ components:
           type: integer
           description: Maximum number/characters allowed.
           example: 8
-    CustomFieldType2:
-      title: CustomFieldType
-      enum:
-      - Open Ended Text - Date/Time
-      - Open Ended Text - One Line
-      - Open Ended Text - Comment Box
-      - Choice - Single Answer
-      - Choice - Multiple Answers
-      - Auto-Increment
-      type: string
-      description: This is used to denote the type of data collected by a custom field. Auto-Increment custom fields are read only.
-      example: Open Ended Text - One Line
-    OpenEndedDateTime1:
-      title: OpenEndedDateTime
-      description: This is used to denote the open ended date time type of custom field.
+    ErrorResponse-12:
+      title: ErrorResponse
+      description: Represents an error response with additional details of cascading error messages.
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponseBase1'
       type: object
+      required:
+      - code
+      - message
       properties:
-        from:
-          type: string
-          format: date-time
-          description: The ISO 8601 zoned minimum date time accepted.
-          example: '2021-01-02T02:00:00Z'
-        to:
-          type: string
-          format: date-time
-          description: The ISO 8601 zoned maximum date time accepted.
-          example: '2021-02-02T02:00:00Z'
-        format:
-          $ref: '#/components/schemas/DateTimeDisplayFormat'
-        defaultToCurrentDate:
-          type: boolean
-          description: Whether it needs to be pre populated with current date.
-          example: false
-        displayPopUpCalendar:
-          type: boolean
-          description: True means that a pop-up calendar will be displayed to assist date selection on UI.
-          default: false
-          example: false
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorResponseBase1'
+          description: Additional details of cascading error messages.
     Audit:
       title: Audit
       description: Audit information
@@ -684,17 +717,6 @@ components:
           description: The identifier of the user that last updated this record.
           readOnly: true
           example: hporter
-    Link:
-      title: Link
-      required:
-      - href
-      type: object
-      description: Represents a link to a related resource.
-      properties:
-        href:
-          type: string
-          description: A url provided that can be followed for linking
-          example: ?token=90c5f062-76ad-4ea4-aa53-00eb698d9262
     custom-fields-paginated-response:
       title: CustomFieldsPaginatedResponse
       description: The response from a request to get the list of custom fields metadata.  This includes the paging object as well as the collection of custom fields metadata.
@@ -710,6 +732,12 @@ components:
           items:
             $ref: '#/components/schemas/existing-custom-field'
           description: Collection of custom fields.
+    uuid-property:
+      title: UUID Property
+      description: A string that has to be a format matching the industry standard uuid
+      type: string
+      format: uuid
+      example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
     Paging:
       title: Paging
       required:
@@ -739,19 +767,6 @@ components:
           example: 2
         _links:
           $ref: '#/components/schemas/PaginationLinks'
-    OpenEndedCommentBox:
-      title: OpenEndedCommentBox
-      description: This is used to denote the open ended comment box type of custom field.
-      type: object
-      properties:
-        minimum:
-          type: integer
-          description: Minimum number/characters allowed.
-          example: 2
-        maximum:
-          type: integer
-          description: Maximum number/characters allowed.
-          example: 8
     AdvancedLogicChoices:
       title: AdvancedLogicChoices
       type: object
@@ -772,54 +787,6 @@ components:
           description: The choices to display if the associated source custom field choice is selected. Leave empty to have no choices displayed.
           minItems: 0
           maxItems: 100
-    DateTimeDisplayFormat:
-      title: DateTimeDisplayFormat
-      enum:
-      - DateAndTimeMonthFirst12HourTime
-      - DateAndTimeMonthFirst24HourTime
-      - DateOnlyMonthFirst
-      - DateAndTimeDayFirst12HourTime
-      - DateAndTimeDayFirst24HourTime
-      - DateOnlyDayFirst
-      type: string
-      description: This is used to denote the display format type of date time type custom field.
-      example: DateOnlyMonthFirst
-    advanced-logic:
-      title: AdvancedLogic
-      type: object
-      description: Describes the advanced logic for a custom field.
-      required:
-      - sourceCustomFieldId
-      properties:
-        sourceCustomFieldId:
-          type: string
-          format: uuid
-          description: The ID of the source custom field.
-        defaultChoices:
-          type: array
-          items:
-            type: string
-            format: uuid
-            description: The ID of the choice to display.
-          description: The choices of this custom field to display by default (when no choice is selected for the source custom field), specified by choice ID. Leave empty to have no choices displayed by default.
-          minItems: 0
-          maxItems: 100
-        sourceChoices:
-          type: array
-          items:
-            $ref: '#/components/schemas/AdvancedLogicChoices'
-          description: The choices of this custom field to display based on the choice selected for the source custom field, specified by choice ID.
-    PaginationLinks:
-      title: PaginationLinks
-      type: object
-      description: Represents pagination links for navigating between pages of data.
-      properties:
-        next:
-          $ref: '#/components/schemas/Link'
-        self:
-          $ref: '#/components/schemas/Link'
-        prev:
-          $ref: '#/components/schemas/Link'
     translation1:
       title: CustomFieldTranslation
       description: A custom-field translation for a particular language.
@@ -850,23 +817,102 @@ components:
               minItems: 0
         language:
           $ref: '#/components/schemas/Language1'
-    CustomFieldCategory:
-      title: CustomFieldCategory
-      enum:
-      - Contact
-      - Session
-      - Event
-      - Survey
-      - Campaign
-      - Rfp
-      - Appointment
-      - Resource
-      - User
-      - Abstract
-      - Budget Item
-      type: string
-      description: This is used to denote the category of a custom field.
-      example: Contact
+    OpenEndedDateTime1:
+      title: OpenEndedDateTime
+      description: This is used to denote the open ended date time type of custom field.
+      type: object
+      properties:
+        from:
+          type: string
+          format: date-time
+          description: The ISO 8601 zoned minimum date time accepted.
+          example: '2021-01-02T02:00:00Z'
+        to:
+          type: string
+          format: date-time
+          description: The ISO 8601 zoned maximum date time accepted.
+          example: '2021-02-02T02:00:00Z'
+        format:
+          $ref: '#/components/schemas/DateTimeDisplayFormat'
+        defaultToCurrentDate:
+          type: boolean
+          description: Whether it needs to be pre populated with current date.
+          example: false
+        displayPopUpCalendar:
+          type: boolean
+          description: True means that a pop-up calendar will be displayed to assist date selection on UI.
+          default: false
+          example: false
+    PaginationLinks:
+      title: PaginationLinks
+      type: object
+      description: Represents pagination links for navigating between pages of data.
+      properties:
+        next:
+          $ref: '#/components/schemas/Link'
+        self:
+          $ref: '#/components/schemas/Link'
+        prev:
+          $ref: '#/components/schemas/Link'
+    existing-custom-field:
+      title: ExistingCustomField
+      description: This is used to denote an existing custom field.
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/custom-field1'
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The ID of the custom field.
+        pageVisibility:
+          $ref: '#/components/schemas/PageVisibility'
+  responses:
+    Unauthorized1:
+      description: Bad or expired token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 401
+            message: Unauthorized
+    BadRequest1:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 400
+            message: Bad Request
+    TooManyRequests1:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 429
+            message: Limit Exceeded
+    Forbidden1:
+      description: You do not have access to the resource
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 403
+            message: Access Forbidden
+    NotFound1:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 404
+            message: Not found
   parameters:
     before:
       name: before
@@ -918,52 +964,6 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/uuid-property'
-  responses:
-    Forbidden1:
-      description: You do not have access to the resource
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 403
-            message: Access Forbidden
-    TooManyRequests1:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 429
-            message: Limit Exceeded
-    NotFound1:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 404
-            message: Not found
-    Unauthorized1:
-      description: Bad or expired token
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 401
-            message: Unauthorized
-    BadRequest1:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 400
-            message: Bad Request
   securitySchemes:
     OAuth2.authorizationCode:
       type: oauth2

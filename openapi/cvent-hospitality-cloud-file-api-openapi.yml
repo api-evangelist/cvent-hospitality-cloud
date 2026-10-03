@@ -101,35 +101,22 @@ paths:
         description: More about OAuth2 authorization code support for administrators
         url: '#oauth2-auth-code-planner-admin'
 components:
-  parameters:
-    id12:
-      in: path
-      name: id
-      description: The unique identifier of a file.
-      required: true
-      schema:
-        $ref: '#/components/schemas/uuid-property'
   schemas:
-    ErrorResponseBase1:
-      title: ErrorResponseBase
+    ErrorResponse-12:
+      title: ErrorResponse
+      description: Represents an error response with additional details of cascading error messages.
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponseBase1'
       type: object
-      description: Represents an error response with no additional details.
       required:
       - code
       - message
       properties:
-        code:
-          type: integer
-          description: The HTTP status code representing the error.
-          example: 400
-        message:
-          type: string
-          description: A brief description of the error.
-          example: Bad Request
-        target:
-          type: string
-          description: The target resource of the error.
-          example: example target
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorResponseBase1'
+          description: Additional details of cascading error messages.
     fileWithAudit:
       title: FileWithAudit
       type: object
@@ -181,27 +168,6 @@ components:
           readOnly: true
           example: hporter
           deprecated: true
-    ErrorResponse-12:
-      title: ErrorResponse
-      description: Represents an error response with additional details of cascading error messages.
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponseBase1'
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorResponseBase1'
-          description: Additional details of cascading error messages.
-    uuid-property:
-      title: UUID Property
-      description: A string that has to be a format matching the industry standard uuid
-      type: string
-      format: uuid
-      example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
     file-link.json:
       title: FileLink
       required:
@@ -213,6 +179,12 @@ components:
           type: string
           description: A full URL referencing the file
           example: https://custom.t2.cvent.com/35b0fcc5a7194de690f5382a35ac8266/00000000000000000000000000000000/files/universal-file/tmp/99f8f0b0438e4341a90f959785f73f5a.xlsx
+    uuid-property:
+      title: UUID Property
+      description: A string that has to be a format matching the industry standard uuid
+      type: string
+      format: uuid
+      example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
     fileUpload:
       title: File
       type: object
@@ -250,16 +222,27 @@ components:
           type: string
           description: 'Allowed File Types: ai, bmp, doc, docx, eml, eps, gif, ics, jpeg, msg, otf, ost, pdf, png, ppt, pptx, tif, tiff, ttf, txt, woff, woff2, xls, xlsx'
           example: SGVsbG8sIFdvcmxkIQ==
+    ErrorResponseBase1:
+      title: ErrorResponseBase
+      type: object
+      description: Represents an error response with no additional details.
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: integer
+          description: The HTTP status code representing the error.
+          example: 400
+        message:
+          type: string
+          description: A brief description of the error.
+          example: Bad Request
+        target:
+          type: string
+          description: The target resource of the error.
+          example: example target
   responses:
-    Forbidden1:
-      description: You do not have access to the resource
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 403
-            message: Access Forbidden
     Unauthorized1:
       description: Bad or expired token
       content:
@@ -269,15 +252,6 @@ components:
           example:
             code: 401
             message: Unauthorized
-    TooManyRequests1:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 429
-            message: Limit Exceeded
     BadRequest1:
       description: Bad request
       content:
@@ -287,6 +261,24 @@ components:
           example:
             code: 400
             message: Bad Request
+    TooManyRequests1:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 429
+            message: Limit Exceeded
+    Forbidden1:
+      description: You do not have access to the resource
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 403
+            message: Access Forbidden
     NotFound1:
       description: Resource not found
       content:
@@ -296,6 +288,14 @@ components:
           example:
             code: 404
             message: Not found
+  parameters:
+    id12:
+      in: path
+      name: id
+      description: The unique identifier of a file.
+      required: true
+      schema:
+        $ref: '#/components/schemas/uuid-property'
   securitySchemes:
     OAuth2.authorizationCode:
       type: oauth2

@@ -111,7 +111,60 @@ paths:
         description: More about OAuth2 authorization code support for administrators
         url: '#oauth2-auth-code-planner-admin'
 components:
+  responses:
+    Unauthorized1:
+      description: Bad or expired token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 401
+            message: Unauthorized
+    BadRequest1:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 400
+            message: Bad Request
+    TooManyRequests1:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 429
+            message: Limit Exceeded
+    Forbidden1:
+      description: You do not have access to the resource
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 403
+            message: Access Forbidden
+    NotFound1:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 404
+            message: Not found
   schemas:
+    UUIDProperty1:
+      title: UUID Property
+      description: A string that has to be a format matching the industry standard uuid
+      type: string
+      format: uuid
+      readOnly: true
+      example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
     ErrorResponseBase1:
       title: ErrorResponseBase
       type: object
@@ -132,12 +185,45 @@ components:
           type: string
           description: The target resource of the error.
           example: example target
-    uuid-property:
-      title: UUID Property
-      description: A string that has to be a format matching the industry standard uuid
-      type: string
-      format: uuid
-      example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
+    Link:
+      title: Link
+      required:
+      - href
+      type: object
+      description: Represents a link to a related resource.
+      properties:
+        href:
+          type: string
+          description: A url provided that can be followed for linking
+          example: ?token=90c5f062-76ad-4ea4-aa53-00eb698d9262
+    badge-printer-pool:
+      title: BadgePrinterPool
+      description: Badge Printer Pool.
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: The name of the badge printer pool.
+          minLength: 1
+          maxLength: 50
+          example: Main Entrance
+    ErrorResponse-12:
+      title: ErrorResponse
+      description: Represents an error response with additional details of cascading error messages.
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponseBase1'
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorResponseBase1'
+          description: Additional details of cascading error messages.
     existing-badge-printer-pool:
       title: ExistingBadgePrinterPool
       description: Badge Printer Pool.
@@ -155,41 +241,6 @@ components:
           type: boolean
           description: A flag to indicate if the pool is disabled.
           example: false
-    badge-printer-pool:
-      title: BadgePrinterPool
-      description: Badge Printer Pool.
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: The name of the badge printer pool.
-          minLength: 1
-          maxLength: 50
-          example: Main Entrance
-    UUIDProperty1:
-      title: UUID Property
-      description: A string that has to be a format matching the industry standard uuid
-      type: string
-      format: uuid
-      readOnly: true
-      example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
-    ErrorResponse-12:
-      title: ErrorResponse
-      description: Represents an error response with additional details of cascading error messages.
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponseBase1'
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorResponseBase1'
-          description: Additional details of cascading error messages.
     badge-printer-pools-paginated-response:
       title: BadgePrinterPoolsPaginatedResponse
       description: Page of Badge Printer Pools.
@@ -202,17 +253,12 @@ components:
           items:
             $ref: '#/components/schemas/existing-badge-printer-pool'
           description: Collection of badge printer pools.
-    Link:
-      title: Link
-      required:
-      - href
-      type: object
-      description: Represents a link to a related resource.
-      properties:
-        href:
-          type: string
-          description: A url provided that can be followed for linking
-          example: ?token=90c5f062-76ad-4ea4-aa53-00eb698d9262
+    uuid-property:
+      title: UUID Property
+      description: A string that has to be a format matching the industry standard uuid
+      type: string
+      format: uuid
+      example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
     Paging:
       title: Paging
       required:
@@ -254,13 +300,6 @@ components:
         prev:
           $ref: '#/components/schemas/Link'
   parameters:
-    poolId:
-      name: poolId
-      in: path
-      description: Id of a badge printer pool
-      required: true
-      schema:
-        $ref: '#/components/schemas/uuid-property'
     token:
       name: token
       in: query
@@ -274,10 +313,10 @@ components:
       schema:
         type: string
         example: 0e28af57-511f-47ab-ae46-46cd1ca51a1a
-    eventId:
+    poolId:
+      name: poolId
       in: path
-      name: eventId
-      description: Id of an event
+      description: Id of a badge printer pool
       required: true
       schema:
         $ref: '#/components/schemas/uuid-property'
@@ -293,52 +332,13 @@ components:
         type: integer
         default: 100
         example: 100
-  responses:
-    Forbidden1:
-      description: You do not have access to the resource
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 403
-            message: Access Forbidden
-    TooManyRequests1:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 429
-            message: Limit Exceeded
-    NotFound1:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 404
-            message: Not found
-    Unauthorized1:
-      description: Bad or expired token
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 401
-            message: Unauthorized
-    BadRequest1:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 400
-            message: Bad Request
+    eventId:
+      in: path
+      name: eventId
+      description: Id of an event
+      required: true
+      schema:
+        $ref: '#/components/schemas/uuid-property'
   securitySchemes:
     OAuth2.authorizationCode:
       type: oauth2
