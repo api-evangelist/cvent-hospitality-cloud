@@ -144,112 +144,7 @@ paths:
         '429':
           $ref: '#/components/responses/TooManyRequests1'
 components:
-  responses:
-    Unauthorized1:
-      description: Bad or expired token
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 401
-            message: Unauthorized
-    BadRequest1:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 400
-            message: Bad Request
-    TooManyRequests1:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 429
-            message: Limit Exceeded
-    Forbidden1:
-      description: You do not have access to the resource
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 403
-            message: Access Forbidden
-    NotFound1:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 404
-            message: Not found
   parameters:
-    before:
-      name: before
-      required: false
-      in: query
-      description: Used to query records that have been added or updated before this time point.
-      schema:
-        type: string
-        format: date-time
-        example: '2017-01-02T02:00:00Z'
-    travelAccountId:
-      name: travelAccountId
-      description: A uuid used to uniquely identify the travel account.
-      required: true
-      in: path
-      schema:
-        title: Travel Account ID
-        type: string
-        format: uuid
-        example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
-    travel-account-filter:
-      name: filter
-      in: query
-      required: false
-      description: 'A filter query string narrows search results and supports the combination of logical and comparison operators. The filter adheres to the pattern filter=''field'' comparisonType ''value''.
-
-
-        There are eight comparison types that can be used in filter expressions:
-
-        * equal: eq
-
-        * not equal: ne
-
-        * greater than: gt
-
-        * greater or equal: ge
-
-        * less than: lt
-
-        * less than or equal: le
-
-        * starts with: sw
-
-        * contains a value: contains
-
-
-        The following fields are filterable:
-
-        * id (eq|ne)
-
-        * name (eq|ne|sw|contains)
-
-        * created (eq|ne|lt|le|gt|ge)
-
-        * lastModified (eq|ne|lt|le|gt|ge)
-
-        '
-      schema:
-        type: string
-        example: name eq ABC123
     token:
       name: token
       in: query
@@ -263,27 +158,16 @@ components:
       schema:
         type: string
         example: 0e28af57-511f-47ab-ae46-46cd1ca51a1a
-    after:
-      name: after
-      required: false
-      description: Used to query records that have been added or updated after this time point. Default to the beginning of time of the data store.
-      in: query
+    travelAccountId:
+      name: travelAccountId
+      description: A uuid used to uniquely identify the travel account.
+      required: true
+      in: path
       schema:
+        title: Travel Account ID
         type: string
-        format: date-time
-        example: '2017-01-02T02:00:00Z'
-    limit:
-      name: limit
-      in: query
-      description: The maximum number of records to return per page.
-      style: form
-      explode: true
-      schema:
-        maximum: 200
-        minimum: 1
-        type: integer
-        default: 100
-        example: 100
+        format: uuid
+        example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
     travel-supplier-account-filter:
       name: filter
       in: query
@@ -326,83 +210,80 @@ components:
       schema:
         type: string
         example: name eq ABC123
+    travel-account-filter:
+      name: filter
+      in: query
+      required: false
+      description: 'A filter query string narrows search results and supports the combination of logical and comparison operators. The filter adheres to the pattern filter=''field'' comparisonType ''value''.
+
+
+        There are eight comparison types that can be used in filter expressions:
+
+        * equal: eq
+
+        * not equal: ne
+
+        * greater than: gt
+
+        * greater or equal: ge
+
+        * less than: lt
+
+        * less than or equal: le
+
+        * starts with: sw
+
+        * contains a value: contains
+
+
+        The following fields are filterable:
+
+        * id (eq|ne)
+
+        * name (eq|ne|sw|contains)
+
+        * created (eq|ne|lt|le|gt|ge)
+
+        * lastModified (eq|ne|lt|le|gt|ge)
+
+        '
+      schema:
+        type: string
+        example: name eq ABC123
+    after:
+      name: after
+      required: false
+      description: Used to query records that have been added or updated after this time point. Default to the beginning of time of the data store.
+      in: query
+      schema:
+        type: string
+        format: date-time
+        example: '2017-01-02T02:00:00Z'
+    limit:
+      name: limit
+      in: query
+      description: The maximum number of records to return per page.
+      style: form
+      explode: true
+      schema:
+        maximum: 200
+        minimum: 1
+        type: integer
+        default: 100
+        example: 100
+    before:
+      name: before
+      required: false
+      in: query
+      description: Used to query records that have been added or updated before this time point.
+      schema:
+        type: string
+        format: date-time
+        example: '2017-01-02T02:00:00Z'
   schemas:
-    ErrorResponseBase1:
-      title: ErrorResponseBase
-      type: object
-      description: Represents an error response with no additional details.
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: integer
-          description: The HTTP status code representing the error.
-          example: 400
-        message:
-          type: string
-          description: A brief description of the error.
-          example: Bad Request
-        target:
-          type: string
-          description: The target resource of the error.
-          example: example target
-    Link:
-      title: Link
-      required:
-      - href
-      type: object
-      description: Represents a link to a related resource.
-      properties:
-        href:
-          type: string
-          description: A url provided that can be followed for linking
-          example: ?token=90c5f062-76ad-4ea4-aa53-00eb698d9262
-    ErrorResponse-12:
-      title: ErrorResponse
-      description: Represents an error response with additional details of cascading error messages.
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponseBase1'
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorResponseBase1'
-          description: Additional details of cascading error messages.
-    Audit:
-      title: Audit
-      description: Audit information
-      type: object
-      properties:
-        created:
-          type: string
-          format: date-time
-          description: The ISO 8601 zoned date time when this record was created.
-          readOnly: true
-          example: '2017-01-02T02:00:00Z'
-        createdBy:
-          type: string
-          description: The identifier of the user that created this record.
-          readOnly: true
-          example: hporter
-        lastModified:
-          type: string
-          format: date-time
-          description: The ISO 8601 zoned date time when this record was updated.
-          readOnly: true
-          example: '2019-02-12T03:00:00Z'
-        lastModifiedBy:
-          type: string
-          description: The identifier of the user that last updated this record.
-          readOnly: true
-          example: hporter
-    travel-account-paginated-response:
-      title: Travel account paginated response
-      description: A paginated list of travel accounts.
+    travel-account-supplier-account-paginated-response:
+      title: Supplier travel account paginated response
+      description: A paginated list of supplier travel accounts.
       type: object
       properties:
         paging:
@@ -410,123 +291,8 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/travel-account'
-          description: Collection of travel accounts and their related details.
-    Paging:
-      title: Paging
-      required:
-      - _links
-      type: object
-      description: Represents pagination information for a collection of resources.
-      properties:
-        previousToken:
-          type: string
-          description: The pagination token for the previous page, if one exists. You can use this token to navigate to the previous page of data.
-          example: 1a2b3c4d5e6f7g8h9i10j11k
-        nextToken:
-          type: string
-          description: The pagination token for the next page. If this value is present in the response, there is another page of data you can fetch.
-          example: 1a2b3c4d5e6f7g8h9i10j11k
-        currentToken:
-          type: string
-          description: The pagination token for the current page.
-          example: 1a2b3c4d5e6f7g8h9i10j11k
-        limit:
-          type: integer
-          description: The number of records to return on the page. Not to exceed 200.
-          example: 100
-        totalCount:
-          type: integer
-          description: The total number of records available. This field may return blank, even if there are more records. To confirm if there are more records, check the `nextToken` field.
-          example: 2
-        _links:
-          $ref: '#/components/schemas/PaginationLinks'
-    travel-account-supplier-account:
-      title: Supplier Travel Account
-      description: Details for the supplier travel account. These details are supplier specific and only visible for supply-side clients.
-      type: object
-      properties:
-        travelAccount:
-          description: The travel account that the supplier account is associated with.
-          type: object
-          properties:
-            id:
-              title: Account ID
-              description: A uuid used to uniquely identify the travel account.
-              type: string
-              format: uuid
-              example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
-        name:
-          title: Account Name
-          type: string
-          maxLength: 50
-          description: The name of the travel account.
-          example: Test Corporation
-        managementLevel:
-          $ref: '#/components/schemas/ManagementLevelType1'
-        active:
-          title: Active?
-          type: boolean
-          example: true
-          description: Is this account active for the supplier's hotels.
-        crmId:
-          title: Customer Relationship Management (CRM) ID
-          type: string
-          maxLength: 100
-          description: ID of the travel account in the suppliers Customer Relationship Management system. Defined by supplier.
-          example: ABC123
-        chainDefinedId:
-          title: Chain Defined Account ID
-          type: string
-          maxLength: 50
-          description: Travel account ID defined at the supplier chain level.
-          example: '1000000299'
-        chainDefinedType:
-          type: string
-          maxLength: 50
-          description: Travel account type defined at the supplier chain level.
-          example: RFP
-    TravelAccountType:
-      title: Travel Account Type
-      enum:
-      - corporate
-      - leisure
-      - consortia
-      type: string
-      description: Code representing the travel account type.
-      example: corporate
-    travel-account:
-      title: Travel Account
-      description: Travel account details.
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/Audit'
-      properties:
-        id:
-          title: Account ID
-          description: A uuid used to uniquely identify the travel account.
-          type: string
-          format: uuid
-          example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
-        name:
-          title: Account Name
-          type: string
-          maxLength: 50
-          description: The name of the travel account.
-          example: Test Corporation
-        type:
-          $ref: '#/components/schemas/TravelAccountType'
-        certified:
-          title: Certified?
-          description: Is this a certified travel account?
-          type: boolean
-          example: true
-        addresses:
-          title: Addresses
-          type: array
-          items:
-            $ref: '#/components/schemas/Address8'
-          description: List of addresses associated with the travel account.
+            $ref: '#/components/schemas/travel-account-supplier-account'
+          description: Collection of suppliers travel accounts and their related details.
     Address8:
       title: Address
       description: Address details.
@@ -573,16 +339,67 @@ components:
           maxLength: 2
           minLength: 2
           example: US
-    ManagementLevelType1:
-      title: Management Level Type
-      enum:
-      - global
-      - national
-      - regional
-      - local
-      type: string
-      description: The management level of the travel account.  Defined by the supply-side.
-      example: global
+    travel-account:
+      title: Travel Account
+      description: Travel account details.
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Audit'
+      properties:
+        id:
+          title: Account ID
+          description: A uuid used to uniquely identify the travel account.
+          type: string
+          format: uuid
+          example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
+        name:
+          title: Account Name
+          type: string
+          maxLength: 50
+          description: The name of the travel account.
+          example: Test Corporation
+        type:
+          $ref: '#/components/schemas/TravelAccountType'
+        certified:
+          title: Certified?
+          description: Is this a certified travel account?
+          type: boolean
+          example: true
+        addresses:
+          title: Addresses
+          type: array
+          items:
+            $ref: '#/components/schemas/Address8'
+          description: List of addresses associated with the travel account.
+    Paging:
+      title: Paging
+      required:
+      - _links
+      type: object
+      description: Represents pagination information for a collection of resources.
+      properties:
+        previousToken:
+          type: string
+          description: The pagination token for the previous page, if one exists. You can use this token to navigate to the previous page of data.
+          example: 1a2b3c4d5e6f7g8h9i10j11k
+        nextToken:
+          type: string
+          description: The pagination token for the next page. If this value is present in the response, there is another page of data you can fetch.
+          example: 1a2b3c4d5e6f7g8h9i10j11k
+        currentToken:
+          type: string
+          description: The pagination token for the current page.
+          example: 1a2b3c4d5e6f7g8h9i10j11k
+        limit:
+          type: integer
+          description: The number of records to return on the page. Not to exceed 200.
+          example: 100
+        totalCount:
+          type: integer
+          description: The total number of records available. This field may return blank, even if there are more records. To confirm if there are more records, check the `nextToken` field.
+          example: 2
+        _links:
+          $ref: '#/components/schemas/PaginationLinks'
     PaginationLinks:
       title: PaginationLinks
       type: object
@@ -594,9 +411,116 @@ components:
           $ref: '#/components/schemas/Link'
         prev:
           $ref: '#/components/schemas/Link'
-    travel-account-supplier-account-paginated-response:
-      title: Supplier travel account paginated response
-      description: A paginated list of supplier travel accounts.
+    ErrorResponse-12:
+      title: ErrorResponse
+      description: Represents an error response with additional details of cascading error messages.
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponseBase1'
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorResponseBase1'
+          description: Additional details of cascading error messages.
+    Link:
+      title: Link
+      required:
+      - href
+      type: object
+      description: Represents a link to a related resource.
+      properties:
+        href:
+          type: string
+          description: A url provided that can be followed for linking
+          example: ?token=90c5f062-76ad-4ea4-aa53-00eb698d9262
+    Audit:
+      title: Audit
+      description: Audit information
+      type: object
+      properties:
+        created:
+          type: string
+          format: date-time
+          description: The ISO 8601 zoned date time when this record was created.
+          readOnly: true
+          example: '2017-01-02T02:00:00Z'
+        createdBy:
+          type: string
+          description: The identifier of the user that created this record.
+          readOnly: true
+          example: hporter
+        lastModified:
+          type: string
+          format: date-time
+          description: The ISO 8601 zoned date time when this record was updated.
+          readOnly: true
+          example: '2019-02-12T03:00:00Z'
+        lastModifiedBy:
+          type: string
+          description: The identifier of the user that last updated this record.
+          readOnly: true
+          example: hporter
+    TravelAccountType:
+      title: Travel Account Type
+      enum:
+      - corporate
+      - leisure
+      - consortia
+      type: string
+      description: Code representing the travel account type.
+      example: corporate
+    travel-account-supplier-account:
+      title: Supplier Travel Account
+      description: Details for the supplier travel account. These details are supplier specific and only visible for supply-side clients.
+      type: object
+      properties:
+        travelAccount:
+          description: The travel account that the supplier account is associated with.
+          type: object
+          properties:
+            id:
+              title: Account ID
+              description: A uuid used to uniquely identify the travel account.
+              type: string
+              format: uuid
+              example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
+        name:
+          title: Account Name
+          type: string
+          maxLength: 50
+          description: The name of the travel account.
+          example: Test Corporation
+        managementLevel:
+          $ref: '#/components/schemas/ManagementLevelType1'
+        active:
+          title: Active?
+          type: boolean
+          example: true
+          description: Is this account active for the supplier's hotels.
+        crmId:
+          title: Customer Relationship Management (CRM) ID
+          type: string
+          maxLength: 100
+          description: ID of the travel account in the suppliers Customer Relationship Management system. Defined by supplier.
+          example: ABC123
+        chainDefinedId:
+          title: Chain Defined Account ID
+          type: string
+          maxLength: 50
+          description: Travel account ID defined at the supplier chain level.
+          example: '1000000299'
+        chainDefinedType:
+          type: string
+          maxLength: 50
+          description: Travel account type defined at the supplier chain level.
+          example: RFP
+    travel-account-paginated-response:
+      title: Travel account paginated response
+      description: A paginated list of travel accounts.
       type: object
       properties:
         paging:
@@ -604,8 +528,84 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/travel-account-supplier-account'
-          description: Collection of suppliers travel accounts and their related details.
+            $ref: '#/components/schemas/travel-account'
+          description: Collection of travel accounts and their related details.
+    ManagementLevelType1:
+      title: Management Level Type
+      enum:
+      - global
+      - national
+      - regional
+      - local
+      type: string
+      description: The management level of the travel account.  Defined by the supply-side.
+      example: global
+    ErrorResponseBase1:
+      title: ErrorResponseBase
+      type: object
+      description: Represents an error response with no additional details.
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: integer
+          description: The HTTP status code representing the error.
+          example: 400
+        message:
+          type: string
+          description: A brief description of the error.
+          example: Bad Request
+        target:
+          type: string
+          description: The target resource of the error.
+          example: example target
+  responses:
+    BadRequest1:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 400
+            message: Bad Request
+    Forbidden1:
+      description: You do not have access to the resource
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 403
+            message: Access Forbidden
+    Unauthorized1:
+      description: Bad or expired token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 401
+            message: Unauthorized
+    NotFound1:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 404
+            message: Not found
+    TooManyRequests1:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 429
+            message: Limit Exceeded
   securitySchemes:
     OAuth2.authorizationCode:
       type: oauth2

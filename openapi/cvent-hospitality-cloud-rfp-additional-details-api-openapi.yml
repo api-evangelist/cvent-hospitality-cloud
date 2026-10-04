@@ -46,6 +46,17 @@ paths:
           $ref: '#/components/responses/TooManyRequests1'
 components:
   schemas:
+    RfpPastEvents:
+      title: RFP Past Events
+      description: List of past RFP events.
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/RfpPastEvent'
+          maxItems: 3
+          description: List of past events saved on RFP by planner.
     ErrorResponse-12:
       title: ErrorResponse
       description: Represents an error response with additional details of cascading error messages.
@@ -61,6 +72,40 @@ components:
           items:
             $ref: '#/components/schemas/ErrorResponseBase1'
           description: Additional details of cascading error messages.
+    RfpPastEvent:
+      type: object
+      title: RfpPastEvent
+      description: This object includes information about past events hosted by the planner.
+      required:
+      - id
+      allOf:
+      - $ref: '#/components/schemas/RfpPastEventRequest'
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique ID for the event detail.
+          example: db6a6dd9-3284-4936-bd7d-5242494acb03
+    ErrorResponseBase1:
+      title: ErrorResponseBase
+      type: object
+      description: Represents an error response with no additional details.
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: integer
+          description: The HTTP status code representing the error.
+          example: 400
+        message:
+          type: string
+          description: A brief description of the error.
+          example: Bad Request
+        target:
+          type: string
+          description: The target resource of the error.
+          example: example target
     RfpPastEventRequest:
       type: object
       title: RfpPastEventRequest
@@ -113,51 +158,6 @@ components:
           description: Any other information about the event.
           maxLength: 2500
           example: This was the 25th event hosted by Alpha Planners.
-    RfpPastEvents:
-      title: RFP Past Events
-      description: List of past RFP events.
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/RfpPastEvent'
-          maxItems: 3
-          description: List of past events saved on RFP by planner.
-    ErrorResponseBase1:
-      title: ErrorResponseBase
-      type: object
-      description: Represents an error response with no additional details.
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: integer
-          description: The HTTP status code representing the error.
-          example: 400
-        message:
-          type: string
-          description: A brief description of the error.
-          example: Bad Request
-        target:
-          type: string
-          description: The target resource of the error.
-          example: example target
-    RfpPastEvent:
-      type: object
-      title: RfpPastEvent
-      description: This object includes information about past events hosted by the planner.
-      required:
-      - id
-      allOf:
-      - $ref: '#/components/schemas/RfpPastEventRequest'
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique ID for the event detail.
-          example: db6a6dd9-3284-4936-bd7d-5242494acb03
   parameters:
     rfpId:
       name: rfpId
@@ -179,15 +179,6 @@ components:
           example:
             code: 401
             message: Unauthorized
-    TooManyRequests1:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 429
-            message: Limit Exceeded
     Forbidden1:
       description: You do not have access to the resource
       content:
@@ -206,6 +197,15 @@ components:
           example:
             code: 404
             message: Not found
+    TooManyRequests1:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 429
+            message: Limit Exceeded
   securitySchemes:
     OAuth2.authorizationCode:
       type: oauth2

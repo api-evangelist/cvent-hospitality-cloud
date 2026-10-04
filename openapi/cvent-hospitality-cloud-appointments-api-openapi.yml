@@ -801,79 +801,104 @@ paths:
         description: More about OAuth2 authorization code support for administrators
         url: '#oauth2-auth-code-planner-admin'
 components:
+  parameters:
+    token:
+      name: token
+      in: query
+      description: 'The continuation token returned from a previous class. This must be a valid UUID v4 if provided.
+
+        This will override any other pageable parameters provided.
+
+        '
+      style: form
+      explode: true
+      schema:
+        type: string
+        example: 0e28af57-511f-47ab-ae46-46cd1ca51a1a
+    apptId:
+      in: path
+      name: apptId
+      description: The unique identifier of an appointment.
+      required: true
+      schema:
+        $ref: '#/components/schemas/uuid-property'
+    appointmentMeetingInterestId:
+      in: path
+      name: id
+      description: The unique identifier of an attendee's meeting interests in a particular event. The attendee's meeting interests ID is a combination of the associated appointment event ID and the attendee's contact ID, concatenated with "::" symbols.
+      required: true
+      schema:
+        type: string
+        example: 0cdfa3f7-05da-4121-857b-d7732891e01a::52a68001-70ce-4ec4-a6fe-d0888123c715
+    after:
+      name: after
+      required: false
+      description: Used to query records that have been added or updated after this time point. Default to the beginning of time of the data store.
+      in: query
+      schema:
+        type: string
+        format: date-time
+        example: '2017-01-02T02:00:00Z'
+    appointmentEventId:
+      in: path
+      name: id
+      description: The unique identifier of an appointment event.
+      required: true
+      schema:
+        $ref: '#/components/schemas/uuid-property'
+    limit:
+      name: limit
+      in: query
+      description: The maximum number of records to return per page.
+      style: form
+      explode: true
+      schema:
+        maximum: 200
+        minimum: 1
+        type: integer
+        default: 100
+        example: 100
+    before:
+      name: before
+      required: false
+      in: query
+      description: Used to query records that have been added or updated before this time point.
+      schema:
+        type: string
+        format: date-time
+        example: '2017-01-02T02:00:00Z'
+    appointmentAttendeeId:
+      in: path
+      name: id
+      description: The unique identifier of an appointment attendee. The appointment attendee's ID is a combination of the associated appointment event ID and the attendee's contact ID, concatenated with "::" symbols.
+      required: true
+      schema:
+        type: string
+        example: 0cdfa3f7-05da-4121-857b-d7732891e01a::52a68001-70ce-4ec4-a6fe-d0888123c715
+    appointmentAvailabilityTimeId:
+      in: path
+      name: id
+      description: The unique identifier of an attendee's availability times in a particular event. The attendee's availability times ID is a combination of the associated appointment event ID and the attendee's contact ID, concatenated with "::" symbols.
+      required: true
+      schema:
+        type: string
+        example: da8b035b-428b-4069-b25b-92afbcf514b3::2d8234f1-55df-483c-abe3-7e2cb98f8275
+    suppressNotifications:
+      name: suppressNotifications
+      required: false
+      in: query
+      description: "Flag to choose whether to suppress notifications on successful completion of operation.\n* If flag = false (default), send all notifications as configured.\n * If flag = true, do not send any notification."
+      schema:
+        type: boolean
+        default: false
+    appointmentId:
+      in: path
+      name: id
+      description: The unique identifier of an appointment.
+      required: true
+      schema:
+        $ref: '#/components/schemas/uuid-property'
   schemas:
-    pagination-links.json:
-      title: PaginationLinks
-      type: object
-      description: Represents pagination links for navigating between pages of data.
-      properties:
-        next:
-          $ref: '#/components/schemas/link.json'
-        self:
-          $ref: '#/components/schemas/link.json'
-        prev:
-          $ref: '#/components/schemas/link.json'
-    planner.json:
-      title: Planner
-      description: Represents a planner for an appointment event and the planner's related details.
-      type: object
-      properties:
-        firstName:
-          type: string
-          description: The first name of the planner.
-          maxLength: 30
-          example: Henry
-        lastName:
-          type: string
-          description: The last name of the planner.
-          maxLength: 50
-          example: Potterfield
-        email:
-          type: string
-          format: email
-          description: The email address of the planner.
-          minLength: 6
-          maxLength: 80
-          example: h.potterfield@test.com
-        company:
-          type: string
-          description: The company/organization the planner belongs to.
-          minLength: 1
-          example: Cvent Inc.
-        title:
-          type: string
-          description: The job title of the planner.
-          maxLength: 100
-          example: Event Planner
-        prefix:
-          type: string
-          description: Denotes what is traditionally a title of an individual.
-          maxLength: 30
-          example: Mr.
-    appointment-availability-type.json:
-      title: AppointmentAvailabilityType
-      type: string
-      enum:
-      - AVAILABLE
-      - UNAVAILABLE
-      description: Denotes whether an availability time range represents when an attendee is available or unavailable.
-      example: AVAILABLE
-    appointment-status.json:
-      title: AppointmentStatus
-      enum:
-      - ACTIVE
-      - CONFIRMED
-      - CANCELLED
-      - PENDING_APPROVAL
-      - DENIED
-      - PENDING
-      - PENDING_ASSIGNMENT
-      - PENDING_HOST_ASSIGNMENT
-      - PENDING_APPROVAL_AND_ASSIGNMENT
-      - TENTATIVE
-      type: string
-      description: Denotes the status of an appointment.
-      example: CONFIRMED
     location.json:
       title: Location
       type: object
@@ -902,26 +927,236 @@ components:
           type: integer
           description: The number of attendees that can be accommodated in this location. -1 indicates unlimited capacity.
           example: 5
-    ErrorResponseBase1:
-      title: ErrorResponseBase
+    appointment-event-status.json:
+      title: AppointmentEventStatus
+      enum:
+      - ACTIVE
+      - CLOSED
+      - COMPLETED
+      - PENDING
+      type: string
+      description: Denotes the status of appointment event.
+      example: ACTIVE
+    attendee-appointment-meeting-interests-paginated-response:
+      title: AttendeeAppointmentMeetingInterestsPaginatedResponse
       type: object
-      description: Represents an error response with no additional details.
+      description: The response for a request of appointment meeting interests, including paging information.
+      properties:
+        paging:
+          $ref: '#/components/schemas/paging.json'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/attendee-appointment-meeting-interest'
+          description: Collection of appointment meeting interests.
+    appointment-paginated-response:
+      title: AppointmentPaginatedResponse
+      description: The response for a request of appointments, including the paging object.
+      required:
+      - paging
+      - data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/paging.json'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/appointment-with-questions/allOf/0'
+          description: Collection of appointments and their related details.
+    update-appointment-request:
+      title: Update Appointment Request
+      description: A request to update an appointment.
+      type: object
+      required:
+      - id
+      - subject
+      - startTime
+      - endTime
+      - hosts
+      allOf:
+      - $ref: '#/components/schemas/create-appointment-request/allOf/0'
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier of the appointment to be updated.
+          example: a3d77c44-bb4b-41dd-9c37-18230cc66ce4
+    appointment-event-id.json:
+      type: object
+      description: Represents an appointment event ID.
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique ID of an appointment event.
+          readOnly: true
+          example: 2d8234f1-55df-483c-abe3-7e2cb98f8275
+    uuid-property:
+      title: UUID Property
+      description: A string that has to be a format matching the industry standard uuid
+      type: string
+      format: uuid
+      example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
+    appointment-event-paginated-response:
+      title: AppointmentEventPaginatedResponse
+      description: The response from a request to get the list of appointment events, includes the paging object.
+      required:
+      - paging
+      - data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/paging.json'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/appointment-event'
+          description: Collection of appointment events and their related details.
+    locations-paginated-response:
+      title: Locations Paginated Response
+      type: object
+      description: The response for a request of locations for scheduling appointments.
+      properties:
+        paging:
+          $ref: '#/components/schemas/paging.json'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/location.json'
+          description: Collection of appointment locations and their associated details.
+    appointment-event-type.json:
+      title: AppointmentEventType
+      enum:
+      - STANDARD
+      - UNIVERSAL
+      - PLANNER_COORDINATED
+      - SIMPLE
+      type: string
+      description: 'Denotes the type of appointment event.<br/>STANDARD: You or attendees can manage schedules based on the permissions and settings you choose.<br/>UNIVERSAL: Your staff manages their schedules with attendees, at an event your staff is attending.<br/>PLANNER_COORDINATED: You manage attendee schedules for your event based on their preferences.<br/>SIMPLE: Import appointments or let attendees schedule them without any restrictions or prior setup.'
+      example: STANDARD
+    appointment-availability-paginated-response:
+      title: AppointmentAvailabilityPaginatedResponse
+      type: object
+      description: The response for a request for appointment availability times, including paging information.
+      properties:
+        paging:
+          $ref: '#/components/schemas/paging.json'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/appointment-availability'
+          description: The collection of appointment availability times and their related details.
+    participant-status.json:
+      title: ParticipantStatus
+      enum:
+      - pending
+      - pending_proposed
+      - confirmed
+      - declined
+      - cancelled
+      - tentative
+      type: string
+      description: Denotes the status of a participant in an appointment.
+      example: confirmed
+    appointment-availability-type.json:
+      title: AppointmentAvailabilityType
+      type: string
+      enum:
+      - AVAILABLE
+      - UNAVAILABLE
+      description: Denotes whether an availability time range represents when an attendee is available or unavailable.
+      example: AVAILABLE
+    pagination-links.json:
+      title: PaginationLinks
+      type: object
+      description: Represents pagination links for navigating between pages of data.
+      properties:
+        next:
+          $ref: '#/components/schemas/link.json'
+        self:
+          $ref: '#/components/schemas/link.json'
+        prev:
+          $ref: '#/components/schemas/link.json'
+    audit.json:
+      title: Audit
+      description: Audit information
+      type: object
+      properties:
+        created:
+          type: string
+          format: date-time
+          description: The ISO 8601 zoned date time when this record was created.
+          readOnly: true
+          example: '2017-01-02T02:00:00Z'
+        createdBy:
+          type: string
+          description: The identifier of the user that created this record.
+          readOnly: true
+          example: hporter
+        lastModified:
+          type: string
+          format: date-time
+          description: The ISO 8601 zoned date time when this record was updated.
+          readOnly: true
+          example: '2019-02-12T03:00:00Z'
+        lastModifiedBy:
+          type: string
+          description: The identifier of the user that last updated this record.
+          readOnly: true
+          example: hporter
+    appointment-meeting-interest.json:
+      title: AppointmentMeetingInterest
+      type: object
+      description: An individual meeting interest.
+      properties:
+        name:
+          type: string
+          description: The name of the exhibitor in which interest is expressed.
+          example: Cvent
+        exhibitor:
+          $ref: '#/components/schemas/uuid.json'
+        ranking:
+          type: string
+          description: The strength of the interest.
+          example: '5'
+        meetingType:
+          type: string
+          description: The meeting type of interest.
+          example: Group Meeting
+        comment:
+          type: string
+          description: A comment about this interest.
+          example: A 1:1 or group meeting works.
+    venue.json:
+      title: Venue
+      description: An Event Venue
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the venue.
+          maxLength: 300
+          example: Capital Convention Center
+        address:
+          $ref: '#/components/schemas/venue-address.json'
+    ErrorResponse-12:
+      title: ErrorResponse
+      description: Represents an error response with additional details of cascading error messages.
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponseBase1'
+      type: object
       required:
       - code
       - message
       properties:
-        code:
-          type: integer
-          description: The HTTP status code representing the error.
-          example: 400
-        message:
-          type: string
-          description: A brief description of the error.
-          example: Bad Request
-        target:
-          type: string
-          description: The target resource of the error.
-          example: example target
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorResponseBase1'
+          description: Additional details of cascading error messages.
     create-appointment-request:
       title: Create Appointment Request
       description: A request to create an appointment
@@ -996,41 +1231,6 @@ components:
           type: boolean
           example: true
           description: Flag to indicate if the attendees should be auto accepted.
-    appointment-availability-time-range.json:
-      title: AppointmentAvailabilityTimeRange
-      description: Time range for an appointment availability.
-      type: object
-      properties:
-        start:
-          type: string
-          description: The ISO 8601 formatted start datetime of the time range, in the event's timezone.
-          example: '2020-04-01T19:00:00.000'
-        end:
-          type: string
-          description: The ISO 8601 formatted end datetime of the time range, in the event's timezone.
-          example: '2020-04-01T20:00:00.000'
-        type:
-          $ref: '#/components/schemas/appointment-availability-type.json'
-    venue.json:
-      title: Venue
-      description: An Event Venue
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the venue.
-          maxLength: 300
-          example: Capital Convention Center
-        address:
-          $ref: '#/components/schemas/venue-address.json'
-    time-range-type.json:
-      title: Time Range Type
-      enum:
-      - DEFINED
-      - FLEXIBLE
-      type: string
-      description: 'DEFINED: Appointments of this type can be created at time intervals and locations created by the planner. FLEXIBLE: Appointments of this type can be created any time on the schedule in a custom location of the host''s choosing or within time intervals and locations created by the planner.'
-      example: DEFINED
     custom-field.json:
       title: CustomField
       description: A Custom Field
@@ -1093,298 +1293,15 @@ components:
           description: The order of this question in the bigger list of questions.
           example: 1
           readOnly: true
-    appointment-event-status.json:
-      title: AppointmentEventStatus
+    appointment-type-category.json:
+      title: Appointment Type Category
       enum:
-      - ACTIVE
-      - CLOSED
-      - COMPLETED
-      - PENDING
+      - CUSTOM_APPOINTMENT
+      - EXHIBITOR_NETWORKING
+      - SELF_SIGN_UP
       type: string
-      description: Denotes the status of appointment event.
-      example: ACTIVE
-    participant-type.json:
-      title: ParticipantType
-      enum:
-      - Host
-      - Attendee
-      type: string
-      description: Denotes if a participant is a host or attendee of an appointment.
-      example: Attendee
-    available-time.json:
-      title: Available Times
-      description: Time availability for an event appointment,
-      type: object
-      required:
-      - id
-      - startTime
-      - endTime
-      - type
-      - appointmentType
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: The unique ID representing the time range.
-          example: 0046e875-79a5-4851-8332-da105d58088a
-        startTime:
-          type: string
-          format: date-time
-          description: The ISO 8601 formatted start date/time of the time slot in UTC.
-          example: '2019-04-12T15:15:00.000Z'
-        endTime:
-          type: string
-          format: date-time
-          description: The ISO 8601 formatted end date/time of the time slot in UTC.
-          example: '2019-04-12T15:30:00.000Z'
-        type:
-          $ref: '#/components/schemas/time-range-type.json'
-        appointmentType:
-          $ref: '#/components/schemas/uuid.json'
-        location:
-          $ref: '#/components/schemas/uuid.json'
-        availableAppointments:
-          type: integer
-          description: The number of appointments that can be created in this time range. -1 indicates unlimited appointments.
-          example: 2
-    appointment-paginated-response:
-      title: AppointmentPaginatedResponse
-      description: The response for a request of appointments, including the paging object.
-      required:
-      - paging
-      - data
-      type: object
-      properties:
-        paging:
-          $ref: '#/components/schemas/paging.json'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/appointment-with-questions/allOf/0'
-          description: Collection of appointments and their related details.
-    appointment-availability:
-      title: AppointmentAvailability
-      description: Appointment availability details.
-      type: object
-      properties:
-        id:
-          type: string
-          description: The unique ID representing the attendee's availability in an appointment event.
-          example: da8b035b-428b-4069-b25b-92afbcf514b3::2d8234f1-55df-483c-abe3-7e2cb98f8275
-        attendee:
-          title: attendee
-          type: object
-          description: The appointment attendee the availability is associated with.
-          properties:
-            id:
-              type: string
-              description: The unique ID representing the appointment attendee.
-              example: 0cdfa3f7-05da-4121-857b-d7732891e01a::52a68001-70ce-4ec4-a6fe-d0888123c715
-        appointmentEvent:
-          $ref: '#/components/schemas/appointment-event-id.json'
-        timeRanges:
-          type: array
-          items:
-            $ref: '#/components/schemas/appointment-availability-time-range.json'
-          description: A list of time ranges when the attendee is available for appointments. Times are in the appointment event's time zone.
-        created:
-          type: string
-          format: date-time
-          description: The ISO 8601 formatted datetime when the attendee availability was created.
-          example: '2019-04-01T17:00:00.000Z'
-        lastModified:
-          type: string
-          format: date-time
-          description: The ISO 8601 formatted date/time when the attendee availability was last modified.
-          example: '2019-04-01T17:00:00.000Z'
-        deleted:
-          type: boolean
-          description: True indicates the record is deleted.
-          example: false
-    appointment-attendee-paginated-response:
-      title: AppointmentAttendeePaginatedResponse
-      description: The response from a request to get the list of appointment attendees, including paging information.
-      required:
-      - paging
-      - data
-      type: object
-      properties:
-        paging:
-          $ref: '#/components/schemas/paging.json'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/appointment-attendee'
-          description: Collection of appointment attendees and their related details.
-    error-response:
-      title: ErrorResponse
-      description: Represents an error response with additional details of cascading error messages.
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponseBase1'
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorResponseBase1'
-          description: Additional details of cascading error messages.
-    ErrorResponse-12:
-      title: ErrorResponse
-      description: Represents an error response with additional details of cascading error messages.
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponseBase1'
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorResponseBase1'
-          description: Additional details of cascading error messages.
-    attendee-appointment-meeting-interests-paginated-response:
-      title: AttendeeAppointmentMeetingInterestsPaginatedResponse
-      type: object
-      description: The response for a request of appointment meeting interests, including paging information.
-      properties:
-        paging:
-          $ref: '#/components/schemas/paging.json'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/attendee-appointment-meeting-interest'
-          description: Collection of appointment meeting interests.
-    appointment-event-id.json:
-      type: object
-      description: Represents an appointment event ID.
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: The unique ID of an appointment event.
-          readOnly: true
-          example: 2d8234f1-55df-483c-abe3-7e2cb98f8275
-    venue-address.json:
-      title: Venue Address
-      description: Venue Address details
-      type: object
-      allOf:
-      - title: Base Address
-        description: Base Address Model
-        type: object
-        properties:
-          address1:
-            type: string
-            maxLength: 40
-            description: The first line of an address.
-            example: Cvent Inc.
-          address2:
-            type: string
-            maxLength: 40
-            description: The second line of an address.
-            example: 4001 West Parmer Lane
-          address3:
-            type: string
-            maxLength: 40
-            description: The third line of an address.
-            example: PO Box 123
-          city:
-            type: string
-            maxLength: 40
-            description: The name of the city.
-            example: Austin
-          countryCode:
-            type: string
-            maxLength: 3
-            minLength: 2
-            description: ISO 3166 two-letter (alpha-2) country code.
-            example: US
-          postalCode:
-            type: string
-            maxLength: 25
-            description: Postal code (also known as zipcode) of the address.
-            example: '78727'
-      properties:
-        region:
-          type: string
-          description: The name of the state/province/region of the address.
-          readOnly: true
-          example: Texas
-        regionCode:
-          type: string
-          description: The abbreviation of the state/province/region of the address.
-          minLength: 2
-          maxLength: 10
-          example: TX
-        country:
-          type: string
-          description: Name of the country for example, 'United States'
-          readOnly: true
-          example: United States of America
-        latitude:
-          type: number
-          description: The geo latitude of the address.
-          minimum: -90
-          maximum: 90
-          example: 30.42501
-          readOnly: true
-        longitude:
-          type: number
-          description: The geo longitude of the address.
-          minimum: -180
-          maximum: 180
-          example: -97.71518
-          readOnly: true
-    uuid-property:
-      title: UUID Property
-      description: A string that has to be a format matching the industry standard uuid
-      type: string
-      format: uuid
-      example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
-    link.json:
-      title: Link
-      required:
-      - href
-      type: object
-      description: Represents a link to a related resource.
-      properties:
-        href:
-          type: string
-          description: A url provided that can be followed for linking
-          example: ?token=90c5f062-76ad-4ea4-aa53-00eb698d9262
-    uuid.json:
-      title: UUID
-      description: The reference to the related entity. Contains only the ID of the related entity.
-      required:
-      - id
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/uuid-property'
-    update-appointment-request:
-      title: Update Appointment Request
-      description: A request to update an appointment.
-      type: object
-      required:
-      - id
-      - subject
-      - startTime
-      - endTime
-      - hosts
-      allOf:
-      - $ref: '#/components/schemas/create-appointment-request/allOf/0'
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier of the appointment to be updated.
-          example: a3d77c44-bb4b-41dd-9c37-18230cc66ce4
+      description: The category of the appointment type.
+      example: CUSTOM_APPOINTMENT
     appointment-event:
       title: AppointmentEvent
       description: An event appointment.
@@ -1473,18 +1390,45 @@ components:
           items:
             $ref: '#/components/schemas/planner.json'
           description: Collection of information about planners.
-    locations-paginated-response:
-      title: Locations Paginated Response
+    attendee-appointment-meeting-interest:
+      title: AttendeeAppointmentMeetingInterest
       type: object
-      description: The response for a request of locations for scheduling appointments.
+      description: An attendee's meeting interests for an event.
       properties:
-        paging:
-          $ref: '#/components/schemas/paging.json'
-        data:
+        id:
+          type: string
+          description: The unique ID of this meeting interest.
+          example: 0cdfa3f7-05da-4121-857b-d7732891e01a::52a68001-70ce-4ec4-a6fe-d0888123c715
+        attendee:
+          title: attendee
+          type: object
+          description: The appointment attendee the meeting interest is associated to.
+          properties:
+            id:
+              type: string
+              description: The unique ID representing the appointment attendee.
+              example: 0cdfa3f7-05da-4121-857b-d7732891e01a::52a68001-70ce-4ec4-a6fe-d0888123c715
+        appointmentEvent:
+          $ref: '#/components/schemas/uuid.json'
+        interests:
           type: array
           items:
-            $ref: '#/components/schemas/location.json'
-          description: Collection of appointment locations and their associated details.
+            $ref: '#/components/schemas/appointment-meeting-interest.json'
+          description: An array describing each of the attendee's meeting interests for the given appointment event.
+        created:
+          type: string
+          format: date-time
+          description: The ISO 8601 formatted date/time when the meeting interest was created.
+          example: '2019-04-01T17:00:00.000Z'
+        lastModified:
+          type: string
+          format: date-time
+          description: The ISO 8601 formatted date/time when the object was last modified.
+          example: '2019-04-01T17:00:00.000Z'
+        deleted:
+          type: boolean
+          description: True indicates the record is deleted.
+          example: true
     appointment-attendee:
       title: AppointmentAttendee
       description: Attendee for an event appointment.
@@ -1525,6 +1469,50 @@ components:
           type: boolean
           description: True indicates the appointment attendee has been logically deleted.
           example: false
+    appointment-types-paginated-response:
+      title: Appointment Types Paginated Response
+      type: object
+      description: The response for a request of appointment types configured for scheduling appointments.
+      properties:
+        paging:
+          $ref: '#/components/schemas/paging.json'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/appointment-type.json'
+          description: The collection of appointment types object.
+    participant-type.json:
+      title: ParticipantType
+      enum:
+      - Host
+      - Attendee
+      type: string
+      description: Denotes if a participant is a host or attendee of an appointment.
+      example: Attendee
+    appointment-status.json:
+      title: AppointmentStatus
+      enum:
+      - ACTIVE
+      - CONFIRMED
+      - CANCELLED
+      - PENDING_APPROVAL
+      - DENIED
+      - PENDING
+      - PENDING_ASSIGNMENT
+      - PENDING_HOST_ASSIGNMENT
+      - PENDING_APPROVAL_AND_ASSIGNMENT
+      - TENTATIVE
+      type: string
+      description: Denotes the status of an appointment.
+      example: CONFIRMED
+    time-range-type.json:
+      title: Time Range Type
+      enum:
+      - DEFINED
+      - FLEXIBLE
+      type: string
+      description: 'DEFINED: Appointments of this type can be created at time intervals and locations created by the planner. FLEXIBLE: Appointments of this type can be created any time on the schedule in a custom location of the host''s choosing or within time intervals and locations created by the planner.'
+      example: DEFINED
     appointment-with-questions:
       title: Appointment With Questions
       description: Details of an event appointment including questions.
@@ -1641,84 +1629,6 @@ components:
           items:
             $ref: '#/components/schemas/custom-field.json'
           description: Collection of custom questions asked to participants of the appointment.
-    appointment-event-type.json:
-      title: AppointmentEventType
-      enum:
-      - STANDARD
-      - UNIVERSAL
-      - PLANNER_COORDINATED
-      - SIMPLE
-      type: string
-      description: 'Denotes the type of appointment event.<br/>STANDARD: You or attendees can manage schedules based on the permissions and settings you choose.<br/>UNIVERSAL: Your staff manages their schedules with attendees, at an event your staff is attending.<br/>PLANNER_COORDINATED: You manage attendee schedules for your event based on their preferences.<br/>SIMPLE: Import appointments or let attendees schedule them without any restrictions or prior setup.'
-      example: STANDARD
-    audit.json:
-      title: Audit
-      description: Audit information
-      type: object
-      properties:
-        created:
-          type: string
-          format: date-time
-          description: The ISO 8601 zoned date time when this record was created.
-          readOnly: true
-          example: '2017-01-02T02:00:00Z'
-        createdBy:
-          type: string
-          description: The identifier of the user that created this record.
-          readOnly: true
-          example: hporter
-        lastModified:
-          type: string
-          format: date-time
-          description: The ISO 8601 zoned date time when this record was updated.
-          readOnly: true
-          example: '2019-02-12T03:00:00Z'
-        lastModifiedBy:
-          type: string
-          description: The identifier of the user that last updated this record.
-          readOnly: true
-          example: hporter
-    appointment-types-paginated-response:
-      title: Appointment Types Paginated Response
-      type: object
-      description: The response for a request of appointment types configured for scheduling appointments.
-      properties:
-        paging:
-          $ref: '#/components/schemas/paging.json'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/appointment-type.json'
-          description: The collection of appointment types object.
-    paging.json:
-      title: Paging
-      required:
-      - _links
-      type: object
-      description: Represents pagination information for a collection of resources.
-      properties:
-        previousToken:
-          type: string
-          description: The pagination token for the previous page, if one exists. You can use this token to navigate to the previous page of data.
-          example: 1a2b3c4d5e6f7g8h9i10j11k
-        nextToken:
-          type: string
-          description: The pagination token for the next page. If this value is present in the response, there is another page of data you can fetch.
-          example: 1a2b3c4d5e6f7g8h9i10j11k
-        currentToken:
-          type: string
-          description: The pagination token for the current page.
-          example: 1a2b3c4d5e6f7g8h9i10j11k
-        limit:
-          type: integer
-          description: The number of records to return on the page. Not to exceed 200.
-          example: 100
-        totalCount:
-          type: integer
-          description: The total number of records available. This field may return blank, even if there are more records. To confirm if there are more records, check the `nextToken` field.
-          example: 2
-        _links:
-          $ref: '#/components/schemas/pagination-links.json'
     participant-response.json:
       title: ParticipantResponse
       enum:
@@ -1729,151 +1639,77 @@ components:
       type: string
       description: Denotes a participant response to an appointment.
       example: CONFIRMED
-    appointment-type-category.json:
-      title: Appointment Type Category
-      enum:
-      - CUSTOM_APPOINTMENT
-      - EXHIBITOR_NETWORKING
-      - SELF_SIGN_UP
-      type: string
-      description: The category of the appointment type.
-      example: CUSTOM_APPOINTMENT
-    appointment-availability-paginated-response:
-      title: AppointmentAvailabilityPaginatedResponse
+    venue-address.json:
+      title: Venue Address
+      description: Venue Address details
       type: object
-      description: The response for a request for appointment availability times, including paging information.
+      allOf:
+      - title: Base Address
+        description: Base Address Model
+        type: object
+        properties:
+          address1:
+            type: string
+            maxLength: 40
+            description: The first line of an address.
+            example: Cvent Inc.
+          address2:
+            type: string
+            maxLength: 40
+            description: The second line of an address.
+            example: 4001 West Parmer Lane
+          address3:
+            type: string
+            maxLength: 40
+            description: The third line of an address.
+            example: PO Box 123
+          city:
+            type: string
+            maxLength: 40
+            description: The name of the city.
+            example: Austin
+          countryCode:
+            type: string
+            maxLength: 3
+            minLength: 2
+            description: ISO 3166 two-letter (alpha-2) country code.
+            example: US
+          postalCode:
+            type: string
+            maxLength: 25
+            description: Postal code (also known as zipcode) of the address.
+            example: '78727'
       properties:
-        paging:
-          $ref: '#/components/schemas/paging.json'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/appointment-availability'
-          description: The collection of appointment availability times and their related details.
-    appointment-event-paginated-response:
-      title: AppointmentEventPaginatedResponse
-      description: The response from a request to get the list of appointment events, includes the paging object.
-      required:
-      - paging
-      - data
-      type: object
-      properties:
-        paging:
-          $ref: '#/components/schemas/paging.json'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/appointment-event'
-          description: Collection of appointment events and their related details.
-    appointment-meeting-interest.json:
-      title: AppointmentMeetingInterest
-      type: object
-      description: An individual meeting interest.
-      properties:
-        name:
+        region:
           type: string
-          description: The name of the exhibitor in which interest is expressed.
-          example: Cvent
-        exhibitor:
-          $ref: '#/components/schemas/uuid.json'
-        ranking:
+          description: The name of the state/province/region of the address.
+          readOnly: true
+          example: Texas
+        regionCode:
           type: string
-          description: The strength of the interest.
-          example: '5'
-        meetingType:
+          description: The abbreviation of the state/province/region of the address.
+          minLength: 2
+          maxLength: 10
+          example: TX
+        country:
           type: string
-          description: The meeting type of interest.
-          example: Group Meeting
-        comment:
-          type: string
-          description: A comment about this interest.
-          example: A 1:1 or group meeting works.
-    participant-status.json:
-      title: ParticipantStatus
-      enum:
-      - pending
-      - pending_proposed
-      - confirmed
-      - declined
-      - cancelled
-      - tentative
-      type: string
-      description: Denotes the status of a participant in an appointment.
-      example: confirmed
-    attendee-appointment-meeting-interest:
-      title: AttendeeAppointmentMeetingInterest
-      type: object
-      description: An attendee's meeting interests for an event.
-      properties:
-        id:
-          type: string
-          description: The unique ID of this meeting interest.
-          example: 0cdfa3f7-05da-4121-857b-d7732891e01a::52a68001-70ce-4ec4-a6fe-d0888123c715
-        attendee:
-          title: attendee
-          type: object
-          description: The appointment attendee the meeting interest is associated to.
-          properties:
-            id:
-              type: string
-              description: The unique ID representing the appointment attendee.
-              example: 0cdfa3f7-05da-4121-857b-d7732891e01a::52a68001-70ce-4ec4-a6fe-d0888123c715
-        appointmentEvent:
-          $ref: '#/components/schemas/uuid.json'
-        interests:
-          type: array
-          items:
-            $ref: '#/components/schemas/appointment-meeting-interest.json'
-          description: An array describing each of the attendee's meeting interests for the given appointment event.
-        created:
-          type: string
-          format: date-time
-          description: The ISO 8601 formatted date/time when the meeting interest was created.
-          example: '2019-04-01T17:00:00.000Z'
-        lastModified:
-          type: string
-          format: date-time
-          description: The ISO 8601 formatted date/time when the object was last modified.
-          example: '2019-04-01T17:00:00.000Z'
-        deleted:
-          type: boolean
-          description: True indicates the record is deleted.
-          example: true
-    available-times-paginated-response:
-      title: Available Times Paginated Response
-      type: object
-      description: The response for a request of available time ranges for scheduling appointments.
-      properties:
-        paging:
-          $ref: '#/components/schemas/paging.json'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/available-time.json'
-          description: Collection of available time ranges and their associated details.
-    appointment-type.json:
-      title: Appointment Type
-      type: object
-      required:
-      - id
-      - name
-      - category
-      - timeRangeType
-      description: This is used for storing details of an appointment type.
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: The unique ID representing the appointment type.
-          example: 0046e875-79a5-4851-8332-da105d58088a
-        name:
-          type: string
-          description: The name of the appointment type.
-          example: Event Appointment
-        category:
-          $ref: '#/components/schemas/appointment-type-category.json'
-        timeRangeType:
-          $ref: '#/components/schemas/time-range-type.json'
+          description: Name of the country for example, 'United States'
+          readOnly: true
+          example: United States of America
+        latitude:
+          type: number
+          description: The geo latitude of the address.
+          minimum: -90
+          maximum: 90
+          example: 30.42501
+          readOnly: true
+        longitude:
+          type: number
+          description: The geo longitude of the address.
+          minimum: -180
+          maximum: 180
+          example: -97.71518
+          readOnly: true
     appointment-participant.json:
       title: AppointmentParticipant
       description: An appointment participant.
@@ -1929,140 +1765,268 @@ components:
           example: false
         status:
           $ref: '#/components/schemas/participant-status.json'
-  parameters:
-    suppressNotifications:
-      name: suppressNotifications
-      required: false
-      in: query
-      description: "Flag to choose whether to suppress notifications on successful completion of operation.\n* If flag = false (default), send all notifications as configured.\n * If flag = true, do not send any notification."
-      schema:
-        type: boolean
-        default: false
-    before:
-      name: before
-      required: false
-      in: query
-      description: Used to query records that have been added or updated before this time point.
-      schema:
-        type: string
-        format: date-time
-        example: '2017-01-02T02:00:00Z'
-    appointmentAvailabilityTimeId:
-      in: path
-      name: id
-      description: The unique identifier of an attendee's availability times in a particular event. The attendee's availability times ID is a combination of the associated appointment event ID and the attendee's contact ID, concatenated with "::" symbols.
-      required: true
-      schema:
-        type: string
-        example: da8b035b-428b-4069-b25b-92afbcf514b3::2d8234f1-55df-483c-abe3-7e2cb98f8275
-    after:
-      name: after
-      required: false
-      description: Used to query records that have been added or updated after this time point. Default to the beginning of time of the data store.
-      in: query
-      schema:
-        type: string
-        format: date-time
-        example: '2017-01-02T02:00:00Z'
-    token:
-      name: token
-      in: query
-      description: 'The continuation token returned from a previous class. This must be a valid UUID v4 if provided.
-
-        This will override any other pageable parameters provided.
-
-        '
-      style: form
-      explode: true
-      schema:
-        type: string
-        example: 0e28af57-511f-47ab-ae46-46cd1ca51a1a
-    appointmentAttendeeId:
-      in: path
-      name: id
-      description: The unique identifier of an appointment attendee. The appointment attendee's ID is a combination of the associated appointment event ID and the attendee's contact ID, concatenated with "::" symbols.
-      required: true
-      schema:
-        type: string
-        example: 0cdfa3f7-05da-4121-857b-d7732891e01a::52a68001-70ce-4ec4-a6fe-d0888123c715
-    appointmentId:
-      in: path
-      name: id
-      description: The unique identifier of an appointment.
-      required: true
-      schema:
-        $ref: '#/components/schemas/uuid-property'
-    appointmentMeetingInterestId:
-      in: path
-      name: id
-      description: The unique identifier of an attendee's meeting interests in a particular event. The attendee's meeting interests ID is a combination of the associated appointment event ID and the attendee's contact ID, concatenated with "::" symbols.
-      required: true
-      schema:
-        type: string
-        example: 0cdfa3f7-05da-4121-857b-d7732891e01a::52a68001-70ce-4ec4-a6fe-d0888123c715
-    appointmentEventId:
-      in: path
-      name: id
-      description: The unique identifier of an appointment event.
-      required: true
-      schema:
-        $ref: '#/components/schemas/uuid-property'
-    limit:
-      name: limit
-      in: query
-      description: The maximum number of records to return per page.
-      style: form
-      explode: true
-      schema:
-        maximum: 200
-        minimum: 1
-        type: integer
-        default: 100
-        example: 100
-    apptId:
-      in: path
-      name: apptId
-      description: The unique identifier of an appointment.
-      required: true
-      schema:
-        $ref: '#/components/schemas/uuid-property'
+    error-response:
+      title: ErrorResponse
+      description: Represents an error response with additional details of cascading error messages.
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponseBase1'
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorResponseBase1'
+          description: Additional details of cascading error messages.
+    uuid.json:
+      title: UUID
+      description: The reference to the related entity. Contains only the ID of the related entity.
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/uuid-property'
+    available-times-paginated-response:
+      title: Available Times Paginated Response
+      type: object
+      description: The response for a request of available time ranges for scheduling appointments.
+      properties:
+        paging:
+          $ref: '#/components/schemas/paging.json'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/available-time.json'
+          description: Collection of available time ranges and their associated details.
+    paging.json:
+      title: Paging
+      required:
+      - _links
+      type: object
+      description: Represents pagination information for a collection of resources.
+      properties:
+        previousToken:
+          type: string
+          description: The pagination token for the previous page, if one exists. You can use this token to navigate to the previous page of data.
+          example: 1a2b3c4d5e6f7g8h9i10j11k
+        nextToken:
+          type: string
+          description: The pagination token for the next page. If this value is present in the response, there is another page of data you can fetch.
+          example: 1a2b3c4d5e6f7g8h9i10j11k
+        currentToken:
+          type: string
+          description: The pagination token for the current page.
+          example: 1a2b3c4d5e6f7g8h9i10j11k
+        limit:
+          type: integer
+          description: The number of records to return on the page. Not to exceed 200.
+          example: 100
+        totalCount:
+          type: integer
+          description: The total number of records available. This field may return blank, even if there are more records. To confirm if there are more records, check the `nextToken` field.
+          example: 2
+        _links:
+          $ref: '#/components/schemas/pagination-links.json'
+    appointment-availability:
+      title: AppointmentAvailability
+      description: Appointment availability details.
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique ID representing the attendee's availability in an appointment event.
+          example: da8b035b-428b-4069-b25b-92afbcf514b3::2d8234f1-55df-483c-abe3-7e2cb98f8275
+        attendee:
+          title: attendee
+          type: object
+          description: The appointment attendee the availability is associated with.
+          properties:
+            id:
+              type: string
+              description: The unique ID representing the appointment attendee.
+              example: 0cdfa3f7-05da-4121-857b-d7732891e01a::52a68001-70ce-4ec4-a6fe-d0888123c715
+        appointmentEvent:
+          $ref: '#/components/schemas/appointment-event-id.json'
+        timeRanges:
+          type: array
+          items:
+            $ref: '#/components/schemas/appointment-availability-time-range.json'
+          description: A list of time ranges when the attendee is available for appointments. Times are in the appointment event's time zone.
+        created:
+          type: string
+          format: date-time
+          description: The ISO 8601 formatted datetime when the attendee availability was created.
+          example: '2019-04-01T17:00:00.000Z'
+        lastModified:
+          type: string
+          format: date-time
+          description: The ISO 8601 formatted date/time when the attendee availability was last modified.
+          example: '2019-04-01T17:00:00.000Z'
+        deleted:
+          type: boolean
+          description: True indicates the record is deleted.
+          example: false
+    appointment-type.json:
+      title: Appointment Type
+      type: object
+      required:
+      - id
+      - name
+      - category
+      - timeRangeType
+      description: This is used for storing details of an appointment type.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique ID representing the appointment type.
+          example: 0046e875-79a5-4851-8332-da105d58088a
+        name:
+          type: string
+          description: The name of the appointment type.
+          example: Event Appointment
+        category:
+          $ref: '#/components/schemas/appointment-type-category.json'
+        timeRangeType:
+          $ref: '#/components/schemas/time-range-type.json'
+    planner.json:
+      title: Planner
+      description: Represents a planner for an appointment event and the planner's related details.
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: The first name of the planner.
+          maxLength: 30
+          example: Henry
+        lastName:
+          type: string
+          description: The last name of the planner.
+          maxLength: 50
+          example: Potterfield
+        email:
+          type: string
+          format: email
+          description: The email address of the planner.
+          minLength: 6
+          maxLength: 80
+          example: h.potterfield@test.com
+        company:
+          type: string
+          description: The company/organization the planner belongs to.
+          minLength: 1
+          example: Cvent Inc.
+        title:
+          type: string
+          description: The job title of the planner.
+          maxLength: 100
+          example: Event Planner
+        prefix:
+          type: string
+          description: Denotes what is traditionally a title of an individual.
+          maxLength: 30
+          example: Mr.
+    ErrorResponseBase1:
+      title: ErrorResponseBase
+      type: object
+      description: Represents an error response with no additional details.
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: integer
+          description: The HTTP status code representing the error.
+          example: 400
+        message:
+          type: string
+          description: A brief description of the error.
+          example: Bad Request
+        target:
+          type: string
+          description: The target resource of the error.
+          example: example target
+    appointment-attendee-paginated-response:
+      title: AppointmentAttendeePaginatedResponse
+      description: The response from a request to get the list of appointment attendees, including paging information.
+      required:
+      - paging
+      - data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/paging.json'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/appointment-attendee'
+          description: Collection of appointment attendees and their related details.
+    link.json:
+      title: Link
+      required:
+      - href
+      type: object
+      description: Represents a link to a related resource.
+      properties:
+        href:
+          type: string
+          description: A url provided that can be followed for linking
+          example: ?token=90c5f062-76ad-4ea4-aa53-00eb698d9262
+    available-time.json:
+      title: Available Times
+      description: Time availability for an event appointment,
+      type: object
+      required:
+      - id
+      - startTime
+      - endTime
+      - type
+      - appointmentType
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique ID representing the time range.
+          example: 0046e875-79a5-4851-8332-da105d58088a
+        startTime:
+          type: string
+          format: date-time
+          description: The ISO 8601 formatted start date/time of the time slot in UTC.
+          example: '2019-04-12T15:15:00.000Z'
+        endTime:
+          type: string
+          format: date-time
+          description: The ISO 8601 formatted end date/time of the time slot in UTC.
+          example: '2019-04-12T15:30:00.000Z'
+        type:
+          $ref: '#/components/schemas/time-range-type.json'
+        appointmentType:
+          $ref: '#/components/schemas/uuid.json'
+        location:
+          $ref: '#/components/schemas/uuid.json'
+        availableAppointments:
+          type: integer
+          description: The number of appointments that can be created in this time range. -1 indicates unlimited appointments.
+          example: 2
+    appointment-availability-time-range.json:
+      title: AppointmentAvailabilityTimeRange
+      description: Time range for an appointment availability.
+      type: object
+      properties:
+        start:
+          type: string
+          description: The ISO 8601 formatted start datetime of the time range, in the event's timezone.
+          example: '2020-04-01T19:00:00.000'
+        end:
+          type: string
+          description: The ISO 8601 formatted end datetime of the time range, in the event's timezone.
+          example: '2020-04-01T20:00:00.000'
+        type:
+          $ref: '#/components/schemas/appointment-availability-type.json'
   responses:
-    Unauthorized1:
-      description: Bad or expired token
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 401
-            message: Unauthorized
-    BadRequest1:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 400
-            message: Bad Request
-    TooManyRequests1:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 429
-            message: Limit Exceeded
-    Forbidden1:
-      description: You do not have access to the resource
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 403
-            message: Access Forbidden
     UnprocessableEntity13:
       description: Was not able to process the request.
       content:
@@ -2072,6 +2036,33 @@ components:
           example:
             code: 422
             message: Unprocessable Entity
+    BadRequest1:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 400
+            message: Bad Request
+    Forbidden1:
+      description: You do not have access to the resource
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 403
+            message: Access Forbidden
+    Unauthorized1:
+      description: Bad or expired token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 401
+            message: Unauthorized
     NotFound1:
       description: Resource not found
       content:
@@ -2081,6 +2072,15 @@ components:
           example:
             code: 404
             message: Not found
+    TooManyRequests1:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 429
+            message: Limit Exceeded
   securitySchemes:
     OAuth2.authorizationCode:
       type: oauth2

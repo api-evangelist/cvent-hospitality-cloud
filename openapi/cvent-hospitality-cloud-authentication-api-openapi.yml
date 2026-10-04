@@ -191,69 +191,6 @@ paths:
         url: '#oauth2-auth-code-planner-admin'
 components:
   schemas:
-    ErrorResponse-12:
-      title: ErrorResponse
-      description: Represents an error response with additional details of cascading error messages.
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponseBase1'
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorResponseBase1'
-          description: Additional details of cascading error messages.
-    Oauth2TokenPostResponse-0:
-      type: object
-      properties:
-        error_description:
-          type: string
-          description: Additional error information, when available.
-        error:
-          type: string
-          description: '**invalid_request**
-
-
-            The request is missing a required parameter, includes an unsupported parameter value (other than unsupported_grant_type), or is otherwise malformed. For example, grant_type is refresh_token but refresh_token is not included.
-
-
-            **invalid_client**
-
-
-            Client authentication failed. For example, when the client includes client_id and client_secret in the authorization header, but there''s no such client with that client_id and client_secret.
-
-
-            **invalid_grant**
-
-
-            Refresh token has been revoked.
-
-
-            Authorization code has been consumed already or does not exist.
-
-
-            **unauthorized_client**
-
-
-            Client is not allowed for code grant flow or for refreshing tokens.
-
-
-            **unsupported_grant_type**
-
-
-            Returned if grant_type is anything other than authorization_code or refresh_token.
-
-            '
-          enum:
-          - invalid_request
-          - invalid_client
-          - invalid_grant
-          - unauthorized_client
-          - unsupported_grant_type
-          example: invalid_request
     Oauth2TokenApplicationXWwwFormUrlencodedPostRequest:
       type: object
       properties:
@@ -314,6 +251,21 @@ components:
       required:
       - grant_type
       - client_id
+    ErrorResponse-12:
+      title: ErrorResponse
+      description: Represents an error response with additional details of cascading error messages.
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponseBase1'
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorResponseBase1'
+          description: Additional details of cascading error messages.
     ValidToken:
       title: Valid Token
       description: Validity status of an authentication token.
@@ -327,6 +279,54 @@ components:
           type: integer
           description: Supplementary status code. Typically will be 200 for a success case.
           example: 200
+    Oauth2TokenPostResponse-0:
+      type: object
+      properties:
+        error_description:
+          type: string
+          description: Additional error information, when available.
+        error:
+          type: string
+          description: '**invalid_request**
+
+
+            The request is missing a required parameter, includes an unsupported parameter value (other than unsupported_grant_type), or is otherwise malformed. For example, grant_type is refresh_token but refresh_token is not included.
+
+
+            **invalid_client**
+
+
+            Client authentication failed. For example, when the client includes client_id and client_secret in the authorization header, but there''s no such client with that client_id and client_secret.
+
+
+            **invalid_grant**
+
+
+            Refresh token has been revoked.
+
+
+            Authorization code has been consumed already or does not exist.
+
+
+            **unauthorized_client**
+
+
+            Client is not allowed for code grant flow or for refreshing tokens.
+
+
+            **unsupported_grant_type**
+
+
+            Returned if grant_type is anything other than authorization_code or refresh_token.
+
+            '
+          enum:
+          - invalid_request
+          - invalid_client
+          - invalid_grant
+          - unauthorized_client
+          - unsupported_grant_type
+          example: invalid_request
     ErrorResponseBase1:
       title: ErrorResponseBase
       type: object
@@ -372,33 +372,6 @@ components:
       - token_type
       - expires_in
   responses:
-    Unauthorized1:
-      description: Bad or expired token
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 401
-            message: Unauthorized
-    BadRequest1:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 400
-            message: Bad Request
-    TooManyRequests1:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 429
-            message: Limit Exceeded
     Forbidden1:
       description: You do not have access to the resource
       content:
@@ -408,6 +381,24 @@ components:
           example:
             code: 403
             message: Access Forbidden
+    BadRequest1:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 400
+            message: Bad Request
+    Unauthorized1:
+      description: Bad or expired token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 401
+            message: Unauthorized
     ValidToken:
       description: A confirmation message that the token is valid
       headers: {}
@@ -415,6 +406,15 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ValidToken'
+    TooManyRequests1:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 429
+            message: Limit Exceeded
   securitySchemes:
     OAuth2.authorizationCode:
       type: oauth2

@@ -397,32 +397,8 @@ paths:
         url: '#oauth2-auth-code-planner-admin'
 components:
   responses:
-    ServiceProviderConfig:
-      description: Successfully retrieved Service Provider Config.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ServiceProviderConfig'
-    UsersSchemaResponse:
-      description: Successfully retrieved a list of schemas.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/UsersSchemas'
-    ResourceTypes:
-      description: Successfully retrieved a list of Resource Types.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ResourceTypes'
-    UsersGroupsResponse:
-      description: Successfully retrieved a list of SCIM groups.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/UserGroups1'
-    BadRequest21:
-      description: Bad request
+    TooManyRequests20:
+      description: Too Many Requests
       content:
         application/json:
           schema:
@@ -430,20 +406,8 @@ components:
           example:
             schemas:
             - urn:ietf:params:scim:api:messages:2.0:Error
-            status: 400
-            detail: Request is unparsable, syntactically incorrect, or violates schema.
-            scimType: invalidSyntax
-    Forbidden21:
-      description: You do not have access to the resource
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse14'
-          example:
-            schemas:
-            - urn:ietf:params:scim:api:messages:2.0:Error
-            status: 403
-            detail: User is Forbidden to make this request
+            status: 429
+            detail: Too Many Requests
     Conflict15:
       description: The request conflicts with current state of the target resource
       content:
@@ -456,6 +420,12 @@ components:
             status: 409
             detail: The request conflicts with current state of the target resource
             scimType: uniqueness
+    UsersGroupsResponse:
+      description: Successfully retrieved a list of SCIM groups.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserGroups1'
     Unauthorized21:
       description: Bad or expired token
       content:
@@ -468,6 +438,29 @@ components:
             status: 401
             detail: Request failed authentication/authorization process
             scimType: invalidValue
+    ServiceProviderConfig:
+      description: Successfully retrieved Service Provider Config.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ServiceProviderConfig'
+    Forbidden21:
+      description: You do not have access to the resource
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse14'
+          example:
+            schemas:
+            - urn:ietf:params:scim:api:messages:2.0:Error
+            status: 403
+            detail: User is Forbidden to make this request
+    ResourceTypes:
+      description: Successfully retrieved a list of Resource Types.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResourceTypes'
     NotFound21:
       description: Resource not found
       content:
@@ -479,8 +472,8 @@ components:
             - urn:ietf:params:scim:api:messages:2.0:Error
             status: 404
             detail: HTTP 404 Not Found
-    TooManyRequests20:
-      description: Too Many Requests
+    BadRequest21:
+      description: Bad request
       content:
         application/json:
           schema:
@@ -488,31 +481,16 @@ components:
           example:
             schemas:
             - urn:ietf:params:scim:api:messages:2.0:Error
-            status: 429
-            detail: Too Many Requests
+            status: 400
+            detail: Request is unparsable, syntactically incorrect, or violates schema.
+            scimType: invalidSyntax
+    UsersSchemaResponse:
+      description: Successfully retrieved a list of schemas.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UsersSchemas'
   schemas:
-    Email1:
-      title: Email
-      description: Email
-      type: object
-      required:
-      - value
-      - type
-      - primary
-      properties:
-        type:
-          $ref: '#/components/schemas/EmailType1'
-        value:
-          type: string
-          description: The email of the user.
-          example: support@cvent.com
-          minLength: 1
-          maxLength: 80
-        primary:
-          type: boolean
-          description: True indicates the email is primary.
-          example: true
-          default: false
     ErrorResponse14:
       title: ErrorResponse
       description: The error response.
@@ -537,6 +515,373 @@ components:
           description: Details of the error.
         scimType:
           $ref: '#/components/schemas/ErrorScimType'
+    Email1:
+      title: Email
+      description: Email
+      type: object
+      required:
+      - value
+      - type
+      - primary
+      properties:
+        type:
+          $ref: '#/components/schemas/EmailType1'
+        value:
+          type: string
+          description: The email of the user.
+          example: support@cvent.com
+          minLength: 1
+          maxLength: 80
+        primary:
+          type: boolean
+          description: True indicates the email is primary.
+          example: true
+          default: false
+    ResourceTypes:
+      title: resourceTypes
+      description: Resource Types
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+            example: urn:ietf:params:scim:api:messages:2.0:ListResponse
+          description: The collection of user schemas.
+        itemsPerPage:
+          type: integer
+          description: The number of schemas per page.
+          example: 50
+        startIndex:
+          type: integer
+          description: Starting index of the response.
+          example: 1
+        totalResults:
+          type: integer
+          description: The total count of schemas.
+          example: 5
+        Resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceType'
+          description: The collection of schema resources.
+    Address6:
+      title: Address
+      description: Address
+      type: object
+      required:
+      - type
+      - primary
+      properties:
+        type:
+          $ref: '#/components/schemas/AddressType1'
+        streetAddress:
+          type: string
+          description: The street address of the user.
+          example: 100 Universal City Plaza
+          maxLength: 40
+        locality:
+          type: string
+          description: The locality/city of the user.
+          example: Hollywood
+          maxLength: 40
+        region:
+          type: string
+          description: The region/state/province of the user.
+          example: CA
+        postalCode:
+          type: string
+          description: Postal code (also known as zipcode) of the user.
+          example: '91608'
+        country:
+          type: string
+          description: The country of the user.
+          example: USA
+        primary:
+          type: boolean
+          description: True indicates the address is primary.
+          example: true
+          default: false
+    EmailType1:
+      title: Email Type
+      description: The type of the email.
+      enum:
+      - work
+      - home
+      type: string
+      example: work
+      default: work
+    AuthenticationSchema:
+      title: Authentication Schema
+      description: Authentication Schema
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the authentication.
+          example: OAuth Bearer Token
+        description:
+          type: string
+          description: The description of the authentication.
+          example: Authentication scheme using the OAuth Bearer Token Standard
+        specUri:
+          type: string
+          description: The location of the authentication specifications.
+          example: https://developers.cvent.com/documentation#section/Introduction
+        documentationUri:
+          type: string
+          description: The location of the API documentation.
+          example: https://developers.cvent.com/documentation#section/Introduction
+        type:
+          type: string
+          description: The type of the authentication.
+          example: oauthbearertoken
+        primary:
+          type: boolean
+          description: True indicates the authentication is primary.
+          example: true
+    Name:
+      title: Name
+      description: The name of the user.
+      type: object
+      required:
+      - givenName
+      - familyName
+      properties:
+        givenName:
+          type: string
+          description: The given/first name of the user.
+          example: Mike
+          minLength: 1
+          maxLength: 30
+        familyName:
+          type: string
+          description: The family/last name of the user.
+          example: Stuart
+          minLength: 1
+          maxLength: 50
+        middleName:
+          type: string
+          description: The middle name of the user.
+          example: A
+          maxLength: 30
+        honorificPrefix:
+          type: string
+          description: The prefix of the user.
+          example: Mr.
+          maxLength: 30
+    ResourceType:
+      title: resourceType
+      description: Resource Type
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+            example: urn:ietf:params:scim:api:messages:2.0:ListResponse
+          description: The list of schemas using this resource.
+        id:
+          type: string
+          description: The unique identifier of the resource type.
+          example: urn:ietf:params:scim:api:messages:2.0:ListResponse
+        name:
+          type: string
+          description: The name of the resource type.
+          example: User
+        description:
+          type: string
+          description: The description of the resource type.
+          example: This Attribute describes the Schema
+        endpoint:
+          type: string
+          description: The URL of the resource type endpoint.
+          format: uri
+          example: /Users
+        schema:
+          type: string
+          description: The schema of the resource type.
+          example: urn:ietf:params:scim:schemas:core:2.0:User
+        schemaExtensions:
+          type: array
+          items:
+            type: object
+            properties:
+              schema:
+                type: string
+                readOnly: true
+                description: The id of the schema extension
+                example: urn:ietf:params:scim:api:messages:2.0:ListResponse
+              required:
+                type: boolean
+                description: True indicates if the schema extension is required.
+                example: true
+          description: The list of schema extensions for the resource type.
+        meta:
+          $ref: '#/components/schemas/Meta'
+    UserGroups1:
+      title: Groups
+      description: Groups
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+            example: urn:ietf:params:scim:api:messages:2.0:ListResponse
+          description: The collection of user schemas.
+        itemsPerPage:
+          type: integer
+          description: The number of schemas per page.
+          example: 50
+        startIndex:
+          type: integer
+          description: Starting index of the response.
+          example: 1
+        totalResults:
+          type: integer
+          description: The total count of schemas.
+          example: 5
+        Resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/Group-1'
+          description: The collection of schema resources.
+    Users:
+      title: Users
+      description: A page in a paginated list of SCIM users. This would return the list of users.
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+            example: urn:ietf:params:scim:schemas:core:2.0:User
+          description: The collection of user schemas.
+        itemsPerPage:
+          type: integer
+          description: The number of users per page.
+          example: 50
+        startIndex:
+          type: integer
+          description: Starting index of the response.
+          example: 1
+        totalResults:
+          type: integer
+          description: The total count of users.
+          example: 5
+        Resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+          description: The collection of user resources.
+    ErrorScimType:
+      title: ErrorScimType
+      description: This is used to denote the scim type of the error.
+      enum:
+      - invalidFilter
+      - uniqueness
+      - invalidSyntax
+      - invalidValue
+      type: string
+      example: invalidSyntax
+    User:
+      title: User
+      description: Generic sample User. Not a real model used by any Cvent service.
+      required:
+      - userName
+      - emails
+      - name
+      - active
+      - userType
+      - locale
+      - groups
+      - timezone
+      - urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+            example: urn:ietf:params:scim:api:messages:2.0:ListResponse
+          readOnly: true
+          description: The list of schemas using this resource.
+        id:
+          type: string
+          description: A string that has to be a format matching the industry standard uuid.
+          format: uuid
+          readOnly: true
+          example: 3b2359a7-4583-40ed-8afd-67e5f15373d3
+        name:
+          $ref: '#/components/schemas/Name'
+        userName:
+          type: string
+          description: The user name of the user to be used during identification.
+          example: aMike@test.com
+          minLength: 1
+          maxLength: 50
+        active:
+          type: boolean
+          description: True indicates the user is active.
+          example: true
+          default: true
+        emails:
+          type: array
+          minItems: 1
+          description: 'The email of the user. The Cvent user can have only one email address.<br> If multiple email addresses are provided, only one is accepted and rest are ignored. One email is selected based on the following sequence of criteria: primary email, then work type, and finally first in the sequence.'
+          items:
+            $ref: '#/components/schemas/Email1'
+        title:
+          type: string
+          description: The title of the user.
+          example: Vice President
+          maxLength: 50
+        phoneNumbers:
+          type: array
+          description: The phone numbers of the user.<br> If more than one number per type is provided, only one is accepted and rest are ignored.
+          items:
+            $ref: '#/components/schemas/PhoneNumber1'
+        addresses:
+          type: array
+          description: 'The address of the user. The user can have only one address. <br> If multiple addresses are provided, only one is accepted and rest are ignored. One address is selected based on the following sequence of criteria: primary, work type, first in the sequence'
+          items:
+            $ref: '#/components/schemas/Address6'
+        userType:
+          $ref: '#/components/schemas/UserType'
+        timezone:
+          type: string
+          description: List of <a href="#section/Getting-Started/Time-Zones">Timezones</a> supported.
+          minLength: 1
+          maxLength: 29
+          example: America/New_York
+          default: America/New_York
+        locale:
+          type: string
+          example: en-US
+          description: The locale of the user. The IETF Language Tag format is used.
+          minLength: 1
+          maxLength: 35
+        groups:
+          type: array
+          minItems: 1
+          description: The SCIM group (representing Cvent user role) of the user.
+          items:
+            $ref: '#/components/schemas/Group'
+        urn:ietf:params:scim:schemas:extension:enterprise:2.0:User:
+          $ref: '#/components/schemas/UserEnterpriseExtension'
+        meta:
+          $ref: '#/components/schemas/Meta'
+    Mutability:
+      title: Mutability
+      description: This is used to denote the mutability of the attribute.
+      enum:
+      - readOnly
+      - readWrite
+      - immutable
+      - writeOnly
+      type: string
+      example: writeOnly
     ServiceProviderConfig:
       title: ServiceProviderConfigs
       description: Service Provider Configs
@@ -707,53 +1052,20 @@ components:
           description: A collection of sub-attributes. Has the same structure as this attribute object.
           items:
             $ref: '#/components/schemas/Attribute'
-    Group-1:
-      title: Group
-      description: Generic sample name. Not a real model used by any Cvent service.
+    UsersSchemas:
+      title: Schemas
+      description: Schemas
       type: object
-      required:
-      - id
       properties:
         schemas:
           type: array
           items:
             type: string
             example: urn:ietf:params:scim:api:messages:2.0:ListResponse
-          readOnly: true
-          description: The list of schemas using this resource.
-        id:
-          type: string
-          description: The unique ID of the SCIM group.
-          format: uuid
-          readOnly: false
-          example: 3b2359a7-4583-40ed-8afd-67e5f15373d3
-        displayName:
-          type: string
-          description: The name of the user role.
-          example: Admin
-        meta:
-          $ref: '#/components/schemas/Meta'
-    UserType:
-      title: UserType
-      description: The type of the user.
-      enum:
-      - Planner Account User
-      type: string
-      example: Planner Account User
-    Users:
-      title: Users
-      description: A page in a paginated list of SCIM users. This would return the list of users.
-      type: object
-      properties:
-        schemas:
-          type: array
-          items:
-            type: string
-            example: urn:ietf:params:scim:schemas:core:2.0:User
           description: The collection of user schemas.
         itemsPerPage:
           type: integer
-          description: The number of users per page.
+          description: The number of schemas per page.
           example: 50
         startIndex:
           type: integer
@@ -761,13 +1073,13 @@ components:
           example: 1
         totalResults:
           type: integer
-          description: The total count of users.
+          description: The total count of schemas.
           example: 5
         Resources:
           type: array
           items:
-            $ref: '#/components/schemas/User'
-          description: The collection of user resources.
+            $ref: '#/components/schemas/UsersSchema'
+          description: The collection of schema resources.
     PhoneType:
       title: PhoneType
       description: The type of the phone number.
@@ -777,35 +1089,23 @@ components:
       - mobile
       type: string
       example: work
-    AuthenticationSchema:
-      title: Authentication Schema
-      description: Authentication Schema
+    Group:
+      title: Group
+      description: Generic sample name. Not a real model used by any Cvent service.
       type: object
+      required:
+      - value
       properties:
-        name:
+        value:
           type: string
-          description: The name of the authentication.
-          example: OAuth Bearer Token
-        description:
+          description: The unique ID of the SCIM group.
+          format: uuid
+          readOnly: false
+          example: 3b2359a7-4583-40ed-8afd-67e5f15373d3
+        display:
           type: string
-          description: The description of the authentication.
-          example: Authentication scheme using the OAuth Bearer Token Standard
-        specUri:
-          type: string
-          description: The location of the authentication specifications.
-          example: https://developers.cvent.com/documentation#section/Introduction
-        documentationUri:
-          type: string
-          description: The location of the API documentation.
-          example: https://developers.cvent.com/documentation#section/Introduction
-        type:
-          type: string
-          description: The type of the authentication.
-          example: oauthbearertoken
-        primary:
-          type: boolean
-          description: True indicates the authentication is primary.
-          example: true
+          description: The name of the user role.
+          example: Admin
     Meta:
       title: Meta
       description: Metadata of the resource.
@@ -835,62 +1135,6 @@ components:
           readOnly: true
           description: The ISO 8601 zoned date time when this record was modified.
           example: '2021-12-16T00:59:14.570Z'
-    UserGroups1:
-      title: Groups
-      description: Groups
-      type: object
-      properties:
-        schemas:
-          type: array
-          items:
-            type: string
-            example: urn:ietf:params:scim:api:messages:2.0:ListResponse
-          description: The collection of user schemas.
-        itemsPerPage:
-          type: integer
-          description: The number of schemas per page.
-          example: 50
-        startIndex:
-          type: integer
-          description: Starting index of the response.
-          example: 1
-        totalResults:
-          type: integer
-          description: The total count of schemas.
-          example: 5
-        Resources:
-          type: array
-          items:
-            $ref: '#/components/schemas/Group-1'
-          description: The collection of schema resources.
-    ResourceTypes:
-      title: resourceTypes
-      description: Resource Types
-      type: object
-      properties:
-        schemas:
-          type: array
-          items:
-            type: string
-            example: urn:ietf:params:scim:api:messages:2.0:ListResponse
-          description: The collection of user schemas.
-        itemsPerPage:
-          type: integer
-          description: The number of schemas per page.
-          example: 50
-        startIndex:
-          type: integer
-          description: Starting index of the response.
-          example: 1
-        totalResults:
-          type: integer
-          description: The total count of schemas.
-          example: 5
-        Resources:
-          type: array
-          items:
-            $ref: '#/components/schemas/ResourceType'
-          description: The collection of schema resources.
     AddressType1:
       title: AddressType
       description: The type of the address.
@@ -899,55 +1143,97 @@ components:
       - home
       type: string
       example: work
-    ResourceType:
-      title: resourceType
-      description: Resource Type
+    UniquenessType:
+      title: Uniqueness Type
+      description: This is used to denote the uniqueness type of the attribute.
+      enum:
+      - none
+      - server
+      - global
+      type: string
+      example: global
+    UserType:
+      title: UserType
+      description: The type of the user.
+      enum:
+      - Planner Account User
+      type: string
+      example: Planner Account User
+    ReturnedType:
+      title: Returned Type
+      description: This is used to denote the returned type of the attribute.
+      enum:
+      - always
+      - never
+      - default
+      - request
+      type: string
+      example: always
+    ReferenceType:
+      title: Reference Type
+      description: This is used to denote the reference type of the attribute.
+      enum:
+      - User
+      - Group
+      - external
+      - uri
+      type: string
+      example: Group
+    AttributeDataType:
+      title: AttributeDataType
+      description: This is used to denote the type of the attribute.
+      enum:
+      - string
+      - boolean
+      - decimal
+      - integer
+      - dateTime
+      - reference
+      - complex
+      type: string
+      example: string
+    Group-1:
+      title: Group
+      description: Generic sample name. Not a real model used by any Cvent service.
       type: object
+      required:
+      - id
       properties:
         schemas:
           type: array
           items:
             type: string
             example: urn:ietf:params:scim:api:messages:2.0:ListResponse
+          readOnly: true
           description: The list of schemas using this resource.
         id:
           type: string
-          description: The unique identifier of the resource type.
-          example: urn:ietf:params:scim:api:messages:2.0:ListResponse
-        name:
+          description: The unique ID of the SCIM group.
+          format: uuid
+          readOnly: false
+          example: 3b2359a7-4583-40ed-8afd-67e5f15373d3
+        displayName:
           type: string
-          description: The name of the resource type.
-          example: User
-        description:
-          type: string
-          description: The description of the resource type.
-          example: This Attribute describes the Schema
-        endpoint:
-          type: string
-          description: The URL of the resource type endpoint.
-          format: uri
-          example: /Users
-        schema:
-          type: string
-          description: The schema of the resource type.
-          example: urn:ietf:params:scim:schemas:core:2.0:User
-        schemaExtensions:
-          type: array
-          items:
-            type: object
-            properties:
-              schema:
-                type: string
-                readOnly: true
-                description: The id of the schema extension
-                example: urn:ietf:params:scim:api:messages:2.0:ListResponse
-              required:
-                type: boolean
-                description: True indicates if the schema extension is required.
-                example: true
-          description: The list of schema extensions for the resource type.
+          description: The name of the user role.
+          example: Admin
         meta:
           $ref: '#/components/schemas/Meta'
+    PhoneNumber1:
+      title: Phone Number
+      description: Phone Number
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          $ref: '#/components/schemas/PhoneType'
+        value:
+          type: string
+          description: The phone number of the user.
+          example: '+911234567890'
+          minLength: 1
+          maxLength: 30
     UsersSchema:
       title: Schema
       description: Schema
@@ -972,310 +1258,7 @@ components:
           description: The collection of attributes for the schema.
         meta:
           $ref: '#/components/schemas/Meta'
-    ReferenceType:
-      title: Reference Type
-      description: This is used to denote the reference type of the attribute.
-      enum:
-      - User
-      - Group
-      - external
-      - uri
-      type: string
-      example: Group
-    AttributeDataType:
-      title: AttributeDataType
-      description: This is used to denote the type of the attribute.
-      enum:
-      - string
-      - boolean
-      - decimal
-      - integer
-      - dateTime
-      - reference
-      - complex
-      type: string
-      example: string
-    UsersSchemas:
-      title: Schemas
-      description: Schemas
-      type: object
-      properties:
-        schemas:
-          type: array
-          items:
-            type: string
-            example: urn:ietf:params:scim:api:messages:2.0:ListResponse
-          description: The collection of user schemas.
-        itemsPerPage:
-          type: integer
-          description: The number of schemas per page.
-          example: 50
-        startIndex:
-          type: integer
-          description: Starting index of the response.
-          example: 1
-        totalResults:
-          type: integer
-          description: The total count of schemas.
-          example: 5
-        Resources:
-          type: array
-          items:
-            $ref: '#/components/schemas/UsersSchema'
-          description: The collection of schema resources.
-    EmailType1:
-      title: Email Type
-      description: The type of the email.
-      enum:
-      - work
-      - home
-      type: string
-      example: work
-      default: work
-    Group:
-      title: Group
-      description: Generic sample name. Not a real model used by any Cvent service.
-      type: object
-      required:
-      - value
-      properties:
-        value:
-          type: string
-          description: The unique ID of the SCIM group.
-          format: uuid
-          readOnly: false
-          example: 3b2359a7-4583-40ed-8afd-67e5f15373d3
-        display:
-          type: string
-          description: The name of the user role.
-          example: Admin
-    PhoneNumber1:
-      title: Phone Number
-      description: Phone Number
-      type: object
-      required:
-      - type
-      - value
-      properties:
-        type:
-          $ref: '#/components/schemas/PhoneType'
-        value:
-          type: string
-          description: The phone number of the user.
-          example: '+911234567890'
-          minLength: 1
-          maxLength: 30
-    Mutability:
-      title: Mutability
-      description: This is used to denote the mutability of the attribute.
-      enum:
-      - readOnly
-      - readWrite
-      - immutable
-      - writeOnly
-      type: string
-      example: writeOnly
-    UniquenessType:
-      title: Uniqueness Type
-      description: This is used to denote the uniqueness type of the attribute.
-      enum:
-      - none
-      - server
-      - global
-      type: string
-      example: global
-    Address6:
-      title: Address
-      description: Address
-      type: object
-      required:
-      - type
-      - primary
-      properties:
-        type:
-          $ref: '#/components/schemas/AddressType1'
-        streetAddress:
-          type: string
-          description: The street address of the user.
-          example: 100 Universal City Plaza
-          maxLength: 40
-        locality:
-          type: string
-          description: The locality/city of the user.
-          example: Hollywood
-          maxLength: 40
-        region:
-          type: string
-          description: The region/state/province of the user.
-          example: CA
-        postalCode:
-          type: string
-          description: Postal code (also known as zipcode) of the user.
-          example: '91608'
-        country:
-          type: string
-          description: The country of the user.
-          example: USA
-        primary:
-          type: boolean
-          description: True indicates the address is primary.
-          example: true
-          default: false
-    ErrorScimType:
-      title: ErrorScimType
-      description: This is used to denote the scim type of the error.
-      enum:
-      - invalidFilter
-      - uniqueness
-      - invalidSyntax
-      - invalidValue
-      type: string
-      example: invalidSyntax
-    User:
-      title: User
-      description: Generic sample User. Not a real model used by any Cvent service.
-      required:
-      - userName
-      - emails
-      - name
-      - active
-      - userType
-      - locale
-      - groups
-      - timezone
-      - urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
-      type: object
-      properties:
-        schemas:
-          type: array
-          items:
-            type: string
-            example: urn:ietf:params:scim:api:messages:2.0:ListResponse
-          readOnly: true
-          description: The list of schemas using this resource.
-        id:
-          type: string
-          description: A string that has to be a format matching the industry standard uuid.
-          format: uuid
-          readOnly: true
-          example: 3b2359a7-4583-40ed-8afd-67e5f15373d3
-        name:
-          $ref: '#/components/schemas/Name'
-        userName:
-          type: string
-          description: The user name of the user to be used during identification.
-          example: aMike@test.com
-          minLength: 1
-          maxLength: 50
-        active:
-          type: boolean
-          description: True indicates the user is active.
-          example: true
-          default: true
-        emails:
-          type: array
-          minItems: 1
-          description: 'The email of the user. The Cvent user can have only one email address.<br> If multiple email addresses are provided, only one is accepted and rest are ignored. One email is selected based on the following sequence of criteria: primary email, then work type, and finally first in the sequence.'
-          items:
-            $ref: '#/components/schemas/Email1'
-        title:
-          type: string
-          description: The title of the user.
-          example: Vice President
-          maxLength: 50
-        phoneNumbers:
-          type: array
-          description: The phone numbers of the user.<br> If more than one number per type is provided, only one is accepted and rest are ignored.
-          items:
-            $ref: '#/components/schemas/PhoneNumber1'
-        addresses:
-          type: array
-          description: 'The address of the user. The user can have only one address. <br> If multiple addresses are provided, only one is accepted and rest are ignored. One address is selected based on the following sequence of criteria: primary, work type, first in the sequence'
-          items:
-            $ref: '#/components/schemas/Address6'
-        userType:
-          $ref: '#/components/schemas/UserType'
-        timezone:
-          type: string
-          description: List of <a href="#section/Getting-Started/Time-Zones">Timezones</a> supported.
-          minLength: 1
-          maxLength: 29
-          example: America/New_York
-          default: America/New_York
-        locale:
-          type: string
-          example: en-US
-          description: The locale of the user. The IETF Language Tag format is used.
-          minLength: 1
-          maxLength: 35
-        groups:
-          type: array
-          minItems: 1
-          description: The SCIM group (representing Cvent user role) of the user.
-          items:
-            $ref: '#/components/schemas/Group'
-        urn:ietf:params:scim:schemas:extension:enterprise:2.0:User:
-          $ref: '#/components/schemas/UserEnterpriseExtension'
-        meta:
-          $ref: '#/components/schemas/Meta'
-    Name:
-      title: Name
-      description: The name of the user.
-      type: object
-      required:
-      - givenName
-      - familyName
-      properties:
-        givenName:
-          type: string
-          description: The given/first name of the user.
-          example: Mike
-          minLength: 1
-          maxLength: 30
-        familyName:
-          type: string
-          description: The family/last name of the user.
-          example: Stuart
-          minLength: 1
-          maxLength: 50
-        middleName:
-          type: string
-          description: The middle name of the user.
-          example: A
-          maxLength: 30
-        honorificPrefix:
-          type: string
-          description: The prefix of the user.
-          example: Mr.
-          maxLength: 30
-    ReturnedType:
-      title: Returned Type
-      description: This is used to denote the returned type of the attribute.
-      enum:
-      - always
-      - never
-      - default
-      - request
-      type: string
-      example: always
   parameters:
-    userId1:
-      in: path
-      name: id
-      description: Unique ID for a user.
-      required: true
-      schema:
-        type: string
-        example: id1
-    startIndex:
-      in: query
-      name: startIndex
-      description: Starting index of the response.
-      required: false
-      schema:
-        type: integer
-        default: 1
-        minimum: 1
     schemaId:
       in: path
       name: id
@@ -1284,14 +1267,6 @@ components:
       schema:
         type: string
         example: urn:ietf:params:scim:schemas:core:2.0:User
-    resourceId:
-      in: path
-      name: id
-      description: Unique ID for a resource.
-      required: true
-      schema:
-        type: string
-        example: User
     count1:
       in: query
       name: count
@@ -1302,6 +1277,31 @@ components:
         default: 100
         minimum: 1
         maximum: 200
+    startIndex:
+      in: query
+      name: startIndex
+      description: Starting index of the response.
+      required: false
+      schema:
+        type: integer
+        default: 1
+        minimum: 1
+    resourceId:
+      in: path
+      name: id
+      description: Unique ID for a resource.
+      required: true
+      schema:
+        type: string
+        example: User
+    userId1:
+      in: path
+      name: id
+      description: Unique ID for a user.
+      required: true
+      schema:
+        type: string
+        example: id1
   securitySchemes:
     OAuth2.authorizationCode:
       type: oauth2

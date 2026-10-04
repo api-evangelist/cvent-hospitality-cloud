@@ -171,21 +171,61 @@ paths:
         description: More about OAuth2 authorization code support for administrators
         url: '#oauth2-auth-code-planner-admin'
 components:
+  parameters:
+    token:
+      name: token
+      in: query
+      description: 'The continuation token returned from a previous class. This must be a valid UUID v4 if provided.
+
+        This will override any other pageable parameters provided.
+
+        '
+      style: form
+      explode: true
+      schema:
+        type: string
+        example: 0e28af57-511f-47ab-ae46-46cd1ca51a1a
+    after:
+      name: after
+      required: false
+      description: Used to query records that have been added or updated after this time point. Default to the beginning of time of the data store.
+      in: query
+      schema:
+        type: string
+        format: date-time
+        example: '2017-01-02T02:00:00Z'
+    limit:
+      name: limit
+      in: query
+      description: The maximum number of records to return per page.
+      style: form
+      explode: true
+      schema:
+        maximum: 200
+        minimum: 1
+        type: integer
+        default: 100
+        example: 100
+    before:
+      name: before
+      required: false
+      in: query
+      description: Used to query records that have been added or updated before this time point.
+      schema:
+        type: string
+        format: date-time
+        example: '2017-01-02T02:00:00Z'
+    attendeeInsightsId:
+      name: id
+      in: path
+      description: Identifier of an engagement score (attendee insight).
+      required: true
+      schema:
+        $ref: '#/components/schemas/uuid-property'
   schemas:
-    pagination-links.json:
-      title: PaginationLinks
-      type: object
-      description: Represents pagination links for navigating between pages of data.
-      properties:
-        next:
-          $ref: '#/components/schemas/link.json'
-        self:
-          $ref: '#/components/schemas/link.json'
-        prev:
-          $ref: '#/components/schemas/link.json'
-    attendee-insights-paginated-response:
-      title: AttendeeInsightsPaginatedResponse
-      description: Paginated collection of engagement score objects.
+    scores-paginated-response:
+      title: ScoresPaginatedResponse
+      description: Paginated collection of score objects.
       required:
       - data
       - paging
@@ -196,99 +236,8 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/attendee-insights'
-          description: Collection of engagement score objects.
-    ErrorResponseBase1:
-      title: ErrorResponseBase
-      type: object
-      description: Represents an error response with no additional details.
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: integer
-          description: The HTTP status code representing the error.
-          example: 400
-        message:
-          type: string
-          description: A brief description of the error.
-          example: Bad Request
-        target:
-          type: string
-          description: The target resource of the error.
-          example: example target
-    attendee-insights-stats:
-      title: AttendeeInsightsStats
-      description: Attendee insights statistics.
-      type: object
-      required:
-      - averageAttendeeScore
-      - attendeeCount
-      - activityCount
-      properties:
-        averageAttendeeScore:
-          type: integer
-          description: Average engagement score across all attendees.
-          default: 0
-          example: 120
-        attendeeCount:
-          type: integer
-          description: Count of attendees who've participated in an engagement score.
-          default: 0
-          example: 200
-        activityCount:
-          type: integer
-          description: Count of all activities included in an engagement score.
-          default: 0
-          example: 3000
-    scores.json:
-      title: Scores
-      description: Insight score and ranking.
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/attendee-insights/allOf/0'
-      required:
-      - attendee
-      - event
-      - points
-      - rank
-      properties:
-        attendee:
-          type: object
-          properties:
-            id:
-              type: string
-              format: uuid
-              description: Attendee ID
-          description: The attendee with points in this engagement score.
-        event:
-          $ref: '#/components/schemas/event.json2'
-        points:
-          type: integer
-          default: 0
-          description: The number of points earned by an attendee in this engagement score.
-          example: 45
-        rank:
-          type: integer
-          default: 0
-          description: Attendees rank amongst other attendees in terms of points scored.
-          example: 10
-    ErrorResponse-12:
-      title: ErrorResponse
-      description: Represents an error response with additional details of cascading error messages.
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponseBase1'
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorResponseBase1'
-          description: Additional details of cascading error messages.
+            $ref: '#/components/schemas/scores.json'
+          description: Collection of score objects.
     attendee-insights:
       title: AttendeeInsights
       description: Attendee insights.
@@ -345,6 +294,21 @@ components:
           type: boolean
           description: True indicates this is the default engagement score in the event.
           example: false
+    attendee-insights-paginated-response:
+      title: AttendeeInsightsPaginatedResponse
+      description: Paginated collection of engagement score objects.
+      required:
+      - data
+      - paging
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/paging.json'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/attendee-insights'
+          description: Collection of engagement score objects.
     event.json2:
       title: Event
       description: An event reference used in attendee insights to identify the event context for engagement data
@@ -363,17 +327,56 @@ components:
       type: string
       format: uuid
       example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
-    link.json:
-      title: Link
-      required:
-      - href
+    pagination-links.json:
+      title: PaginationLinks
       type: object
-      description: Represents a link to a related resource.
+      description: Represents pagination links for navigating between pages of data.
       properties:
-        href:
-          type: string
-          description: A url provided that can be followed for linking
-          example: ?token=90c5f062-76ad-4ea4-aa53-00eb698d9262
+        next:
+          $ref: '#/components/schemas/link.json'
+        self:
+          $ref: '#/components/schemas/link.json'
+        prev:
+          $ref: '#/components/schemas/link.json'
+    ErrorResponse-12:
+      title: ErrorResponse
+      description: Represents an error response with additional details of cascading error messages.
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponseBase1'
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorResponseBase1'
+          description: Additional details of cascading error messages.
+    attendee-insights-stats:
+      title: AttendeeInsightsStats
+      description: Attendee insights statistics.
+      type: object
+      required:
+      - averageAttendeeScore
+      - attendeeCount
+      - activityCount
+      properties:
+        averageAttendeeScore:
+          type: integer
+          description: Average engagement score across all attendees.
+          default: 0
+          example: 120
+        attendeeCount:
+          type: integer
+          description: Count of attendees who've participated in an engagement score.
+          default: 0
+          example: 200
+        activityCount:
+          type: integer
+          description: Count of all activities included in an engagement score.
+          default: 0
+          example: 3000
     paging.json:
       title: Paging
       required:
@@ -403,31 +406,70 @@ components:
           example: 2
         _links:
           $ref: '#/components/schemas/pagination-links.json'
-    scores-paginated-response:
-      title: ScoresPaginatedResponse
-      description: Paginated collection of score objects.
-      required:
-      - data
-      - paging
+    ErrorResponseBase1:
+      title: ErrorResponseBase
       type: object
+      description: Represents an error response with no additional details.
+      required:
+      - code
+      - message
       properties:
-        paging:
-          $ref: '#/components/schemas/paging.json'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/scores.json'
-          description: Collection of score objects.
+        code:
+          type: integer
+          description: The HTTP status code representing the error.
+          example: 400
+        message:
+          type: string
+          description: A brief description of the error.
+          example: Bad Request
+        target:
+          type: string
+          description: The target resource of the error.
+          example: example target
+    link.json:
+      title: Link
+      required:
+      - href
+      type: object
+      description: Represents a link to a related resource.
+      properties:
+        href:
+          type: string
+          description: A url provided that can be followed for linking
+          example: ?token=90c5f062-76ad-4ea4-aa53-00eb698d9262
+    scores.json:
+      title: Scores
+      description: Insight score and ranking.
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/attendee-insights/allOf/0'
+      required:
+      - attendee
+      - event
+      - points
+      - rank
+      properties:
+        attendee:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: Attendee ID
+          description: The attendee with points in this engagement score.
+        event:
+          $ref: '#/components/schemas/event.json2'
+        points:
+          type: integer
+          default: 0
+          description: The number of points earned by an attendee in this engagement score.
+          example: 45
+        rank:
+          type: integer
+          default: 0
+          description: Attendees rank amongst other attendees in terms of points scored.
+          example: 10
   responses:
-    Unauthorized1:
-      description: Bad or expired token
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 401
-            message: Unauthorized
     BadRequest1:
       description: Bad request
       content:
@@ -437,15 +479,6 @@ components:
           example:
             code: 400
             message: Bad Request
-    TooManyRequests1:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 429
-            message: Limit Exceeded
     Forbidden1:
       description: You do not have access to the resource
       content:
@@ -455,6 +488,15 @@ components:
           example:
             code: 403
             message: Access Forbidden
+    Unauthorized1:
+      description: Bad or expired token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 401
+            message: Unauthorized
     NotFound1:
       description: Resource not found
       content:
@@ -464,57 +506,15 @@ components:
           example:
             code: 404
             message: Not found
-  parameters:
-    before:
-      name: before
-      required: false
-      in: query
-      description: Used to query records that have been added or updated before this time point.
-      schema:
-        type: string
-        format: date-time
-        example: '2017-01-02T02:00:00Z'
-    attendeeInsightsId:
-      name: id
-      in: path
-      description: Identifier of an engagement score (attendee insight).
-      required: true
-      schema:
-        $ref: '#/components/schemas/uuid-property'
-    token:
-      name: token
-      in: query
-      description: 'The continuation token returned from a previous class. This must be a valid UUID v4 if provided.
-
-        This will override any other pageable parameters provided.
-
-        '
-      style: form
-      explode: true
-      schema:
-        type: string
-        example: 0e28af57-511f-47ab-ae46-46cd1ca51a1a
-    after:
-      name: after
-      required: false
-      description: Used to query records that have been added or updated after this time point. Default to the beginning of time of the data store.
-      in: query
-      schema:
-        type: string
-        format: date-time
-        example: '2017-01-02T02:00:00Z'
-    limit:
-      name: limit
-      in: query
-      description: The maximum number of records to return per page.
-      style: form
-      explode: true
-      schema:
-        maximum: 200
-        minimum: 1
-        type: integer
-        default: 100
-        example: 100
+    TooManyRequests1:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 429
+            message: Limit Exceeded
   securitySchemes:
     OAuth2.authorizationCode:
       type: oauth2

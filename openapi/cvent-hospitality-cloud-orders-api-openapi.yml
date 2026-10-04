@@ -243,18 +243,6 @@ paths:
         url: '#oauth2-auth-code-planner-admin'
 components:
   schemas:
-    OrderRef:
-      title: OrderRef
-      type: object
-      description: Represents an order by its ID and includes the order type.
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
-          description: The unique identifier of the order.
-        type:
-          $ref: '#/components/schemas/OrderType'
     ProductType:
       title: ProductType
       enum:
@@ -276,160 +264,18 @@ components:
       description: This is used to denote the product type.
       example: Session
       readOnly: true
-    ErrorResponseBase1:
-      title: ErrorResponseBase
+    Event:
       type: object
-      description: Represents an error response with no additional details.
+      description: The reference to the event. Contains only the ID of the event.
+      title: Event
       required:
-      - code
-      - message
-      properties:
-        code:
-          type: integer
-          description: The HTTP status code representing the error.
-          example: 400
-        message:
-          type: string
-          description: A brief description of the error.
-          example: Bad Request
-        target:
-          type: string
-          description: The target resource of the error.
-          example: example target
-    Link:
-      title: Link
-      required:
-      - href
-      type: object
-      description: Represents a link to a related resource.
-      properties:
-        href:
-          type: string
-          description: A url provided that can be followed for linking
-          example: ?token=90c5f062-76ad-4ea4-aa53-00eb698d9262
-    DiscountType:
-      title: DiscountType
-      enum:
-      - Amount
-      - Percentage
-      - FlatPrice
-      type: string
-      description: This is used to denote the type of discount
-      example: Amount
-    order-items-paginated-response:
-      title: OrderItemsPaginatedResponse
-      description: The response from a request to list of order items. This includes the paging object as well.
-      required:
-      - paging
-      - data
-      type: object
-      properties:
-        paging:
-          $ref: '#/components/schemas/Paging'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/order-item-response'
-          description: Collection of order items.
-    ErrorResponse-12:
-      title: ErrorResponse
-      description: Represents an error response with additional details of cascading error messages.
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponseBase1'
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorResponseBase1'
-          description: Additional details of cascading error messages.
-    OrderType:
-      title: OrderType
-      enum:
-      - Authorization
-      - Online Charge
-      - Online Refund
-      - Offline Charge
-      - Offline Refund
-      type: string
-      description: This is used to denote the type of order made by an attendee.
-      example: Online Refund
-    Audit:
-      title: Audit
-      description: Audit information
-      type: object
-      properties:
-        created:
-          type: string
-          format: date-time
-          description: The ISO 8601 zoned date time when this record was created.
-          readOnly: true
-          example: '2017-01-02T02:00:00Z'
-        createdBy:
-          type: string
-          description: The identifier of the user that created this record.
-          readOnly: true
-          example: hporter
-        lastModified:
-          type: string
-          format: date-time
-          description: The ISO 8601 zoned date time when this record was updated.
-          readOnly: true
-          example: '2019-02-12T03:00:00Z'
-        lastModifiedBy:
-          type: string
-          description: The identifier of the user that last updated this record.
-          readOnly: true
-          example: hporter
-    ProductOrderItem:
-      title: ProductOrderItem
-      type: object
-      description: This is used to denote the product details in an order item
-      properties:
-        id:
-          $ref: '#/components/schemas/uuid-property'
-        type:
-          $ref: '#/components/schemas/ProductType'
-    GeneralLedger:
-      title: GeneralLedger
-      type: object
-      description: This is used to denote the general ledger detail in an order item
+      - id
       properties:
         id:
           type: string
           format: uuid
-          example: a6b6c1bc-e410-48da-86c2-80478ecf60f9
-          description: A unique identifier for the general ledger.
-        name:
-          type: string
-          description: This denotes the name of the general ledger.
-          maxLength: 50
-          example: Other Accounts Receivable
-        code:
-          type: string
-          description: This denotes the code of the general ledger.
-          maxLength: 100
-          example: '123445'
-        description:
-          type: string
-          description: This denotes the description of the general ledger.
-          maxLength: 300
-          example: Other Accounts Receivable; Leg. Accounts Receivable
-        allocationPercentage:
-          type: number
-          description: This denotes the percentage allocation of the general ledger code for an order item.
-          minimum: 1
-          maximum: 100
-          example: 50
-    uuid-property:
-      title: UUID Property
-      description: A string that has to be a format matching the industry standard uuid
-      type: string
-      format: uuid
-      example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
+          description: Unique identifier of the event.
+          example: 4a0e8d1f-8fd6-4ebe-977a-602b4a1f9c56
     DiscountDetail:
       title: DiscountDetail
       type: object
@@ -460,6 +306,21 @@ components:
           type: number
           description: The total discount applied to the order via the order or order items. Represents the amount saved due to the discounts.
           example: 15
+    uuid-property:
+      title: UUID Property
+      description: A string that has to be a format matching the industry standard uuid
+      type: string
+      format: uuid
+      example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
+    DiscountType:
+      title: DiscountType
+      enum:
+      - Amount
+      - Percentage
+      - FlatPrice
+      type: string
+      description: This is used to denote the type of discount
+      example: Amount
     Paging:
       title: Paging
       required:
@@ -489,6 +350,47 @@ components:
           example: 2
         _links:
           $ref: '#/components/schemas/PaginationLinks'
+    PaginationLinks:
+      title: PaginationLinks
+      type: object
+      description: Represents pagination links for navigating between pages of data.
+      properties:
+        next:
+          $ref: '#/components/schemas/Link'
+        self:
+          $ref: '#/components/schemas/Link'
+        prev:
+          $ref: '#/components/schemas/Link'
+    ErrorResponse-12:
+      title: ErrorResponse
+      description: Represents an error response with additional details of cascading error messages.
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponseBase1'
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorResponseBase1'
+          description: Additional details of cascading error messages.
+    order-items-paginated-response:
+      title: OrderItemsPaginatedResponse
+      description: The response from a request to list of order items. This includes the paging object as well.
+      required:
+      - paging
+      - data
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/Paging'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/order-item-response'
+          description: Collection of order items.
     Attendee:
       type: object
       description: The reference to the attendee. Contains only the ID of the attendee.
@@ -501,18 +403,17 @@ components:
           format: uuid
           description: Unique identifier of the primary invitee for the current attendee's registration.
           example: 5b0e8d1f-8fd6-4ebe-977a-602b4a1f9c43
-    Event:
-      type: object
-      description: The reference to the event. Contains only the ID of the event.
-      title: Event
+    Link:
+      title: Link
       required:
-      - id
+      - href
+      type: object
+      description: Represents a link to a related resource.
       properties:
-        id:
+        href:
           type: string
-          format: uuid
-          description: Unique identifier of the event.
-          example: 4a0e8d1f-8fd6-4ebe-977a-602b4a1f9c56
+          description: A url provided that can be followed for linking
+          example: ?token=90c5f062-76ad-4ea4-aa53-00eb698d9262
     order-detail:
       title: OrderDetail
       type: object
@@ -572,6 +473,45 @@ components:
           type: boolean
           description: True indicates the order has been deleted.
           example: false
+    Audit:
+      title: Audit
+      description: Audit information
+      type: object
+      properties:
+        created:
+          type: string
+          format: date-time
+          description: The ISO 8601 zoned date time when this record was created.
+          readOnly: true
+          example: '2017-01-02T02:00:00Z'
+        createdBy:
+          type: string
+          description: The identifier of the user that created this record.
+          readOnly: true
+          example: hporter
+        lastModified:
+          type: string
+          format: date-time
+          description: The ISO 8601 zoned date time when this record was updated.
+          readOnly: true
+          example: '2019-02-12T03:00:00Z'
+        lastModifiedBy:
+          type: string
+          description: The identifier of the user that last updated this record.
+          readOnly: true
+          example: hporter
+    OrderRef:
+      title: OrderRef
+      type: object
+      description: Represents an order by its ID and includes the order type.
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 04ca6ae2-0dc3-487b-953e-86d6abbdf7d3
+          description: The unique identifier of the order.
+        type:
+          $ref: '#/components/schemas/OrderType'
     order-details-paginated-response:
       title: OrderDetailsPaginatedResponse
       description: The response from a request to list of orders. This includes the paging object as well.
@@ -587,6 +527,106 @@ components:
           items:
             $ref: '#/components/schemas/order-detail'
           description: Collection of order details.
+    Fee:
+      title: Fee
+      type: object
+      description: Fee for a product.
+      properties:
+        id:
+          readOnly: true
+          type: string
+          format: uuid
+          description: A unique ID representing the fee.
+          example: 28FEA0CD-A8B8-4A51-96C1-DDD5EAD642C6
+        name:
+          readOnly: true
+          type: string
+          description: Name of the fee.
+          maxLength: 100
+          example: Orientation Session Registration Fee
+    Guest:
+      type: object
+      description: The reference to the guest. Contains only the ID of the guest.
+      title: Guest
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier of a guest.
+          example: 07c1cf32-a603-4736-8b77-749c3cee3107
+    GeneralLedger:
+      title: GeneralLedger
+      type: object
+      description: This is used to denote the general ledger detail in an order item
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: a6b6c1bc-e410-48da-86c2-80478ecf60f9
+          description: A unique identifier for the general ledger.
+        name:
+          type: string
+          description: This denotes the name of the general ledger.
+          maxLength: 50
+          example: Other Accounts Receivable
+        code:
+          type: string
+          description: This denotes the code of the general ledger.
+          maxLength: 100
+          example: '123445'
+        description:
+          type: string
+          description: This denotes the description of the general ledger.
+          maxLength: 300
+          example: Other Accounts Receivable; Leg. Accounts Receivable
+        allocationPercentage:
+          type: number
+          description: This denotes the percentage allocation of the general ledger code for an order item.
+          minimum: 1
+          maximum: 100
+          example: 50
+    ProductOrderItem:
+      title: ProductOrderItem
+      type: object
+      description: This is used to denote the product details in an order item
+      properties:
+        id:
+          $ref: '#/components/schemas/uuid-property'
+        type:
+          $ref: '#/components/schemas/ProductType'
+    ErrorResponseBase1:
+      title: ErrorResponseBase
+      type: object
+      description: Represents an error response with no additional details.
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: integer
+          description: The HTTP status code representing the error.
+          example: 400
+        message:
+          type: string
+          description: A brief description of the error.
+          example: Bad Request
+        target:
+          type: string
+          description: The target resource of the error.
+          example: example target
+    OrderType:
+      title: OrderType
+      enum:
+      - Authorization
+      - Online Charge
+      - Online Refund
+      - Offline Charge
+      - Offline Refund
+      type: string
+      description: This is used to denote the type of order made by an attendee.
+      example: Online Refund
     order-item-response:
       title: OrderItem
       type: object
@@ -663,102 +703,20 @@ components:
           type: boolean
           description: True indicates the order item has been deleted.
           example: false
-    Fee:
-      title: Fee
-      type: object
-      description: Fee for a product.
-      properties:
-        id:
-          readOnly: true
-          type: string
-          format: uuid
-          description: A unique ID representing the fee.
-          example: 28FEA0CD-A8B8-4A51-96C1-DDD5EAD642C6
-        name:
-          readOnly: true
-          type: string
-          description: Name of the fee.
-          maxLength: 100
-          example: Orientation Session Registration Fee
-    Guest:
-      type: object
-      description: The reference to the guest. Contains only the ID of the guest.
-      title: Guest
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier of a guest.
-          example: 07c1cf32-a603-4736-8b77-749c3cee3107
-    PaginationLinks:
-      title: PaginationLinks
-      type: object
-      description: Represents pagination links for navigating between pages of data.
-      properties:
-        next:
-          $ref: '#/components/schemas/Link'
-        self:
-          $ref: '#/components/schemas/Link'
-        prev:
-          $ref: '#/components/schemas/Link'
-  responses:
-    Unauthorized1:
-      description: Bad or expired token
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 401
-            message: Unauthorized
-    BadRequest1:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 400
-            message: Bad Request
-    TooManyRequests1:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 429
-            message: Limit Exceeded
-    Forbidden1:
-      description: You do not have access to the resource
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 403
-            message: Access Forbidden
-    NotFound1:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 404
-            message: Not found
   parameters:
-    before:
-      name: before
-      required: false
+    token:
+      name: token
       in: query
-      description: Used to query records that have been added or updated before this time point.
+      description: 'The continuation token returned from a previous class. This must be a valid UUID v4 if provided.
+
+        This will override any other pageable parameters provided.
+
+        '
+      style: form
+      explode: true
       schema:
         type: string
-        format: date-time
-        example: '2017-01-02T02:00:00Z'
+        example: 0e28af57-511f-47ab-ae46-46cd1ca51a1a
     orderId:
       in: path
       name: orderId
@@ -775,19 +733,27 @@ components:
         type: string
         format: date-time
         example: '2017-01-02T02:00:00Z'
-    token:
-      name: token
+    limit:
+      name: limit
       in: query
-      description: 'The continuation token returned from a previous class. This must be a valid UUID v4 if provided.
-
-        This will override any other pageable parameters provided.
-
-        '
+      description: The maximum number of records to return per page.
       style: form
       explode: true
       schema:
+        maximum: 200
+        minimum: 1
+        type: integer
+        default: 100
+        example: 100
+    before:
+      name: before
+      required: false
+      in: query
+      description: Used to query records that have been added or updated before this time point.
+      schema:
         type: string
-        example: 0e28af57-511f-47ab-ae46-46cd1ca51a1a
+        format: date-time
+        example: '2017-01-02T02:00:00Z'
     deleted:
       name: deleted
       in: query
@@ -803,18 +769,52 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/uuid-property'
-    limit:
-      name: limit
-      in: query
-      description: The maximum number of records to return per page.
-      style: form
-      explode: true
-      schema:
-        maximum: 200
-        minimum: 1
-        type: integer
-        default: 100
-        example: 100
+  responses:
+    BadRequest1:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 400
+            message: Bad Request
+    Forbidden1:
+      description: You do not have access to the resource
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 403
+            message: Access Forbidden
+    Unauthorized1:
+      description: Bad or expired token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 401
+            message: Unauthorized
+    NotFound1:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 404
+            message: Not found
+    TooManyRequests1:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 429
+            message: Limit Exceeded
   securitySchemes:
     OAuth2.authorizationCode:
       type: oauth2
