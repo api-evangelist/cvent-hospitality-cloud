@@ -3,6 +3,7 @@ provider: Cvent Hospitality Cloud
 generated_by: planning/capability-mapping/scripts/classify_capabilities.py
 model: claude-opus-5
 frame:
+- Software & Technology
 - Travel & Hospitality
 min_confidence: 0.7
 capability_model:
@@ -11,7 +12,7 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 1
+edge_count: 9
 edges:
 - tag: ReservationRequests
   spec_file: cvent-hospitality-cloud-reservationrequests-api-openapi.yml
@@ -23,3 +24,86 @@ edges:
     DELETE "Cancel a reservation request"
   reason: Full create/modify/cancel lifecycle over individual hotel reservation requests; spans both capture
     and modification so the L1 reservation capability is the honest level.
+- tag: Usage
+  spec_file: cvent-hospitality-cloud-usage-api-openapi.yml
+  capability_id: BC-4270.50
+  capability_id_l1: BC-4270
+  capability_name: API Consumption Governance
+  confidence: 0.85
+  evidence: '"Get Current Usage", "Get Current Usage Tier", schemas "UsageQuotaFields", "public-usage-plan",
+    "SwitchBackTargetUsagePlan"'
+  reason: Exposes the caller's API usage against quota and the applicable usage plan/tier — quota, rate-limit
+    and plan-tier mapping for API consumers, which is API Consumption Governance for the developer platform.
+- tag: Discounts
+  spec_file: cvent-hospitality-cloud-discounts-api-openapi.yml
+  capability_id: BC-440.30
+  capability_id_l1: BC-440
+  capability_name: Discount & Promotion Management
+  confidence: 0.8
+  evidence: POST /events/{id}/discounts createEventDiscount "Create Event Discount"; schemas "ExistingDiscountCode",
+    "CreateUpdateVolumeDiscount", "DiscountMethodType"
+  reason: Operations create and maintain discount codes, volume discount thresholds, discount capacity
+    and audience, and link them to sellable agenda items — squarely Discount & Promotion Management.
+- tag: Contacts
+  spec_file: cvent-hospitality-cloud-contacts-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.75
+  evidence: GET /contacts listContacts "List Contacts"; PATCH /contacts patchContacts "Patch Contacts";
+    POST /contact-groups createContactGroup "Create Contact Group"
+  reason: CRUD over a contact master with contact types, groups/memberships, custom fields and obfuscation
+    status — this is customer/contact record mastering, i.e. Customer Data Management. Group management
+    brushes segmentation, hence 0.75 rather than higher.
+- tag: Travel RFPs
+  spec_file: cvent-hospitality-cloud-travel-rfps-api-openapi.yml
+  capability_id: BC-500.10
+  capability_id_l1: BC-500
+  capability_name: Sourcing Management
+  confidence: 0.75
+  evidence: '"List Travel Programs Questions", "List Travel Proposals", "List Travel Proposal Bids", schemas
+    "travel-proposal-bid", "RateReviewStatusType"'
+  reason: The surface exposes RFP programmes with questionnaires, supplier proposals and competing rate
+    bids under review — a classic RFx / strategic sourcing and supplier-selection process (here for hotel
+    rate programmes).
+- tag: RFP Management
+  spec_file: cvent-hospitality-cloud-rfp-management-api-openapi.yml
+  capability_id: BC-500.10
+  capability_id_l1: BC-500
+  capability_name: Sourcing Management
+  confidence: 0.72
+  evidence: GET /rfps/{rfpId} getRFP Get RFP; GET /rfps/lead-sources/{leadSourceId} Get RFP Lead Source;
+    schemas RfpRequest, RfpEvent, OfferingCostType-1
+  reason: Core RFP record management for sourcing hotels/venues through the Cvent Supplier Network — RFx
+    issuance and management, i.e. sourcing.
+- tag: Campaigns
+  spec_file: cvent-hospitality-cloud-campaigns-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.7
+  evidence: GET /campaigns getCampaigns "List eMarketing Campaigns"; POST /emarketing/emails sendEMarketingEmails
+    "Send Email To Recipients"
+  reason: The surface lists eMarketing campaigns, retrieves campaign email templates and sends marketing
+    email to recipient lists with status tracking — email/marketing-automation execution, i.e. Digital
+    Marketing Management. Some ambiguity with Demand Generation keeps confidence at 0.7.
+- tag: RFP Requirements
+  spec_file: cvent-hospitality-cloud-rfp-requirements-api-openapi.yml
+  capability_id: BC-500.10
+  capability_id_l1: BC-500
+  capability_name: Sourcing Management
+  confidence: 0.7
+  evidence: GET /rfps/{rfpId}/guest-rooms getRfpGuestRooms; GET /rfps/{rfpId}/questions listRfpQuestions
+    List RFP Questions; GET /rfps/{rfpId}/attachments
+  reason: Specification of requirements, questions and attachments carried on an RFP sent to venue suppliers
+    — the content of an RFx package, part of sourcing.
+- tag: RFP Suppliers
+  spec_file: cvent-hospitality-cloud-rfp-suppliers-api-openapi.yml
+  capability_id: BC-500.10
+  capability_id_l1: BC-500
+  capability_name: Sourcing Management
+  confidence: 0.7
+  evidence: GET /rfps/{rfpId}/suppliers getRfpSuppliers List RFP Suppliers; schemas RfpSupplierStatus,
+    RfpResponseReason, PaginatedRfpRecipientsHistory
+  reason: Tracks which suppliers received an RFP and their response status — supplier solicitation and
+    selection within the RFx process.
