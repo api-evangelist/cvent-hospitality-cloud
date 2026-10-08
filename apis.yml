@@ -2799,6 +2799,8 @@ apis:
   - type: OAuthTokenEndpoint
     url: https://api-platform.cvent.com/ea/oauth2/token
 common:
+- type: FinOps
+  url: finops/cvent-hospitality-cloud-finops.yml
 - type: CapabilityMap
   url: capabilities/cvent-hospitality-cloud-capability-edges.yml
   name: Cvent Hospitality Cloud Business Capability Map
