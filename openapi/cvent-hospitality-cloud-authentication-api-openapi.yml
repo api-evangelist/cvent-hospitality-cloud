@@ -190,82 +190,51 @@ paths:
         description: More about OAuth2 authorization code support for administrators
         url: '#oauth2-auth-code-planner-admin'
 components:
+  responses:
+    Forbidden1:
+      description: You do not have access to the resource
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 403
+            message: Access Forbidden
+    Unauthorized1:
+      description: Bad or expired token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 401
+            message: Unauthorized
+    ValidToken:
+      description: A confirmation message that the token is valid
+      headers: {}
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidToken'
+    TooManyRequests1:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 429
+            message: Limit Exceeded
+    BadRequest1:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 400
+            message: Bad Request
   schemas:
-    Oauth2TokenApplicationXWwwFormUrlencodedPostRequest:
-      type: object
-      properties:
-        grant_type:
-          description: Controls the OAuth2 grant flow used to obtain tokens.
-          enum:
-          - client_credentials
-          - authorization_code
-          - refresh_token
-          example: client_credentials
-        client_id:
-          description: 'The OAuth2 Client application ID.
-
-
-            Must be a pre-registered client created in the developer portal.
-
-            '
-          type: string
-          example: djc98u3jiedmi283eu928
-        scope:
-          description: 'Can be a combination of any scopes associated with a client. Any scope requested must be pre-associated with the client or it will be ignored at runtime.
-
-            If the client doesn''t request any scopes, the authorization server uses all scopes associated with the client.
-
-
-            **Optional** - Only used if the grant_type is client_credentials.
-
-            '
-          type: string
-          example: event/events:read event/attendees:read
-        redirect_uri:
-          description: 'Must be the same *redirect_uri* that was used to get *authorization_code* in */oauth2/authorize*.
-
-
-            **Required only if grant_type is authorization_code.**
-
-            '
-          type: string
-          example: https://example.com/redirect
-        refresh_token:
-          description: 'The refresh token.
-
-
-            **Note:** The token endpoint returns *refresh_token* only when the grant_type is *authorization_code*.
-
-            '
-          type: string
-          example: dn43ud8uj32nk2je
-        code:
-          description: 'The code that is returned from a successful */oauth2/authorize*.
-
-
-            **Required if grant_type is authorization_code.**
-
-            '
-          type: string
-          example: AUTHORIZATION_CODE
-      required:
-      - grant_type
-      - client_id
-    ErrorResponse-12:
-      title: ErrorResponse
-      description: Represents an error response with additional details of cascading error messages.
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponseBase1'
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorResponseBase1'
-          description: Additional details of cascading error messages.
     ValidToken:
       title: Valid Token
       description: Validity status of an authentication token.
@@ -327,26 +296,21 @@ components:
           - unauthorized_client
           - unsupported_grant_type
           example: invalid_request
-    ErrorResponseBase1:
-      title: ErrorResponseBase
+    ErrorResponse-12:
+      title: ErrorResponse
+      description: Represents an error response with additional details of cascading error messages.
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponseBase1'
       type: object
-      description: Represents an error response with no additional details.
       required:
       - code
       - message
       properties:
-        code:
-          type: integer
-          description: The HTTP status code representing the error.
-          example: 400
-        message:
-          type: string
-          description: A brief description of the error.
-          example: Bad Request
-        target:
-          type: string
-          description: The target resource of the error.
-          example: example target
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorResponseBase1'
+          description: Additional details of cascading error messages.
     Oauth2TokenPostResponse:
       type: object
       properties:
@@ -371,50 +335,86 @@ components:
       - access_token
       - token_type
       - expires_in
-  responses:
-    Forbidden1:
-      description: You do not have access to the resource
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 403
-            message: Access Forbidden
-    BadRequest1:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 400
-            message: Bad Request
-    Unauthorized1:
-      description: Bad or expired token
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 401
-            message: Unauthorized
-    ValidToken:
-      description: A confirmation message that the token is valid
-      headers: {}
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ValidToken'
-    TooManyRequests1:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 429
-            message: Limit Exceeded
+    ErrorResponseBase1:
+      title: ErrorResponseBase
+      type: object
+      description: Represents an error response with no additional details.
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: integer
+          description: The HTTP status code representing the error.
+          example: 400
+        message:
+          type: string
+          description: A brief description of the error.
+          example: Bad Request
+        target:
+          type: string
+          description: The target resource of the error.
+          example: example target
+    Oauth2TokenApplicationXWwwFormUrlencodedPostRequest:
+      type: object
+      properties:
+        grant_type:
+          description: Controls the OAuth2 grant flow used to obtain tokens.
+          enum:
+          - client_credentials
+          - authorization_code
+          - refresh_token
+          example: client_credentials
+        client_id:
+          description: 'The OAuth2 Client application ID.
+
+
+            Must be a pre-registered client created in the developer portal.
+
+            '
+          type: string
+          example: djc98u3jiedmi283eu928
+        scope:
+          description: 'Can be a combination of any scopes associated with a client. Any scope requested must be pre-associated with the client or it will be ignored at runtime.
+
+            If the client doesn''t request any scopes, the authorization server uses all scopes associated with the client.
+
+
+            **Optional** - Only used if the grant_type is client_credentials.
+
+            '
+          type: string
+          example: event/events:read event/attendees:read
+        redirect_uri:
+          description: 'Must be the same *redirect_uri* that was used to get *authorization_code* in */oauth2/authorize*.
+
+
+            **Required only if grant_type is authorization_code.**
+
+            '
+          type: string
+          example: https://example.com/redirect
+        refresh_token:
+          description: 'The refresh token.
+
+
+            **Note:** The token endpoint returns *refresh_token* only when the grant_type is *authorization_code*.
+
+            '
+          type: string
+          example: dn43ud8uj32nk2je
+        code:
+          description: 'The code that is returned from a successful */oauth2/authorize*.
+
+
+            **Required if grant_type is authorization_code.**
+
+            '
+          type: string
+          example: AUTHORIZATION_CODE
+      required:
+      - grant_type
+      - client_id
   securitySchemes:
     OAuth2.authorizationCode:
       type: oauth2

@@ -227,84 +227,268 @@ paths:
           $ref: '#/components/responses/TooManyRequests1'
 components:
   schemas:
-    VenueType:
-      title: Venue Type
-      description: 'Type of venue.
-
-
-        Values:
-
-        - `AQUARIUM_ZOO` — Aquarium/Zoo
-
-        - `ARENA_STADIUM` — Arena/Stadium
-
-        - `BANQUET_FACILITY` — Banquet Facility
-
-        - `BAR_CLUB` — Bar/Club
-
-        - `BLANK` — Blank
-
-        - `BOUTIQUE_HOTEL` — Boutique Hotel
-
-        - `CONFERENCE_CENTER` — Conference Center
-
-        - `CONVENTION_CENTER` — Convention Center
-
-        - `CORPORATE_OFFICE_SPACE` — Corporate Office Space
-
-        - `CVB` — CVB
-
-        - `DMC` — Destination Management Company
-
-        - `EDUCATIONAL_FACILITY` — Educational Facility
-
-        - `ENTERTAINMENT_VENUE` — Entertainment Venue
-
-        - `EXPOSITION_CENTER` — Exposition Center
-
-        - `GALLERY_MUSEUM` — Gallery/Museum
-
-        - `GOLF_COURSE` — Golf Course
-
-        - `HOTEL` — Hotel
-
-        - `INTERNAL_VENUE` — Internal Venue
-
-        - `LUXURY_HOTEL` — Luxury Hotel
-
-        - `MOVIE_THEATRE` — Movie Theatre
-
-        - `RESORT` — Resort
-
-        - `RESTAURANT` — Restaurant
-
-        - `SPECIAL_EVENT_VENUE` — Special Event Venue'
+    Country:
+      title: Country
+      description: ISO 3166 two-letter (alpha-2) country codes with some additional non-standard cvent specific codes.
       type: string
       enum:
-      - AQUARIUM_ZOO
-      - ARENA_STADIUM
-      - BANQUET_FACILITY
-      - BAR_CLUB
       - BLANK
-      - BOUTIQUE_HOTEL
-      - CONFERENCE_CENTER
-      - CONVENTION_CENTER
-      - CORPORATE_OFFICE_SPACE
-      - CVB
-      - DMC
-      - EDUCATIONAL_FACILITY
-      - ENTERTAINMENT_VENUE
-      - EXPOSITION_CENTER
-      - GALLERY_MUSEUM
-      - GOLF_COURSE
-      - HOTEL
-      - INTERNAL_VENUE
-      - LUXURY_HOTEL
-      - MOVIE_THEATRE
-      - RESORT
-      - RESTAURANT
-      - SPECIAL_EVENT_VENUE
-      example: HOTEL
+      - AD
+      - AE
+      - AF
+      - AG
+      - AI
+      - AL
+      - AM
+      - AN
+      - AO
+      - AQ
+      - AR
+      - AS
+      - AT
+      - AU
+      - AW
+      - AX
+      - AZ
+      - BA
+      - BB
+      - BD
+      - BE
+      - BF
+      - BG
+      - BH
+      - BI
+      - BJ
+      - BL
+      - BM
+      - BN
+      - BO
+      - BQ
+      - BR
+      - BS
+      - BT
+      - BV
+      - BW
+      - BY
+      - BZ
+      - CA
+      - CC
+      - CD
+      - CF
+      - CG
+      - CH
+      - CI
+      - CK
+      - CL
+      - CM
+      - CN
+      - CO
+      - CR
+      - CU
+      - CV
+      - CW
+      - CX
+      - CY
+      - CZ
+      - DE
+      - DJ
+      - DK
+      - DM
+      - DO
+      - DZ
+      - EC
+      - EE
+      - EG
+      - EH
+      - ER
+      - ES
+      - ET
+      - FI
+      - FJ
+      - FK
+      - FM
+      - FO
+      - FR
+      - GA
+      - GB
+      - GB_1
+      - GB_2
+      - GB_3
+      - GB_4
+      - GD
+      - GE
+      - GF
+      - GG
+      - GH
+      - GI
+      - GL
+      - GM
+      - GN
+      - GP
+      - GQ
+      - GR
+      - GS
+      - GT
+      - GU
+      - GW
+      - GY
+      - HK
+      - HM
+      - HN
+      - HR
+      - HT
+      - HU
+      - ID
+      - IE
+      - IL
+      - IM
+      - IN
+      - IO
+      - IQ
+      - IR
+      - IS
+      - IT
+      - JE
+      - JM
+      - JO
+      - JP
+      - KE
+      - KG
+      - KH
+      - KI
+      - KM
+      - KN
+      - KO
+      - KP
+      - KR
+      - KW
+      - KY
+      - KZ
+      - LA
+      - LB
+      - LC
+      - LI
+      - LK
+      - LR
+      - LS
+      - LT
+      - LU
+      - LV
+      - LY
+      - MA
+      - MC
+      - MD
+      - ME
+      - MF
+      - MG
+      - MH
+      - MK
+      - ML
+      - MM
+      - MN
+      - MO
+      - MP
+      - MQ
+      - MR
+      - MS
+      - MT
+      - MU
+      - MV
+      - MW
+      - MX
+      - MY
+      - MZ
+      - NA
+      - NC
+      - NE
+      - NF
+      - NG
+      - NI
+      - NL
+      - 'NO'
+      - NP
+      - NR
+      - NU
+      - NZ
+      - OM
+      - PA
+      - PE
+      - PF
+      - PG
+      - PH
+      - PK
+      - PL
+      - PM
+      - PN
+      - PR
+      - PS
+      - PT
+      - PW
+      - PY
+      - QA
+      - RE
+      - RO
+      - RS
+      - RU
+      - RW
+      - SA
+      - SB
+      - SC
+      - SD
+      - SE
+      - SG
+      - SH
+      - SI
+      - SJ
+      - SK
+      - SL
+      - SM
+      - SN
+      - SO
+      - SR
+      - SS
+      - ST
+      - SV
+      - SX
+      - SY
+      - SZ
+      - TC
+      - TD
+      - TF
+      - TG
+      - TH
+      - TJ
+      - TK
+      - TL
+      - TM
+      - TN
+      - TO
+      - TP
+      - TR
+      - TT
+      - TV
+      - TW
+      - TZ
+      - UA
+      - UG
+      - UM
+      - US
+      - UY
+      - UZ
+      - VA
+      - VC
+      - VE
+      - VG
+      - VI
+      - VN
+      - VU
+      - WF
+      - WS
+      - YE
+      - YT
+      - ZA
+      - ZM
+      - ZW
     EventInsurance:
       title: Event Insurance
       description: 'Indicates whether event insurance is required at the venue. Applicable only to venue types: Aquarium/Zoo, Arena/Stadium, Banquet Facility, Bar/Club, Corporate Office Space, Educational Facility, Entertainment Venue, Gallery/Museum, Golf Course, Movie Theatre, and Special Event Venue.
@@ -325,44 +509,155 @@ components:
       - REQUIRED
       - MAY_BE_REQUIRED
       - NOT_REQUIRED
-    AddressInfo:
-      title: AddressInfo
-      description: Venue address information.
+    LocationType:
+      title: LocationType
+      description: Location classification for the venue.
+      type: string
+      enum:
+      - AIRPORT
+      - INTERSTATE
+      - RESORT
+      - SMALL_METRO_TOWN
+      - SUBURBAN
+      - URBAN
+      example: SUBURBAN
+    Audit:
+      title: Audit
+      description: Audit information
+      type: object
+      properties:
+        created:
+          type: string
+          format: date-time
+          description: The ISO 8601 zoned date time when this record was created.
+          readOnly: true
+          example: '2017-01-02T02:00:00Z'
+        createdBy:
+          type: string
+          description: The identifier of the user that created this record.
+          readOnly: true
+          example: hporter
+        lastModified:
+          type: string
+          format: date-time
+          description: The ISO 8601 zoned date time when this record was updated.
+          readOnly: true
+          example: '2019-02-12T03:00:00Z'
+        lastModifiedBy:
+          type: string
+          description: The identifier of the user that last updated this record.
+          readOnly: true
+          example: hporter
+    venueDetailsOverview:
+      title: Venue Details Overview
+      description: An overview of venue details containing key identifiers and display properties.
       type: object
       required:
-      - city
-      - country
+      - id
+      - name
       properties:
-        streetAddress1:
+        id:
           type: string
-          description: Street address line 1.
-          maxLength: 40
-          example: 1234 Trap Road
-        streetAddress2:
+          format: uuid
+          description: Venue ID.
+          readOnly: true
+          example: b2c3d4e5-f6a7-8901-bcde-f12345678901
+        name:
           type: string
-          description: Street address line 2.
-          maxLength: 40
-          example: Suite 100
-        city:
+          description: Venue name.
+          maxLength: 100
+          example: Vienna Wolf Trap Hotel
+    venueDetails:
+      title: VenueDetails
+      description: Venue details model.
+      allOf:
+      - $ref: '#/components/schemas/Audit'
+      type: object
+      required:
+      - type
+      - mainPhoneNumber
+      - mainFaxNumber
+      - address
+      properties:
+        type:
+          $ref: '#/components/schemas/VenueType'
+        timeZone:
           type: string
-          description: City.
+          description: Time zone identifier for the venue. See the supported timezones reference for valid values.
+          example: America/New_York
+          externalDocs:
+            description: Supported Timezones
+            url: https://developers.cvent.com/docs/rest-api/reference/api-standards#supported-timezones
+        brand:
+          type: string
+          description: Venue brand.
+          maxLength: 100
+          example: Quality Hotels
+        chainScale:
+          $ref: '#/components/schemas/ChainScale'
+        mainPhoneNumber:
+          type: string
+          description: Primary phone number for the venue.
           minLength: 1
-          maxLength: 40
-          example: Vienna
-        stateProvince:
-          $ref: '#/components/schemas/StateProvince'
-        zipPostalCode:
+          maxLength: 30
+          example: +1-703-555-0100
+        mainFaxNumber:
           type: string
-          description: ZIP or postal code.
-          maxLength: 25
-          example: '22182'
-        country:
-          $ref: '#/components/schemas/Country'
-        directions:
+          description: Primary fax number for the venue.
+          minLength: 1
+          maxLength: 30
+          example: +1-703-555-0101
+        salesPhoneNumber:
           type: string
-          description: Directions or instructions for getting to the venue.
+          description: Sales phone number of the venue.
+          maxLength: 30
+          example: +1-703-555-0102
+        salesFaxNumber:
+          type: string
+          description: Sales fax number of the venue.
+          maxLength: 30
+          example: +1-703-555-0103
+        tollFreeNumber:
+          type: string
+          description: Toll-free number of the venue.
+          maxLength: 30
+          example: 1-800-555-0100
+        websiteAddress:
+          type: string
+          format: uri
+          description: Website address.
+          maxLength: 300
+          example: https://www.example-hotel.com
+        currency:
+          $ref: '#/components/schemas/Currency'
+        openingDate:
+          type: string
+          description: Venue opening date as free-form text.
+          maxLength: 30
+          example: Spring 2025
+        description:
+          type: string
+          description: Venue description.
+          maxLength: 4000
+          example: A modern conference venue in downtown.
+        additionalInformation:
+          type: string
+          description: Additional information about the venue.
           maxLength: 2500
-          example: Take I-66 West to Exit 67, then follow signs to Trap Road.
+          example: Free parking available on-site.
+        cancellationPolicy:
+          type: string
+          description: Cancellation policy for bookings at the venue.
+          maxLength: 2500
+          example: Full refund if cancelled 48 hours before event.
+        locationTypes:
+          type: array
+          description: Location classifications.
+          items:
+            $ref: '#/components/schemas/LocationType'
+          maxItems: 6
+        address:
+          $ref: '#/components/schemas/AddressInfo'
     venueFacilityPatch:
       title: VenueFacilityPatch
       description: Partial update payload for venue facility information. Only fields present in the request body are updated; omitted fields remain unchanged. Set leaf fields to `null` to unset them. For grouped objects, update or clear each child field explicitly instead of setting the entire group to `null`. Field applicability varies by venue type; values supplied for fields that do not apply to the venue's type will be rejected.
@@ -561,21 +856,200 @@ components:
           - 'null'
           allOf:
           - $ref: '#/components/schemas/EventInsurance'
-    ErrorResponse-12:
-      title: ErrorResponse
-      description: Represents an error response with additional details of cascading error messages.
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponseBase1'
+    AddressInfo:
+      title: AddressInfo
+      description: Venue address information.
       type: object
       required:
-      - code
-      - message
+      - city
+      - country
       properties:
-        details:
-          type: array
+        streetAddress1:
+          type: string
+          description: Street address line 1.
+          maxLength: 40
+          example: 1234 Trap Road
+        streetAddress2:
+          type: string
+          description: Street address line 2.
+          maxLength: 40
+          example: Suite 100
+        city:
+          type: string
+          description: City.
+          minLength: 1
+          maxLength: 40
+          example: Vienna
+        stateProvince:
+          $ref: '#/components/schemas/StateProvince'
+        zipPostalCode:
+          type: string
+          description: ZIP or postal code.
+          maxLength: 25
+          example: '22182'
+        country:
+          $ref: '#/components/schemas/Country'
+        directions:
+          type: string
+          description: Directions or instructions for getting to the venue.
+          maxLength: 2500
+          example: Take I-66 West to Exit 67, then follow signs to Trap Road.
+    venueDetailsPatch:
+      title: VenueDetailsPatch
+      description: Partial update payload for venue details.
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/VenueType'
+        timeZone:
+          type:
+          - string
+          - 'null'
+          description: Time zone identifier for the venue. See the supported timezones reference for valid values.
+          example: America/New_York
+          externalDocs:
+            description: Supported Timezones
+            url: https://developers.cvent.com/docs/rest-api/reference/api-standards#supported-timezones
+        brand:
+          type:
+          - string
+          - 'null'
+          description: Venue brand. Brands vary by venue type.
+          example: Quality Hotels
+          maxLength: 100
+        chainScale:
+          type:
+          - string
+          - 'null'
+          allOf:
+          - $ref: '#/components/schemas/ChainScale'
+        mainPhoneNumber:
+          type: string
+          description: Primary phone number for the venue.
+          example: +1-703-555-0100
+          minLength: 1
+          maxLength: 30
+        mainFaxNumber:
+          type: string
+          description: Primary fax number for the venue.
+          example: +1-703-555-0101
+          minLength: 1
+          maxLength: 30
+        salesPhoneNumber:
+          type:
+          - string
+          - 'null'
+          description: Sales phone number of the venue.
+          example: +1-703-555-0102
+          maxLength: 30
+        salesFaxNumber:
+          type:
+          - string
+          - 'null'
+          description: Sales fax number of the venue.
+          example: +1-703-555-0103
+          maxLength: 30
+        tollFreeNumber:
+          type:
+          - string
+          - 'null'
+          description: Toll-free number of the venue.
+          example: 1-800-555-0100
+          maxLength: 30
+        websiteAddress:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Website address.
+          maxLength: 300
+          example: https://www.example-hotel.com
+        currency:
+          type:
+          - string
+          - 'null'
+          allOf:
+          - $ref: '#/components/schemas/Currency'
+        openingDate:
+          type:
+          - string
+          - 'null'
+          description: Venue opening date as free-form text.
+          example: Spring 2025
+          maxLength: 30
+        description:
+          type:
+          - string
+          - 'null'
+          description: Venue description.
+          example: A premier conference and event venue in the heart of Northern Virginia.
+          maxLength: 4000
+        additionalInformation:
+          type:
+          - string
+          - 'null'
+          description: Additional information about the venue.
+          example: Complimentary parking available for all event attendees.
+          maxLength: 2500
+        cancellationPolicy:
+          type:
+          - string
+          - 'null'
+          description: Cancellation policy for bookings at the venue.
+          example: 48-hour cancellation policy applies for all event bookings.
+          maxLength: 2500
+        locationTypes:
+          type:
+          - array
+          - 'null'
+          description: Location classifications.
+          maxItems: 6
           items:
-            $ref: '#/components/schemas/ErrorResponseBase1'
-          description: Additional details of cascading error messages.
+            $ref: '#/components/schemas/LocationType'
+        address:
+          type:
+          - object
+          - 'null'
+          description: Venue address information.
+          properties:
+            streetAddress1:
+              type:
+              - string
+              - 'null'
+              description: Street address line 1.
+              example: 1234 Trap Road
+              maxLength: 40
+            streetAddress2:
+              type:
+              - string
+              - 'null'
+              description: Street address line 2.
+              example: Suite 100
+              maxLength: 40
+            city:
+              type: string
+              description: City.
+              minLength: 1
+              maxLength: 40
+              example: Vienna
+            stateProvince:
+              $ref: '#/components/schemas/StateProvince'
+            zipPostalCode:
+              type:
+              - string
+              - 'null'
+              description: ZIP or postal code.
+              example: '22182'
+              maxLength: 25
+            country:
+              $ref: '#/components/schemas/Country'
+            directions:
+              type:
+              - string
+              - 'null'
+              description: Directions or instructions for getting to the venue.
+              example: Take I-66 West to Exit 67, then follow signs to Trap Road.
+              maxLength: 2500
     StateProvince:
       type: string
       title: StateProvince
@@ -1403,52 +1877,83 @@ components:
       - YOR
       - YT
       - ZET
-    venueDetailsOverview:
-      title: Venue Details Overview
-      description: An overview of venue details containing key identifiers and display properties.
+    ErrorResponseBase1:
+      title: ErrorResponseBase
+      type: object
+      description: Represents an error response with no additional details.
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: integer
+          description: The HTTP status code representing the error.
+          example: 400
+        message:
+          type: string
+          description: A brief description of the error.
+          example: Bad Request
+        target:
+          type: string
+          description: The target resource of the error.
+          example: example target
+    existingVenueDetails:
+      title: ExistingVenueDetails
+      description: An existing venue details model with read-only generated properties.
       type: object
       required:
       - id
       - name
+      allOf:
+      - $ref: '#/components/schemas/venueDetails'
       properties:
         id:
           type: string
           format: uuid
           description: Venue ID.
           readOnly: true
-          example: b2c3d4e5-f6a7-8901-bcde-f12345678901
+          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
         name:
           type: string
           description: Venue name.
+          readOnly: true
+          minLength: 1
           maxLength: 100
           example: Vienna Wolf Trap Hotel
-    Audit:
-      title: Audit
-      description: Audit information
+        metroArea:
+          type: string
+          description: Metro area name. Populated once the venue is approved.
+          readOnly: true
+          example: Washington DC Metro
+    ErrorResponse-12:
+      title: ErrorResponse
+      description: Represents an error response with additional details of cascading error messages.
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponseBase1'
       type: object
+      required:
+      - code
+      - message
       properties:
-        created:
-          type: string
-          format: date-time
-          description: The ISO 8601 zoned date time when this record was created.
-          readOnly: true
-          example: '2017-01-02T02:00:00Z'
-        createdBy:
-          type: string
-          description: The identifier of the user that created this record.
-          readOnly: true
-          example: hporter
-        lastModified:
-          type: string
-          format: date-time
-          description: The ISO 8601 zoned date time when this record was updated.
-          readOnly: true
-          example: '2019-02-12T03:00:00Z'
-        lastModifiedBy:
-          type: string
-          description: The identifier of the user that last updated this record.
-          readOnly: true
-          example: hporter
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorResponseBase1'
+          description: Additional details of cascading error messages.
+    MeasurementUnit:
+      title: MeasurementUnit
+      description: 'Unit of measurement for area or space.
+
+
+        Values:
+
+        - `SQUARE_FEET` — Square Feet
+
+        - `SQUARE_METERS` — Square Meters'
+      type: string
+      enum:
+      - SQUARE_FEET
+      - SQUARE_METERS
     VenueFacility:
       title: VenueFacility
       description: Facility information for a venue. Field applicability varies by venue type; values supplied for fields that do not apply to the venue's type will be rejected.
@@ -1622,634 +2127,6 @@ components:
           minLength: 1
           maxLength: 100
           example: Vienna Wolf Trap Hotel
-    Country:
-      title: Country
-      description: ISO 3166 two-letter (alpha-2) country codes with some additional non-standard cvent specific codes.
-      type: string
-      enum:
-      - BLANK
-      - AD
-      - AE
-      - AF
-      - AG
-      - AI
-      - AL
-      - AM
-      - AN
-      - AO
-      - AQ
-      - AR
-      - AS
-      - AT
-      - AU
-      - AW
-      - AX
-      - AZ
-      - BA
-      - BB
-      - BD
-      - BE
-      - BF
-      - BG
-      - BH
-      - BI
-      - BJ
-      - BL
-      - BM
-      - BN
-      - BO
-      - BQ
-      - BR
-      - BS
-      - BT
-      - BV
-      - BW
-      - BY
-      - BZ
-      - CA
-      - CC
-      - CD
-      - CF
-      - CG
-      - CH
-      - CI
-      - CK
-      - CL
-      - CM
-      - CN
-      - CO
-      - CR
-      - CU
-      - CV
-      - CW
-      - CX
-      - CY
-      - CZ
-      - DE
-      - DJ
-      - DK
-      - DM
-      - DO
-      - DZ
-      - EC
-      - EE
-      - EG
-      - EH
-      - ER
-      - ES
-      - ET
-      - FI
-      - FJ
-      - FK
-      - FM
-      - FO
-      - FR
-      - GA
-      - GB
-      - GB_1
-      - GB_2
-      - GB_3
-      - GB_4
-      - GD
-      - GE
-      - GF
-      - GG
-      - GH
-      - GI
-      - GL
-      - GM
-      - GN
-      - GP
-      - GQ
-      - GR
-      - GS
-      - GT
-      - GU
-      - GW
-      - GY
-      - HK
-      - HM
-      - HN
-      - HR
-      - HT
-      - HU
-      - ID
-      - IE
-      - IL
-      - IM
-      - IN
-      - IO
-      - IQ
-      - IR
-      - IS
-      - IT
-      - JE
-      - JM
-      - JO
-      - JP
-      - KE
-      - KG
-      - KH
-      - KI
-      - KM
-      - KN
-      - KO
-      - KP
-      - KR
-      - KW
-      - KY
-      - KZ
-      - LA
-      - LB
-      - LC
-      - LI
-      - LK
-      - LR
-      - LS
-      - LT
-      - LU
-      - LV
-      - LY
-      - MA
-      - MC
-      - MD
-      - ME
-      - MF
-      - MG
-      - MH
-      - MK
-      - ML
-      - MM
-      - MN
-      - MO
-      - MP
-      - MQ
-      - MR
-      - MS
-      - MT
-      - MU
-      - MV
-      - MW
-      - MX
-      - MY
-      - MZ
-      - NA
-      - NC
-      - NE
-      - NF
-      - NG
-      - NI
-      - NL
-      - 'NO'
-      - NP
-      - NR
-      - NU
-      - NZ
-      - OM
-      - PA
-      - PE
-      - PF
-      - PG
-      - PH
-      - PK
-      - PL
-      - PM
-      - PN
-      - PR
-      - PS
-      - PT
-      - PW
-      - PY
-      - QA
-      - RE
-      - RO
-      - RS
-      - RU
-      - RW
-      - SA
-      - SB
-      - SC
-      - SD
-      - SE
-      - SG
-      - SH
-      - SI
-      - SJ
-      - SK
-      - SL
-      - SM
-      - SN
-      - SO
-      - SR
-      - SS
-      - ST
-      - SV
-      - SX
-      - SY
-      - SZ
-      - TC
-      - TD
-      - TF
-      - TG
-      - TH
-      - TJ
-      - TK
-      - TL
-      - TM
-      - TN
-      - TO
-      - TP
-      - TR
-      - TT
-      - TV
-      - TW
-      - TZ
-      - UA
-      - UG
-      - UM
-      - US
-      - UY
-      - UZ
-      - VA
-      - VC
-      - VE
-      - VG
-      - VI
-      - VN
-      - VU
-      - WF
-      - WS
-      - YE
-      - YT
-      - ZA
-      - ZM
-      - ZW
-    venueDetails:
-      title: VenueDetails
-      description: Venue details model.
-      allOf:
-      - $ref: '#/components/schemas/Audit'
-      type: object
-      required:
-      - type
-      - mainPhoneNumber
-      - mainFaxNumber
-      - address
-      properties:
-        type:
-          $ref: '#/components/schemas/VenueType'
-        timeZone:
-          type: string
-          description: Time zone identifier for the venue. See the supported timezones reference for valid values.
-          example: America/New_York
-          externalDocs:
-            description: Supported Timezones
-            url: https://developers.cvent.com/docs/rest-api/reference/api-standards#supported-timezones
-        brand:
-          type: string
-          description: Venue brand.
-          maxLength: 100
-          example: Quality Hotels
-        chainScale:
-          $ref: '#/components/schemas/ChainScale'
-        mainPhoneNumber:
-          type: string
-          description: Primary phone number for the venue.
-          minLength: 1
-          maxLength: 30
-          example: +1-703-555-0100
-        mainFaxNumber:
-          type: string
-          description: Primary fax number for the venue.
-          minLength: 1
-          maxLength: 30
-          example: +1-703-555-0101
-        salesPhoneNumber:
-          type: string
-          description: Sales phone number of the venue.
-          maxLength: 30
-          example: +1-703-555-0102
-        salesFaxNumber:
-          type: string
-          description: Sales fax number of the venue.
-          maxLength: 30
-          example: +1-703-555-0103
-        tollFreeNumber:
-          type: string
-          description: Toll-free number of the venue.
-          maxLength: 30
-          example: 1-800-555-0100
-        websiteAddress:
-          type: string
-          format: uri
-          description: Website address.
-          maxLength: 300
-          example: https://www.example-hotel.com
-        currency:
-          $ref: '#/components/schemas/Currency'
-        openingDate:
-          type: string
-          description: Venue opening date as free-form text.
-          maxLength: 30
-          example: Spring 2025
-        description:
-          type: string
-          description: Venue description.
-          maxLength: 4000
-          example: A modern conference venue in downtown.
-        additionalInformation:
-          type: string
-          description: Additional information about the venue.
-          maxLength: 2500
-          example: Free parking available on-site.
-        cancellationPolicy:
-          type: string
-          description: Cancellation policy for bookings at the venue.
-          maxLength: 2500
-          example: Full refund if cancelled 48 hours before event.
-        locationTypes:
-          type: array
-          description: Location classifications.
-          items:
-            $ref: '#/components/schemas/LocationType'
-          maxItems: 6
-        address:
-          $ref: '#/components/schemas/AddressInfo'
-    MeasurementUnit:
-      title: MeasurementUnit
-      description: 'Unit of measurement for area or space.
-
-
-        Values:
-
-        - `SQUARE_FEET` — Square Feet
-
-        - `SQUARE_METERS` — Square Meters'
-      type: string
-      enum:
-      - SQUARE_FEET
-      - SQUARE_METERS
-    VenueID:
-      title: Venue ID
-      description: A unique identifier for a venue
-      type: string
-      format: uuid
-      example: 6bb0e2db-861f-46e3-a923-eb4d959ffa00
-    ChainScale:
-      title: Chain Scale
-      description: 'A market segment classification of a venue chain based on Average Daily Rate and other factors.
-
-
-        Values:
-
-        - `BLANK` — Blank
-
-        - `ECONOMYCHAINS` — Economy Chains
-
-        - `INDEPENDENTS` — Independents
-
-        - `LUXURY_CHAINS` — Luxury Chains
-
-        - `MIDSCALE_CHAINS` — Midscale Chains
-
-        - `MIDSCALE_WITH_FB_CHAINS` — Midscale With F&B Chains
-
-        - `MIDSCALE_WITHOUT_FB_CHAINS` — Midscale Without F&B Chains
-
-        - `UPPER_MIDSCALE_CHAINS` — Upper Midscale Chains
-
-        - `UPPER_UPSCALE_CHAINS` — Upper Upscale Chains
-
-        - `UPSCALE_CHAINS` — Upscale Chains'
-      type: string
-      enum:
-      - BLANK
-      - ECONOMYCHAINS
-      - INDEPENDENTS
-      - LUXURY_CHAINS
-      - MIDSCALE_CHAINS
-      - MIDSCALE_WITH_FB_CHAINS
-      - MIDSCALE_WITHOUT_FB_CHAINS
-      - UPPER_MIDSCALE_CHAINS
-      - UPPER_UPSCALE_CHAINS
-      - UPSCALE_CHAINS
-      example: UPSCALE_CHAINS
-    LocationType:
-      title: LocationType
-      description: Location classification for the venue.
-      type: string
-      enum:
-      - AIRPORT
-      - INTERSTATE
-      - RESORT
-      - SMALL_METRO_TOWN
-      - SUBURBAN
-      - URBAN
-      example: SUBURBAN
-    ErrorResponseBase1:
-      title: ErrorResponseBase
-      type: object
-      description: Represents an error response with no additional details.
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: integer
-          description: The HTTP status code representing the error.
-          example: 400
-        message:
-          type: string
-          description: A brief description of the error.
-          example: Bad Request
-        target:
-          type: string
-          description: The target resource of the error.
-          example: example target
-    existingVenueDetails:
-      title: ExistingVenueDetails
-      description: An existing venue details model with read-only generated properties.
-      type: object
-      required:
-      - id
-      - name
-      allOf:
-      - $ref: '#/components/schemas/venueDetails'
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Venue ID.
-          readOnly: true
-          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-        name:
-          type: string
-          description: Venue name.
-          readOnly: true
-          minLength: 1
-          maxLength: 100
-          example: Vienna Wolf Trap Hotel
-        metroArea:
-          type: string
-          description: Metro area name. Populated once the venue is approved.
-          readOnly: true
-          example: Washington DC Metro
-    venueDetailsPatch:
-      title: VenueDetailsPatch
-      description: Partial update payload for venue details.
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/VenueType'
-        timeZone:
-          type:
-          - string
-          - 'null'
-          description: Time zone identifier for the venue. See the supported timezones reference for valid values.
-          example: America/New_York
-          externalDocs:
-            description: Supported Timezones
-            url: https://developers.cvent.com/docs/rest-api/reference/api-standards#supported-timezones
-        brand:
-          type:
-          - string
-          - 'null'
-          description: Venue brand. Brands vary by venue type.
-          example: Quality Hotels
-          maxLength: 100
-        chainScale:
-          type:
-          - string
-          - 'null'
-          allOf:
-          - $ref: '#/components/schemas/ChainScale'
-        mainPhoneNumber:
-          type: string
-          description: Primary phone number for the venue.
-          example: +1-703-555-0100
-          minLength: 1
-          maxLength: 30
-        mainFaxNumber:
-          type: string
-          description: Primary fax number for the venue.
-          example: +1-703-555-0101
-          minLength: 1
-          maxLength: 30
-        salesPhoneNumber:
-          type:
-          - string
-          - 'null'
-          description: Sales phone number of the venue.
-          example: +1-703-555-0102
-          maxLength: 30
-        salesFaxNumber:
-          type:
-          - string
-          - 'null'
-          description: Sales fax number of the venue.
-          example: +1-703-555-0103
-          maxLength: 30
-        tollFreeNumber:
-          type:
-          - string
-          - 'null'
-          description: Toll-free number of the venue.
-          example: 1-800-555-0100
-          maxLength: 30
-        websiteAddress:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Website address.
-          maxLength: 300
-          example: https://www.example-hotel.com
-        currency:
-          type:
-          - string
-          - 'null'
-          allOf:
-          - $ref: '#/components/schemas/Currency'
-        openingDate:
-          type:
-          - string
-          - 'null'
-          description: Venue opening date as free-form text.
-          example: Spring 2025
-          maxLength: 30
-        description:
-          type:
-          - string
-          - 'null'
-          description: Venue description.
-          example: A premier conference and event venue in the heart of Northern Virginia.
-          maxLength: 4000
-        additionalInformation:
-          type:
-          - string
-          - 'null'
-          description: Additional information about the venue.
-          example: Complimentary parking available for all event attendees.
-          maxLength: 2500
-        cancellationPolicy:
-          type:
-          - string
-          - 'null'
-          description: Cancellation policy for bookings at the venue.
-          example: 48-hour cancellation policy applies for all event bookings.
-          maxLength: 2500
-        locationTypes:
-          type:
-          - array
-          - 'null'
-          description: Location classifications.
-          maxItems: 6
-          items:
-            $ref: '#/components/schemas/LocationType'
-        address:
-          type:
-          - object
-          - 'null'
-          description: Venue address information.
-          properties:
-            streetAddress1:
-              type:
-              - string
-              - 'null'
-              description: Street address line 1.
-              example: 1234 Trap Road
-              maxLength: 40
-            streetAddress2:
-              type:
-              - string
-              - 'null'
-              description: Street address line 2.
-              example: Suite 100
-              maxLength: 40
-            city:
-              type: string
-              description: City.
-              minLength: 1
-              maxLength: 40
-              example: Vienna
-            stateProvince:
-              $ref: '#/components/schemas/StateProvince'
-            zipPostalCode:
-              type:
-              - string
-              - 'null'
-              description: ZIP or postal code.
-              example: '22182'
-              maxLength: 25
-            country:
-              $ref: '#/components/schemas/Country'
-            directions:
-              type:
-              - string
-              - 'null'
-              description: Directions or instructions for getting to the venue.
-              example: Take I-66 West to Exit 67, then follow signs to Trap Road.
-              maxLength: 2500
     Currency:
       title: Currency
       type: string
@@ -2422,6 +2299,12 @@ components:
       - SCR
       - ZMW
       - ZWL
+    VenueID:
+      title: Venue ID
+      description: A unique identifier for a venue
+      type: string
+      format: uuid
+      example: 6bb0e2db-861f-46e3-a923-eb4d959ffa00
     DistanceMeasurementUnit:
       title: Distance Measurement Unit
       description: 'Unit of measurement for distance.
@@ -2436,33 +2319,124 @@ components:
       enum:
       - MILES
       - KILOMETERS
-  parameters:
-    venueId:
-      description: Unique Cvent based identifier for a Venue.
-      name: venueId
-      required: true
-      in: path
-      schema:
-        $ref: '#/components/schemas/VenueID'
+    VenueType:
+      title: Venue Type
+      description: 'Type of venue.
+
+
+        Values:
+
+        - `AQUARIUM_ZOO` — Aquarium/Zoo
+
+        - `ARENA_STADIUM` — Arena/Stadium
+
+        - `BANQUET_FACILITY` — Banquet Facility
+
+        - `BAR_CLUB` — Bar/Club
+
+        - `BLANK` — Blank
+
+        - `BOUTIQUE_HOTEL` — Boutique Hotel
+
+        - `CONFERENCE_CENTER` — Conference Center
+
+        - `CONVENTION_CENTER` — Convention Center
+
+        - `CORPORATE_OFFICE_SPACE` — Corporate Office Space
+
+        - `CVB` — CVB
+
+        - `DMC` — Destination Management Company
+
+        - `EDUCATIONAL_FACILITY` — Educational Facility
+
+        - `ENTERTAINMENT_VENUE` — Entertainment Venue
+
+        - `EXPOSITION_CENTER` — Exposition Center
+
+        - `GALLERY_MUSEUM` — Gallery/Museum
+
+        - `GOLF_COURSE` — Golf Course
+
+        - `HOTEL` — Hotel
+
+        - `INTERNAL_VENUE` — Internal Venue
+
+        - `LUXURY_HOTEL` — Luxury Hotel
+
+        - `MOVIE_THEATRE` — Movie Theatre
+
+        - `RESORT` — Resort
+
+        - `RESTAURANT` — Restaurant
+
+        - `SPECIAL_EVENT_VENUE` — Special Event Venue'
+      type: string
+      enum:
+      - AQUARIUM_ZOO
+      - ARENA_STADIUM
+      - BANQUET_FACILITY
+      - BAR_CLUB
+      - BLANK
+      - BOUTIQUE_HOTEL
+      - CONFERENCE_CENTER
+      - CONVENTION_CENTER
+      - CORPORATE_OFFICE_SPACE
+      - CVB
+      - DMC
+      - EDUCATIONAL_FACILITY
+      - ENTERTAINMENT_VENUE
+      - EXPOSITION_CENTER
+      - GALLERY_MUSEUM
+      - GOLF_COURSE
+      - HOTEL
+      - INTERNAL_VENUE
+      - LUXURY_HOTEL
+      - MOVIE_THEATRE
+      - RESORT
+      - RESTAURANT
+      - SPECIAL_EVENT_VENUE
+      example: HOTEL
+    ChainScale:
+      title: Chain Scale
+      description: 'A market segment classification of a venue chain based on Average Daily Rate and other factors.
+
+
+        Values:
+
+        - `BLANK` — Blank
+
+        - `ECONOMYCHAINS` — Economy Chains
+
+        - `INDEPENDENTS` — Independents
+
+        - `LUXURY_CHAINS` — Luxury Chains
+
+        - `MIDSCALE_CHAINS` — Midscale Chains
+
+        - `MIDSCALE_WITH_FB_CHAINS` — Midscale With F&B Chains
+
+        - `MIDSCALE_WITHOUT_FB_CHAINS` — Midscale Without F&B Chains
+
+        - `UPPER_MIDSCALE_CHAINS` — Upper Midscale Chains
+
+        - `UPPER_UPSCALE_CHAINS` — Upper Upscale Chains
+
+        - `UPSCALE_CHAINS` — Upscale Chains'
+      type: string
+      enum:
+      - BLANK
+      - ECONOMYCHAINS
+      - INDEPENDENTS
+      - LUXURY_CHAINS
+      - MIDSCALE_CHAINS
+      - MIDSCALE_WITH_FB_CHAINS
+      - MIDSCALE_WITHOUT_FB_CHAINS
+      - UPPER_MIDSCALE_CHAINS
+      - UPPER_UPSCALE_CHAINS
+      - UPSCALE_CHAINS
+      example: UPSCALE_CHAINS
   responses:
-    BadRequest1:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 400
-            message: Bad Request
-    Forbidden1:
-      description: You do not have access to the resource
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse-12'
-          example:
-            code: 403
-            message: Access Forbidden
     Unauthorized1:
       description: Bad or expired token
       content:
@@ -2472,15 +2446,15 @@ components:
           example:
             code: 401
             message: Unauthorized
-    NotFound1:
-      description: Resource not found
+    BadRequest1:
+      description: Bad request
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse-12'
           example:
-            code: 404
-            message: Not found
+            code: 400
+            message: Bad Request
     TooManyRequests1:
       description: Too many requests
       content:
@@ -2490,6 +2464,32 @@ components:
           example:
             code: 429
             message: Limit Exceeded
+    Forbidden1:
+      description: You do not have access to the resource
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 403
+            message: Access Forbidden
+    NotFound1:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse-12'
+          example:
+            code: 404
+            message: Not found
+  parameters:
+    venueId:
+      description: Unique Cvent based identifier for a Venue.
+      name: venueId
+      required: true
+      in: path
+      schema:
+        $ref: '#/components/schemas/VenueID'
   securitySchemes:
     OAuth2.authorizationCode:
       type: oauth2
