@@ -38,7 +38,7 @@ accessModel:
   - rate-limits
   - security
   - sandbox
-  generated: '2026-11-06'
+  generated: '2026-11-13'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cvent-hospitality-cloud.png
 type: Index
@@ -2935,6 +2935,8 @@ common:
   url: plans/cvent-hospitality-cloud-plans-pricing.yml
 - type: Support
   url: https://www.cvent.com/en/contact/support
+- type: Attestations
+  url: compliance/cvent-hospitality-cloud-compliance.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
